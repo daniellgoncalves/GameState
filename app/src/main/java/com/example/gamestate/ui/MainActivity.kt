@@ -10,13 +10,15 @@ import com.example.gamestate.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
         val btn_Login: Button = findViewById(R.id.main_login_button)
         val newaccountinfo : TextView = findViewById(R.id.main_newaccountinfo)
         val forgotpasswordinfo: TextView = findViewById(R.id.main_forgotpassword)
-        val editpassword: EditText = findViewById(R.id.main_editpassword)
-        val editusername: EditText = findViewById(R.id.main_editusername)
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //val editpassword: EditText = findViewById(R.id.main_editpassword)
+        //val editusername: EditText = findViewById(R.id.main_editusername)
+
         newaccountinfo.setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
         }
