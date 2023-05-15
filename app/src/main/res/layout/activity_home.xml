@@ -6,4 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".ui.Home_Activity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/borderlinearlayout"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageuser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:src="@drawable/baseline_account_circle_24" />
+        <TextView
+            android:id="@+id/myImageViewText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="5dp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="User"
+            android:textColor="#000000" />
+        <ImageButton
+            android:id="@+id/user_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/baseline_settings_24" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
