@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/linearlayoutsettings"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -30,13 +31,15 @@
             android:layout_weight="1"
             android:text="User"
             android:textColor="#000000" />
-        <ImageButton
-            android:id="@+id/user_settings"
+        <Spinner
+            android:id="@+id/editsettingsspinner"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="15dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/baseline_settings_24" />
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_background"
+            android:textSize="14sp"/>
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
