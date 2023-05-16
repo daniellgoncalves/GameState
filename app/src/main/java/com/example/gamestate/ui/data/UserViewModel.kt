@@ -11,6 +11,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
 
     private val readAllData: LiveData<List<User>>
     private val repository: UserRepository
+    private var user: User? = null
 
     init {
         val userDao = UserDatabase.getDatabase(application).userDao()
@@ -24,4 +25,13 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun getUserByEmail(email: String): User? {
+        user = repository.getUserByEmail(email)
+        return user
+    }
+    fun updateUser(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateUser(user)
+        }
+    }
 }

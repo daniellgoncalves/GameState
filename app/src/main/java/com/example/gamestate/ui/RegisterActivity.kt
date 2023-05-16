@@ -3,7 +3,6 @@ package com.example.gamestate.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -28,8 +27,6 @@ class RegisterActivity : AppCompatActivity() {
         val email : EditText = findViewById(R.id.register_editemail)
         val password : EditText = findViewById(R.id.register_editpassword)
         val country : Spinner = findViewById(R.id.register_editcountry)
-
-
 
         fun inputCheck(username: String, email: String, password: String): Boolean {
             return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
@@ -56,7 +53,5 @@ class RegisterActivity : AppCompatActivity() {
         btnRegister.setOnClickListener {
             insertIntoDatabase()
         }
-
-
     }
 }

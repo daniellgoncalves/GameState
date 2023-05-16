@@ -12,6 +12,9 @@
         android:theme="@style/Theme.GameState"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ForgotPasswordActivity2"
+            android:exported="false" />
+        <activity
             android:name=".ui.Home_Activity"
             android:exported="false" />
         <activity
