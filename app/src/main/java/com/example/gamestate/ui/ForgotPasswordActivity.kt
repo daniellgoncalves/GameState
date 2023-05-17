@@ -37,7 +37,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             } else {
                 //código intermédio de enviar código para email seria aqui
 
-                val intent = Intent(this, ForgotPasswordActivity2::class.java) //no sucesso do código anterior
+                val intent = Intent(this, ForgotPasswordActivity::class.java) //no sucesso do código anterior
                 intent.putExtra("user", user as Serializable)
                 startActivity(intent)
                 finish()

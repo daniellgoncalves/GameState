@@ -10,5 +10,5 @@ data class User (
     val username: String,
     val email: String,
     val password: String,
-    //val country: String
-) : java.io.Serializable
+    val country: String
+)

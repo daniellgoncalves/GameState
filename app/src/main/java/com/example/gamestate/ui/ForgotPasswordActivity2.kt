@@ -39,7 +39,7 @@ class ForgotPasswordActivity2 : AppCompatActivity() {
             } else if(oldUser.password == newPasswordText) {
                 Toast.makeText(this, "Can't use old passwords", Toast.LENGTH_SHORT).show()
             } else {
-                val user = User(oldUser.id, oldUser.username, oldUser.email, newPasswordText)
+                val user = User(oldUser.id, oldUser.username, oldUser.email, newPasswordText,oldUser.country)
                 mUserViewModel.updateUser(user)
                 startActivity(Intent(this,MainActivity::class.java))
                 finish()
