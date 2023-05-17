@@ -6,18 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.PopupMenu
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.CustomAdapter
-import java.util.Collections
-import java.util.Locale
 
-class Home_Activity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     internal var settings = arrayOf("Settings","Logout")
     internal var images =
         intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)

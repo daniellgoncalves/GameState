@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val loginautomatic = sharedPreferences.getString("username","")
         if (loginautomatic != null) {
             if (loginautomatic.isNotEmpty()) {
-                startActivity(Intent(this, Home_Activity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             }
         }
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     editor.putString("username",username)
                     editor.apply()
                     Toast.makeText(this, "Login Correto", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,Home_Activity::class.java))
+                    startActivity(Intent(this,HomeActivity::class.java))
                 }
                 else if(loginstatus == -1)
                 {
