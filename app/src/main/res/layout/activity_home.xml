@@ -7,13 +7,13 @@
     tools:context=".ui.Home_Activity">
 
     <LinearLayout
+        android:id="@+id/linearlayoutsettings"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/borderlinearlayout"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/linearlayoutsettings"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -22,24 +22,215 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="15dp"
             android:src="@drawable/baseline_account_circle_24" />
+
         <TextView
             android:id="@+id/myImageViewText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="5dp"
-            android:gravity="center_vertical"
             android:layout_weight="1"
-            android:text="User"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center_vertical"
+            android:text="user"
             android:textColor="#000000" />
+
         <Spinner
             android:id="@+id/editsettingsspinner"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:textSize="14sp"/>
+            android:layout_height="60dp"
+            android:background="@null"
+            android:textSize="14sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/populargamestext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Popular Games"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearlayoutsettings" />
+
+    <LinearLayout
+        android:id="@+id/linearlayoutimagesgames"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/populargamestext">
+
+        <ImageView
+            android:id="@+id/firstgame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/firstgame" />
+
+        <ImageView
+            android:id="@+id/secondgame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/secondgame" />
+
+        <ImageView
+            android:id="@+id/thirdgame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/thirdgame" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayoutimages2games"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearlayoutimagesgames">
+
+        <ImageView
+            android:id="@+id/fourgame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/fourgame" />
+
+        <ImageView
+            android:id="@+id/fivegame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/fivegame" />
+
+        <ImageView
+            android:id="@+id/sixgame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/sixgame" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/searchtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Search"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearlayoutimages2games" />
+
+    <EditText
+        android:id="@+id/main_searchgame"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edit_background"
+        android:drawableLeft="@drawable/search"
+        android:fontFamily="@font/montserrat"
+        android:hint="  Search for a Game"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="10dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchtext" />
+
+    <Spinner
+        android:id="@+id/spinner_editgame"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_background"
+        android:paddingHorizontal="10dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_searchgame" />
+
+
+    <RelativeLayout
+        android:id="@+id/linearlayoutsettingsbelow"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/backgroundrectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/library"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="40dp"
+            android:background="@color/blanc"
+            android:src="@drawable/library" />
+
+        <TextView
+            android:id="@+id/librarytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/library"
+            android:layout_marginHorizontal="32dp"
+            android:fontFamily="@font/montserrat"
+            android:text="LIBRARY"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+
+        <ImageButton
+            android:id="@+id/notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="40dp"
+            android:background="@color/blanc"
+            android:src="@drawable/notificationscinza" />
+
+        <TextView
+            android:id="@+id/notificatext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notifications"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="NOTIFICATIONS"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blanc"
+        android:paddingBottom="15dp"
+        android:src="@drawable/house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,10 @@ import com.example.gamestate.R
 
 class CustomAdapter(internal var context: Context, internal var images: IntArray, internal var settings: Array<String>) :
     BaseAdapter() {
-    internal var inflter: LayoutInflater
+    internal var inflater: LayoutInflater
 
     init {
-        inflter = LayoutInflater.from(context)
+        inflater = LayoutInflater.from(context)
     }
 
     override fun getCount(): Int {
@@ -31,7 +31,7 @@ class CustomAdapter(internal var context: Context, internal var images: IntArray
 
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
 
-        val view = inflter.inflate(R.layout.custom_layout_spinner,null)
+        val view = inflater.inflate(R.layout.custom_layout_spinner,null)
         val icon = view.findViewById<View>(R.id.user_settings) as ImageView?
         val names = view.findViewById<View>(R.id.textView) as TextView?
         icon!!.setImageResource(images[i])
