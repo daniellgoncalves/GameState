@@ -1,6 +1,5 @@
 package com.example.gamestate.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,50 +14,56 @@ import com.example.gamestate.R
 import com.example.gamestate.ui.data.UserViewModel
 
 class MainActivity : AppCompatActivity() {
+
     private  lateinit var sharedPreferences: SharedPreferences
     private lateinit var mUserViewModel: UserViewModel
-    @SuppressLint("SuspiciousIndentation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mUserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        val btn_Login: Button = findViewById(R.id.main_login_button)
-        val newaccountinfo : TextView = findViewById(R.id.main_newaccountinfo)
-        val forgotpasswordinfo: TextView = findViewById(R.id.main_forgotpassword)
-        val editpassword: EditText = findViewById(R.id.main_editpassword)
-        val editusername: EditText = findViewById(R.id.main_editusername)
+
+        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
+        val btnLogin: Button = findViewById(R.id.main_login_button)
+        val newAccountInfo : TextView = findViewById(R.id.main_newaccountinfo)
+        val forgotPasswordInfo: TextView = findViewById(R.id.main_forgotpassword)
+        val editPassword: EditText = findViewById(R.id.main_editpassword)
+        val editUsername: EditText = findViewById(R.id.main_editusername)
 
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
-        val loginautomatic = sharedPreferences.getString("username","")
-        if (loginautomatic != null) {
-            if (loginautomatic.isNotEmpty()) {
+        val loginAutomatic = sharedPreferences.getString("username","")
+        if (loginAutomatic != null) {
+            if (loginAutomatic.isNotEmpty()) {
                 startActivity(Intent(this, HomeActivity::class.java))
             }
         }
 
-        newaccountinfo.setOnClickListener {
+        newAccountInfo.setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
         }
-        forgotpasswordinfo.setOnClickListener {
+
+        forgotPasswordInfo.setOnClickListener {
             startActivity(Intent(this,ForgotPasswordActivity::class.java))
         }
-        btn_Login.setOnClickListener {
-            val username = editusername.text.toString()
-            val password = editpassword.text.toString()
+
+        btnLogin.setOnClickListener {
+            val username = editUsername.text.toString()
+            val password = editPassword.text.toString()
             if (username.isNotEmpty() &&  password.isNotEmpty())
             {
-                val loginstatus = mUserViewModel.LoginUser(username, password)
-                if(loginstatus == 1)
+                val loginStatus = mUserViewModel.LoginUser(username, password)
+
+                if(loginStatus == 1)
                 {
                     val editor:SharedPreferences.Editor = sharedPreferences.edit()
                     editor.putString("username",username)
                     editor.apply()
-                    Toast.makeText(this, "Login Correto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this,HomeActivity::class.java))
                 }
-                else if(loginstatus == -1)
+                else if(loginStatus == -1)
                 {
-                    Toast.makeText(this, "Login Incorreto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
                 }
             }
         }
