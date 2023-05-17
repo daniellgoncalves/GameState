@@ -3,7 +3,6 @@ package com.example.gamestate.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -16,6 +15,7 @@ import com.example.gamestate.ui.data.UserViewModel
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mUserViewModel: UserViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)

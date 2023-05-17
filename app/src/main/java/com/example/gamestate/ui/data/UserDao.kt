@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -17,5 +18,11 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE username = :username AND password = :password")
     fun Loginuser(username:String,password:String):User?
+
+    @Query("SELECT * FROM user_table WHERE email = :email")
+    fun getUserByEmail(email: String): User?
+
+    @Update
+    fun updateUser(user: User)
 
 }

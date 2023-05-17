@@ -12,6 +12,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private val readAllData: LiveData<List<User>>
     private val repository: UserRepository
     private var loginstatus = 0//0-Default,-1 Login Incorreto, 1 Login Correto
+    private var user: User? = null
 
     init {
         val userDao = UserDatabase.getDatabase(application).userDao()
@@ -35,5 +36,16 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
             }
         }
         return loginstatus
+    }
+
+    fun getUserByEmail(email: String): User? {
+        user = repository.getUserByEmail(email)
+        return user
+    }
+
+    fun updateUser(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateUser(user)
+        }
     }
 }
