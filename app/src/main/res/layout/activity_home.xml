@@ -7,35 +7,34 @@
     tools:context=".ui.HomeActivity">
 
     <LinearLayout
-        android:id="@+id/linearlayoutsettings"
+        android:id="@+id/home_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/borderlinearlayout"
-        android:orientation="horizontal"
+        android:background="@drawable/border_linearlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageuser"
+            android:id="@+id/home_user"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
             android:src="@drawable/baseline_account_circle_24" />
 
         <TextView
-            android:id="@+id/myImageViewText"
+            android:id="@+id/home_user_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center_vertical"
             android:text="user"
-            android:textColor="#000000" />
+            android:textColor="@color/black" />
 
         <Spinner
-            android:id="@+id/editsettingsspinner"
+            android:id="@+id/home_header_spinner"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:background="@null"
@@ -43,155 +42,252 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/populargamestext"
+        android:id="@+id/home_popular_games_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="Popular Games"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayoutsettings" />
+        app:layout_constraintTop_toBottomOf="@+id/home_header" />
 
     <LinearLayout
-        android:id="@+id/linearlayoutimagesgames"
+        android:id="@+id/home_linearlayout_popular_games_images"
         android:layout_width="match_parent"
         android:layout_height="104dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/populargamestext">
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
 
-        <ImageView
-            android:id="@+id/firstgame"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/firstgame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
 
-        <ImageView
-            android:id="@+id/secondgame"
-            android:layout_width="0dp"
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/first_game"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginStart="6.5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/firstgame" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images2"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/secondgame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
 
-        <ImageView
-            android:id="@+id/thirdgame"
-            android:layout_width="0dp"
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/second_game"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="6.5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/secondgame" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images3"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/thirdgame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/thirdgame"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8.5dp"
+                android:src="@drawable/thirdgame" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearlayoutimages2games"
+        android:id="@+id/home_linearlayout_popular_games_images2"
         android:layout_width="match_parent"
         android:layout_height="104dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayoutimagesgames">
+        app:layout_constraintTop_toBottomOf="@+id/home_linearlayout_popular_games_images">
 
-        <ImageView
-            android:id="@+id/fourgame"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images4"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/fourgame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
 
-        <ImageView
-            android:id="@+id/fivegame"
-            android:layout_width="0dp"
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/fourth_game"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginStart="6.5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/fourthgame" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images5"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/fivegame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
 
-        <ImageView
-            android:id="@+id/sixgame"
-            android:layout_width="0dp"
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/fifth_game"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="6.5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/fifthgame" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images6"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/sixgame" />
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/sixth_game"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8.5dp"
+                android:src="@drawable/sixthgame" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/searchtext"
+        android:id="@+id/home_search_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/montserrat"
         android:text="Search"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="17sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayoutimages2games" />
+        app:layout_constraintTop_toBottomOf="@+id/home_linearlayout_popular_games_images2" />
 
     <EditText
-        android:id="@+id/main_searchgame"
+        android:id="@+id/home_search"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/edit_background"
-        android:drawableLeft="@drawable/search"
+        android:drawableLeft="@drawable/search_reduced"
         android:fontFamily="@font/montserrat"
         android:hint="  Search for a Game"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress"
         android:paddingHorizontal="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchtext" />
+        app:layout_constraintTop_toBottomOf="@+id/home_search_text" />
 
     <Spinner
-        android:id="@+id/spinner_editgame"
+        android:id="@+id/home_games_spinner"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="200dp"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/edit_background"
         android:paddingHorizontal="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_searchgame" />
-
+        app:layout_constraintTop_toBottomOf="@+id/home_search" />
 
     <RelativeLayout
-        android:id="@+id/linearlayoutsettingsbelow"
+        android:id="@+id/home_footer"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@drawable/backgroundrectangle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/navbar"
         android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/library"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
+            android:id="@+id/home_library"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginTop="5dp"
             android:background="@color/blanc"
+            android:scaleType="fitCenter"
             android:src="@drawable/library" />
 
         <TextView
-            android:id="@+id/librarytext"
+            android:id="@+id/home_library_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/library"
-            android:layout_marginHorizontal="32dp"
+            android:layout_below="@+id/home_library"
+            android:layout_marginHorizontal="61dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/montserrat"
             android:text="LIBRARY"
@@ -199,23 +295,24 @@
             android:textSize="10sp" />
 
         <ImageButton
-            android:id="@+id/notifications"
-            android:layout_marginTop="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/home_notifications"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="40dp"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="5dp"
             android:background="@color/blanc"
-            android:src="@drawable/notificationscinza" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/notifications" />
 
         <TextView
-            android:id="@+id/notificatext"
+            android:id="@+id/home_notifications_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notifications"
+            android:layout_below="@+id/home_notifications"
             android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="43dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/montserrat"
             android:text="NOTIFICATIONS"
             android:textColor="#000000"
@@ -223,11 +320,12 @@
     </RelativeLayout>
 
     <ImageButton
-        android:id="@+id/home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/home_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/blanc"
-        android:paddingBottom="18dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/house"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
