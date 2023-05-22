@@ -36,8 +36,6 @@ class ForgotPasswordActivity2 : AppCompatActivity() {
                 Toast.makeText(this, "Fill in all fields", Toast.LENGTH_SHORT).show()
             } else if(newPasswordText != newPasswordRepeatText) {
                 Toast.makeText(this, "Passwords must be the same", Toast.LENGTH_SHORT).show()
-            } else if(oldUser.password == newPasswordText) {
-                Toast.makeText(this, "Can't use old passwords", Toast.LENGTH_SHORT).show()
             } else {
                 val user = User(oldUser.id, oldUser.username, oldUser.email, newPasswordText)
                 mUserViewModel.updateUser(user)
