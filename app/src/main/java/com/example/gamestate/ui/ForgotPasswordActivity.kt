@@ -1,16 +1,28 @@
 package com.example.gamestate.ui
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gamestate.R
+import com.example.gamestate.ui.data.RetroFitService
 import com.example.gamestate.ui.data.User
 import com.example.gamestate.ui.data.UserViewModel
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.Serializable
 
 class ForgotPasswordActivity : AppCompatActivity() {
@@ -28,7 +40,37 @@ class ForgotPasswordActivity : AppCompatActivity() {
             val email: EditText = findViewById(R.id.forgot_password_editemail)
             val emailText: String = email.text.toString()
 
-            val user: User? = mUserViewModel.getUserByEmail(emailText)
+            //POST('forgotpwd')
+
+            var retrofit = Retrofit.Builder()
+                .baseUrl("http://192.168.1.79:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service = retrofit.create(RetroFitService::class.java)
+
+            val requestBody = JsonObject()
+            requestBody.addProperty("email", emailText)
+
+            val call = service.sendEmail(requestBody)
+
+            val r = Runnable {
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call : Call<ResponseBody>, response: Response<ResponseBody>){
+                        if(response.code() == 201){
+                            val retroFit2 = response.body()?.string()
+                            Log.d("lol", retroFit2.toString())
+                        }
+                    }
+                    override fun onFailure(calll: Call<ResponseBody>, t: Throwable){
+                        print("error")
+                    }
+                })
+            }
+
+            val t = Thread(r)
+            t.start()
+
+            /*val user: User? = mUserViewModel.getUserByEmail(emailText)
 
             if(!inputCheck(emailText)) {
                 Toast.makeText(this, "Fill in all fields", Toast.LENGTH_SHORT).show()
@@ -41,7 +83,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 intent.putExtra("user", user as Serializable)
                 startActivity(intent)
                 finish()
-            }
+            }*/
         }
     }
     private fun inputCheck(text: String): Boolean {
