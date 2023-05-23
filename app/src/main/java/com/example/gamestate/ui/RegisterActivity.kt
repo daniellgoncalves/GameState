@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.User
 import com.example.gamestate.ui.data.UserViewModel
-import com.google.android.material.internal.ContextUtils.getActivity
 import java.util.Collections
 import java.util.Locale
 
@@ -31,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         val username : EditText = findViewById(R.id.register_editusername)
         val email : EditText = findViewById(R.id.register_editemail)
         val password : EditText = findViewById(R.id.register_editpassword)
-        val confpassword : EditText = findViewById(R.id.register_editconfpassword)
+        val confPassword : EditText = findViewById(R.id.register_editconfpassword)
         val country : Spinner = findViewById(R.id.register_editcountry)
 
         val locales = Locale.getAvailableLocales()
@@ -63,15 +62,15 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         fun insertIntoDatabase() {
-            val usernametext = username.text.toString()
-            val emailtext = email.text.toString()
-            val passwordtext = password.text.toString()
-            val confpasswordtext = confpassword.text.toString()
+            val usernameText = username.text.toString()
+            val emailText = email.text.toString()
+            val passwordText = password.text.toString()
+            val confPasswordText = confPassword.text.toString()
 
-            if(inputCheck(usernametext, emailtext, passwordtext)){
-                if(confpasswordtext == passwordtext) {
+            if(inputCheck(usernameText, emailText, passwordText)){
+                if(confPasswordText == passwordText) {
                     // Criar user
-                    val user = User(0, usernametext, emailtext, passwordtext)
+                    val user = User(0, usernameText, emailText, passwordText)
                     // Meter user na db
                     mUserViewModel.addUser(user)
                     Toast.makeText(this, "User created!", Toast.LENGTH_SHORT).show()

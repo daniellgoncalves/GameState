@@ -119,6 +119,34 @@
         app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
     <TextView
+        android:id="@+id/register_confirmpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Confirm password"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_editpassword" />
+
+    <EditText
+        android:id="@+id/register_editconfpassword"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edit_background"
+        android:drawableRight="@drawable/help"
+        android:fontFamily="@font/montserrat"
+        android:hint="Password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:paddingHorizontal="10dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_confirmpassword" />
+
+    <TextView
         android:id="@+id/register_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
