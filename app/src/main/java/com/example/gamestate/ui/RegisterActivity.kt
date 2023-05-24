@@ -10,10 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.gamestate.R
-import com.example.gamestate.ui.data.PostService
+import com.example.gamestate.ui.data.RetroFitService
 import com.example.gamestate.ui.data.User
 import com.example.gamestate.ui.data.UserViewModel
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -35,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        mUserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         val btnRegister : Button = findViewById(R.id.register_button)
         val username : EditText = findViewById(R.id.register_editusername)
@@ -68,8 +67,8 @@ class RegisterActivity : AppCompatActivity() {
         // Apply the adapter to the your spinner
         country.setAdapter(countryAdapter)
 
-        fun inputCheck(username: String, email: String, password: String): Boolean {
-            return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
+        fun inputCheck(username: String, email: String, password: String, confPassword: String): Boolean {
+            return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword))
         }
 
         fun insertIntoDatabase() {
@@ -83,9 +82,9 @@ class RegisterActivity : AppCompatActivity() {
                 .baseUrl("http://192.168.178.77:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            val userService = retrofit.create(PostService::class.java)
+            val userService = retrofit.create(RetroFitService::class.java)
             val requestBody = JsonObject()
-            if(inputCheck(usernameText, emailText, passwordText)) {
+            if(inputCheck(usernameText, emailText, passwordText, confPasswordText)) {
                 if (confPasswordText == passwordText) {
                     requestBody.addProperty("username", user.username)
                     requestBody.addProperty("password", user.password)

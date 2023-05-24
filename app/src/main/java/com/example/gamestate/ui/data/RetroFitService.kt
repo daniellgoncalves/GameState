@@ -12,4 +12,7 @@ import retrofit2.http.POST
 interface RetroFitService {
     @POST("/user/forgotpwd")
     fun sendEmail(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/user/register")
+    fun register(@Body body: JsonObject): Call<ResponseBody>
 }
