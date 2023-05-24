@@ -15,4 +15,7 @@ interface RetroFitService {
 
     @POST("/user/register")
     fun register(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/user/login")
+    fun login(@Body body: JsonObject): Call<ResponseBody>
 }
