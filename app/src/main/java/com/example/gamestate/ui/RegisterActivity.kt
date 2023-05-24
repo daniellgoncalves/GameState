@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
             val countryText = country.toString()
             val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.9:3000/")
+                .baseUrl("http://192.168.229.82:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(PostService::class.java)
@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
                 requestBody.addProperty("email", user.email)
                 requestBody.addProperty("country", user.country)
 
-               // mUserViewModel.addUser(user)
+               //mUserViewModel.addUser(user)
 
                 val call = userService.register(requestBody)
                 val r = Runnable {

@@ -5,13 +5,23 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.gamestate.R
+import com.example.gamestate.ui.data.PostService
 import com.example.gamestate.ui.data.UserViewModel
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,25 +59,48 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val username = editUsername.text.toString()
-            val password = editPassword.text.toString()
-            if (username.isNotEmpty() &&  password.isNotEmpty())
-            {
+            val usernametext: String = editUsername.text.toString()
+            val passwordtext: String = editPassword.text.toString()
 
-               val loginStatus = mUserViewModel.LoginUser(username, password)
+            if(usernametext.isEmpty() && passwordtext.isEmpty()) {
+                Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
+            } else {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("http://192.168.229.82:3000/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val service = retrofit.create(PostService::class.java)
 
-                if(loginStatus == 1)
-                {
-                    val editor:SharedPreferences.Editor = sharedPreferences.edit()
-                    editor.putString("username",username)
-                    editor.apply()
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,HomeActivity::class.java))
+                val requestBody = JsonObject()
+                requestBody.addProperty("username", usernametext)
+                requestBody.addProperty("password", passwordtext)
+
+                val call = service.login(requestBody)
+
+                val r = Runnable {
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                val response = response.body()?.string()
+                                val responseJson = JSONObject(response)
+                                if (responseJson.getString("status") == "200")
+                                {
+                                    Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                                    finish()
+                                }
+                                else {
+                                    Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
-                else if(loginStatus == -1)
-                {
-                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
-                }
+                val t = Thread(r)
+                t.start()
             }
         }
     }
