@@ -46,9 +46,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     call.enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
-                                val response = response.body()?.string()
-                                val responseJson = JSONObject(response)
-                                if (responseJson.getString("status") == "200")
+                                val res = response.body()?.string()
+                                val responseJson = JSONObject(res!!)
+                                if (responseJson.getInt("status") == 200)
                                 {
                                     Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(applicationContext, MainActivity::class.java))
