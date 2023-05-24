@@ -40,9 +40,6 @@ class RegisterActivity : AppCompatActivity() {
         val password : EditText = findViewById(R.id.register_editpassword)
         val country : Spinner = findViewById(R.id.register_editcountry)
 
-
-
-
         fun inputCheck(username: String, email: String, password: String): Boolean {
             return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
         }
@@ -54,7 +51,7 @@ class RegisterActivity : AppCompatActivity() {
             val countryText = country.toString()
             val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.9:3000/")
+                .baseUrl("http://192.168.178.77:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(PostService::class.java)
@@ -65,7 +62,7 @@ class RegisterActivity : AppCompatActivity() {
                 requestBody.addProperty("email", user.email)
                 requestBody.addProperty("country", user.country)
 
-               // mUserViewModel.addUser(user)
+               mUserViewModel.addUser(user)
 
                 val call = userService.register(requestBody)
                 val r = Runnable {
