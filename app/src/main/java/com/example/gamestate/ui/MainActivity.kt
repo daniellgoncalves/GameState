@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,6 +23,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class MainActivity : AppCompatActivity() {
 
     private  lateinit var sharedPreferences: SharedPreferences
@@ -38,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         val forgotPasswordInfo: TextView = findViewById(R.id.main_forgotpassword)
         val editPassword: EditText = findViewById(R.id.main_editpassword)
         val editUsername: EditText = findViewById(R.id.main_editusername)
+
+
+        val server_ip = resources.getString(R.string.server_ip)
 
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
@@ -63,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
             } else {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.229.82:3000/")
+                    .baseUrl(server_ip)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)
