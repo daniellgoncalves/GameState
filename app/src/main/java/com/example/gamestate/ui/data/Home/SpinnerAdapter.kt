@@ -1,4 +1,4 @@
-package com.example.gamestate.ui.data
+package com.example.gamestate.ui.data.Home
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.gamestate.R
 
-class CustomAdapter(internal var context: Context, internal var images: IntArray, internal var settings: Array<String>) :
+class SpinnerAdapter(internal var context: Context, internal var images: IntArray, internal var settings: Array<String>) :
     BaseAdapter() {
     internal var inflater: LayoutInflater
 
@@ -31,7 +31,7 @@ class CustomAdapter(internal var context: Context, internal var images: IntArray
 
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
 
-        val view = inflater.inflate(R.layout.custom_layout_spinner,null)
+        val view = inflater.inflate(R.layout.layout_spinner_settings,null)
         val icon = view.findViewById<View>(R.id.user_settings) as ImageView?
         val names = view.findViewById<View>(R.id.textView) as TextView?
         icon!!.setImageResource(images[i])

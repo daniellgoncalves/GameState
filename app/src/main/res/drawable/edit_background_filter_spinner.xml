@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background Shape -->
+    <item>
+        <shape>
+            <stroke android:color="#98A2B3"
+                android:width="2dp"/>
+            <corners android:radius="8dp"/>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/baseline_arrow_down_24"
+        android:gravity="right|center_vertical"
+        android:right="10dp">
+    </item>
+</layer-list>

@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-
         <LinearLayout
             android:id="@+id/home_header"
             android:layout_width="match_parent"
@@ -402,7 +400,7 @@
                 android:layout_height="20px"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/montserrat"
-                android:src="@drawable/Ellipse"
+                android:src="@drawable/ellipse"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
             <ImageView
@@ -456,7 +454,7 @@
                 android:layout_height="20px"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/montserrat"
-                android:src="@drawable/Ellipse"
+                android:src="@drawable/ellipse"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
             <ImageView

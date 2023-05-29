@@ -46,16 +46,14 @@ class RegisterActivity : AppCompatActivity() {
         val locales = Locale.getAvailableLocales()
         val countries = ArrayList<String>()
         for (locale in locales) {
-            val country = locale.displayCountry
-            if (country.trim { it <= ' ' }.length > 0 && !countries.contains(country)) {
-                countries.add(country)
+            val count = locale.displayCountry
+            if (count.trim { it <= ' ' }.length > 0 && !countries.contains(count )) {
+                countries.add(count)
             }
         }
 
         Collections.sort(countries)
-        for (country in countries) {
-            println(country)
-        }
+
 
         val countryAdapter = ArrayAdapter<String>(
             this,
@@ -76,22 +74,23 @@ class RegisterActivity : AppCompatActivity() {
             val emailText = email.text.toString()
             val passwordText = password.text.toString()
             val confPasswordText = confPassword.text.toString()
-            val countryText = country.toString()
+            val countryText = country.selectedItem.toString()
+            val server_ip = resources.getString(R.string.server_ip)
             val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.178.77:3000/")
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
             val requestBody = JsonObject()
             if(inputCheck(usernameText, emailText, passwordText, confPasswordText)) {
                 if (confPasswordText == passwordText) {
-                    requestBody.addProperty("username", user.username)
-                    requestBody.addProperty("password", user.password)
-                    requestBody.addProperty("email", user.email)
-                    requestBody.addProperty("country", user.country)
+                    requestBody.addProperty("username", usernameText)
+                    requestBody.addProperty("password", passwordText)
+                    requestBody.addProperty("email", emailText)
+                    requestBody.addProperty("country",countryText)
 
-                    mUserViewModel.addUser(user)
+                  //  mUserViewModel.addUser(user)
 
                     val call = userService.register(requestBody)
                     val r = Runnable {
