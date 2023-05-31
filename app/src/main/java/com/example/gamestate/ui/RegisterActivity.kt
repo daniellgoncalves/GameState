@@ -1,13 +1,11 @@
 package com.example.gamestate.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -45,23 +43,17 @@ class RegisterActivity : AppCompatActivity() {
         val confPassword : EditText = findViewById(R.id.register_editconfpassword)
         val country : Spinner = findViewById(R.id.register_editcountry)
 
-        val existingAccountInfo : TextView = findViewById(R.id.register_existingaccountinfo)
-
-        val server_ip = resources.getString(R.string.server_ip)
-
         val locales = Locale.getAvailableLocales()
         val countries = ArrayList<String>()
         for (locale in locales) {
-            val country = locale.displayCountry
-            if (country.trim { it <= ' ' }.length > 0 && !countries.contains(country)) {
-                countries.add(country)
+            val count = locale.displayCountry
+            if (count.trim { it <= ' ' }.length > 0 && !countries.contains(count )) {
+                countries.add(count)
             }
         }
 
         Collections.sort(countries)
-        for (country in countries) {
-            println(country)
-        }
+
 
         val countryAdapter = ArrayAdapter<String>(
             this,
@@ -73,10 +65,6 @@ class RegisterActivity : AppCompatActivity() {
         // Apply the adapter to the your spinner
         country.setAdapter(countryAdapter)
 
-        existingAccountInfo.setOnClickListener {
-            finish()
-        }
-
         fun inputCheck(username: String, email: String, password: String, confPassword: String): Boolean {
             return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword))
         }
@@ -87,6 +75,7 @@ class RegisterActivity : AppCompatActivity() {
             val passwordText = password.text.toString()
             val confPasswordText = confPassword.text.toString()
             val countryText = country.selectedItem.toString()
+            val server_ip = resources.getString(R.string.server_ip)
             val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
                 .baseUrl(server_ip)
@@ -96,12 +85,12 @@ class RegisterActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             if(inputCheck(usernameText, emailText, passwordText, confPasswordText)) {
                 if (confPasswordText == passwordText) {
-                    requestBody.addProperty("username", user.username)
-                    requestBody.addProperty("password", user.password)
-                    requestBody.addProperty("email", user.email)
-                    requestBody.addProperty("country", user.country)
+                    requestBody.addProperty("username", usernameText)
+                    requestBody.addProperty("password", passwordText)
+                    requestBody.addProperty("email", emailText)
+                    requestBody.addProperty("country",countryText)
 
-                    //mUserViewModel.addUser(user)
+                  //  mUserViewModel.addUser(user)
 
                     val call = userService.register(requestBody)
                     val r = Runnable {

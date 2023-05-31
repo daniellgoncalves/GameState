@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,7 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,14 +39,13 @@ class MainActivity : AppCompatActivity() {
         val editPassword: EditText = findViewById(R.id.main_editpassword)
         val editUsername: EditText = findViewById(R.id.main_editusername)
 
-
         val server_ip = resources.getString(R.string.server_ip)
 
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         if (loginAutomatic != null) {
             if (loginAutomatic.isNotEmpty()) {
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this,  HomeActivity::class.java))
             }
         }
 
@@ -61,38 +58,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val usernametext: String = editUsername.text.toString()
-            val passwordtext: String = editPassword.text.toString()
+            val username = editUsername.text.toString()
+            val password = editPassword.text.toString()
+            if (username.isNotEmpty() &&  password.isNotEmpty())
+            {
+                //val loginStatus = mUserViewModel.LoginUser(username, password)
 
-            if(usernametext.isEmpty() && passwordtext.isEmpty()) {
-                Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
-            } else {
                 val retrofit = Retrofit.Builder()
                     .baseUrl(server_ip)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)
-
                 val requestBody = JsonObject()
-                requestBody.addProperty("username", usernametext)
-                requestBody.addProperty("password", passwordtext)
-
+                requestBody.addProperty("username", username)
+                requestBody.addProperty("password", password)
                 val call = service.login(requestBody)
-
                 val r = Runnable {
                     call.enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
-                                val response = response.body()?.string()
-                                val responseJson = JSONObject(response)
-                                if (responseJson.getString("status") == "200")
+                                val res = response.body()?.string()
+                                val responseJson = JSONObject(res!!)
+                                val status = responseJson.getInt("status")
+                                val msm = responseJson.getString("message")
+                                if (status == 200)
                                 {
-                                    Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                                    val editor:SharedPreferences.Editor = sharedPreferences.edit()
+                                    editor.putString("username",username)
+                                    editor.apply()
+                                    Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(applicationContext, HomeActivity::class.java))
                                     finish()
                                 }
                                 else {
-                                    Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -103,6 +102,22 @@ class MainActivity : AppCompatActivity() {
                 }
                 val t = Thread(r)
                 t.start()
+               /* if(loginStatus == 1)
+                {
+                    val editor:SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username",username)
+                    editor.apply()
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this,HomeActivity::class.java))
+                }
+                else if(loginStatus == -1)
+                {
+                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
+                }*/
+            }
+            else
+            {
+                Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
             }
         }
     }
