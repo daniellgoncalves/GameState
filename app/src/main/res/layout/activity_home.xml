@@ -257,7 +257,7 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edit_background"
-        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
