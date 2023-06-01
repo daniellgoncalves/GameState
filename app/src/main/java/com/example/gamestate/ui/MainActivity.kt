@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val editPassword: EditText = findViewById(R.id.main_editpassword)
         val editUsername: EditText = findViewById(R.id.main_editusername)
 
-        val server_ip = resources.getString(R.string.server_ip)
+        val serverIP = resources.getString(R.string.server_ip)
 
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 //val loginStatus = mUserViewModel.LoginUser(username, password)
 
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(server_ip)
+                    .baseUrl(serverIP)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)

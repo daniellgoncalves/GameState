@@ -42,18 +42,18 @@ class HomeActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.home_games_recyclerview)
         username.setText(loginAutomatic)
 
-        fun searhgame() {
+        fun searchGame() {
             val nameText = searchgametext.text.toString()
-            val server_ip = resources.getString(R.string.server_ip)
+            val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
-                .baseUrl(server_ip)
+                .baseUrl(serverIP)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
             val requestBody = JsonObject()
             requestBody.addProperty("name", nameText)
 
-            val call = userService.sendgame(requestBody)
+            val call = userService.sendGame(requestBody)
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
@@ -96,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                searhgame()
+                searchGame()
 
             }
 
