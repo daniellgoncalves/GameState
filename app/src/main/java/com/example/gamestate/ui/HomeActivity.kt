@@ -158,7 +158,7 @@ class HomeActivity : AppCompatActivity() {
                            }
                             if (status == 200) {
 
-                                recyclerView.adapter = RecViewHomeAdapter(Names  , ContextCompat.getColor(applicationContext, R.color.gold20))
+                                recyclerView.adapter = RecViewHomeAdapter(Names, ContextCompat.getColor(applicationContext, R.color.gold20))
                                 recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                             }
 
@@ -169,7 +169,7 @@ class HomeActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(calll: Call<ResponseBody>, t: Throwable) {
-                        Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT)
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT)
                             .show()
                     }
                 })
@@ -238,8 +238,8 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }
-        val forumAdapter = SpinnerAdapter(applicationContext, images, settings)
-        spin.adapter = forumAdapter
+        val adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = adapter
     }
 }
 

@@ -4,5 +4,5 @@
     <string name="new_to_gamestate_n_click_here">New to GameState?\n Click<font color='#FFD700'> here</font></string>
     <string name="already_have_an_account_n_log_in">Already have an account?\n <font color='#FFD700'> Log in</font></string>
     <string name="bulletpoint">\u2022</string>
-    <string name="server_ip">http://192.168.1.10:3000/</string>
+    <string name="server_ip">http://192.168.1.79:3000/</string>
 </resources>

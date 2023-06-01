@@ -48,91 +48,93 @@ class ForumActivity : AppCompatActivity() {
         val loginAutomatic = sharedPreferences.getString("username","")
         username.text = loginAutomatic
 
-        //identificador tem de vir de outras páginas, por agora fica na seguinte variável
+        val gameID = intent.getIntExtra("id",-1)
 
-        val gameID = 904947
-        val serverIP = resources.getString(R.string.server_ip)
+        if (gameID == -1) {
+            Toast.makeText(applicationContext, "Game ID missing", Toast.LENGTH_SHORT).show()
+        } else {
+            val serverIP = resources.getString(R.string.server_ip)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl(serverIP)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(RetroFitService::class.java)
+            val retrofit = Retrofit.Builder()
+                .baseUrl(serverIP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service = retrofit.create(RetroFitService::class.java)
 
-        val requestBody = JsonObject()
-        requestBody.addProperty("id", gameID)
+            val requestBody = JsonObject()
+            requestBody.addProperty("id", gameID)
 
-        val call = service.sendGameByID(requestBody)
+            val call = service.sendGameByID(requestBody)
 
-        val r = Runnable {
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    if (response.isSuccessful) {
-                        val res = response.body()?.string()
-                        val responseJson = JSONObject(res!!)
-                        if (responseJson.getInt("status") == 200)
-                        {
-                            val name: TextView = findViewById(R.id.game_text)
-                            val developer: TextView = findViewById(R.id.game_infotext)
-                            val releaseDate: TextView = findViewById(R.id.game_infotext2)
-                            val gameImage: ImageView = findViewById(R.id.second_game)
-                            val developerImage: ImageView = findViewById(R.id.game_infoimage)
+            val r = Runnable {
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val res = response.body()?.string()
+                            val responseJson = JSONObject(res!!)
+                            if (responseJson.getInt("status") == 200)
+                            {
+                                val name: TextView = findViewById(R.id.game_text)
+                                val developer: TextView = findViewById(R.id.game_infotext)
+                                val releaseDate: TextView = findViewById(R.id.game_infotext2)
+                                val gameImage: ImageView = findViewById(R.id.second_game)
+                                val developerImage: ImageView = findViewById(R.id.game_infoimage)
 
-                            val date = responseJson.getJSONObject("message").getString("release_date")
+                                val date = responseJson.getJSONObject("message").getString("release_date")
 
-                            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                            val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                                val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-                            val parsedDate = inputFormat.parse(date)
-                            val formattedDate = outputFormat.format(parsedDate)
+                                val parsedDate = inputFormat.parse(date)
+                                val formattedDate = outputFormat.format(parsedDate)
 
-                            name.text = responseJson.getJSONObject("message").getString("name")
-                            developer.text = responseJson.getJSONObject("message").getJSONArray("developers").getJSONObject(0).getString("name")
-                            releaseDate.text = formattedDate
-                            val gameImageUrl = responseJson.getJSONObject("message").getString("image")
-                            val developerImageUrl = responseJson.getJSONObject("message").getJSONArray("developers").getJSONObject(0).getString("image")
+                                name.text = responseJson.getJSONObject("message").getString("name")
+                                developer.text = responseJson.getJSONObject("message").getJSONArray("developers").getJSONObject(0).getString("name")
+                                releaseDate.text = formattedDate
+                                val gameImageUrl = responseJson.getJSONObject("message").getString("image")
+                                val developerImageUrl = responseJson.getJSONObject("message").getJSONArray("developers").getJSONObject(0).getString("image")
 
-                            Glide.with(applicationContext)
-                                .load(gameImageUrl)
-                                .centerCrop()
-                                .into(gameImage)
+                                Glide.with(applicationContext)
+                                    .load(gameImageUrl)
+                                    .centerCrop()
+                                    .into(gameImage)
 
-                            Glide.with(applicationContext)
-                                .load(developerImageUrl)
-                                .centerCrop()
-                                .into(developerImage)
-                        }
-                        else {
-                            Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                                Glide.with(applicationContext)
+                                    .load(developerImageUrl)
+                                    .centerCrop()
+                                    .into(developerImage)
+                            }
+                            else {
+                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
-                }
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            val t = Thread(r)
+            t.start()
+
+            val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
+            spinnerHeader.adapter = customAdapterSettings
+
+            val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
+            spinner.adapter = customAdapter
+
+            val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
+            recyclerView.adapter = RecViewForumAdapter(listOf("Gosto mais dos antigos",
+                "Estou preso nesta quest",
+                "Bug no início do jogo",
+                "Melhor jogo do ano?",
+                "A personagem é muito lenta",
+                "Dá para alterar a dificuldade a meio?",
+                "O que acharam da história?",
+                "Drop de frames quando ataco",
+                "Guia para speedrun",
+                "O Atreus irrita-me!!!"), ContextCompat.getColor(applicationContext, R.color.gold20))
+            recyclerView.layoutManager = LinearLayoutManager(this)
         }
-        val t = Thread(r)
-        t.start()
-
-        val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
-        spinnerHeader.adapter = customAdapterSettings
-
-        val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
-        spinner.adapter = customAdapter
-
-        val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
-        recyclerView.adapter = RecViewForumAdapter(listOf("Gosto mais dos antigos",
-            "Estou preso nesta quest",
-            "Bug no início do jogo",
-            "Melhor jogo do ano?",
-            "A personagem é muito lenta",
-            "Dá para alterar a dificuldade a meio?",
-            "O que acharam da história?",
-            "Drop de frames quando ataco",
-            "Guia para speedrun",
-            "O Atreus irrita-me!!!"), ContextCompat.getColor(applicationContext, R.color.gold20))
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
     }
 }

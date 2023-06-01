@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.AddGameActivity">
 
     <LinearLayout
@@ -68,8 +68,7 @@
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/secondgame" />
+                android:layout_marginTop="5dp" />
 
         </RelativeLayout>
 
@@ -77,10 +76,10 @@
             android:id="@+id/addgame_gameName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_gameImage"
-            android:layout_marginTop="15dp">
+            app:layout_constraintTop_toBottomOf="@+id/addgame_gameImage">
 
             <TextView
                 android:id="@+id/gameName"
@@ -88,8 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="6.5dp"
-                android:text="GameName"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -97,24 +95,23 @@
             android:id="@+id/addgame_gameCompanyDate_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/addgame_gameCompanyImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName"
-                android:layout_marginTop="5dp">
+                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
 
                 <ImageView
                     android:id="@+id/gameCompanyImage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/montserrat"
-                    android:src="@drawable/baseline_account_circle_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
             </RelativeLayout>
@@ -123,10 +120,10 @@
                 android:id="@+id/addgame_gameCompany"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName"
-                android:layout_marginTop="5dp">
+                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
 
                 <TextView
                     android:id="@+id/gameCompany"
@@ -134,17 +131,17 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="6.5dp"
-                    android:text="GameCompany" />
+                    android:maxLength="15" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/addgame_gameSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName"
-                android:layout_marginTop="5dp">
+                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
 
                 <TextView
                     android:id="@+id/gameSeparator"
@@ -159,18 +156,17 @@
                 android:id="@+id/addgame_gameDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName"
-                android:layout_marginTop="5dp">
+                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
 
                 <TextView
                     android:id="@+id/gameDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginStart="6.5dp"
-                    android:text="DD/MM/YYYY" />
+                    android:layout_marginStart="6.5dp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -178,12 +174,12 @@
             android:id="@+id/addgame_rating"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_gameCompanyDate_layout"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addgame_gameCompanyDate_layout">
 
             <TextView
                 android:id="@+id/rating"
@@ -196,17 +192,17 @@
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numStars="10"
-                android:rating="5"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:secondaryProgressTint="@android:color/transparent"
-                android:progressTint="#FFD700"
+                android:background="@drawable/layout_bg"
                 android:isIndicator="false"
+                android:numStars="10"
+                android:progressTint="#FFD700"
+                android:rating="0"
                 android:scaleX=".9"
                 android:scaleY=".9"
-                android:stepSize="0.5"
-                android:background="@drawable/layout_bg"/>
+                android:secondaryProgressTint="@android:color/transparent"
+                android:stepSize="0.5" />
 
         </RelativeLayout>
 
@@ -214,12 +210,12 @@
             android:id="@+id/addgame_reviewTitle"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_rating"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addgame_rating">
 
             <TextView
                 android:id="@+id/reviewTitle"
@@ -234,8 +230,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:hint="Title"
-                android:background="@drawable/layout_bg"/>
+                android:background="@drawable/layout_bg"
+                android:hint="Title" />
 
         </RelativeLayout>
 
@@ -243,12 +239,12 @@
             android:id="@+id/addgame_reviewText"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_rating"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addgame_rating">
 
             <TextView
                 android:id="@+id/reviewText"
@@ -263,9 +259,9 @@
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:hint="Write a review..."
                 android:background="@drawable/layout_bg"
-                android:gravity="top"/>
+                android:gravity="top"
+                android:hint="Write a review..." />
 
         </RelativeLayout>
 
@@ -273,12 +269,12 @@
             android:id="@+id/addgame_gameStatus"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_rating"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addgame_rating">
 
             <TextView
                 android:id="@+id/gameStatus"
@@ -290,23 +286,23 @@
             <LinearLayout
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="80dp"
-                    android:layout_height="50dp" >
+                    android:layout_height="50dp">
+
                     <ImageButton
                         android:id="@+id/gameStatus_finish_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:src="@drawable/accept"
-                        android:scaleType="fitCenter"
                         android:alpha="0.5"
-                        android:backgroundTint="#00FF00">
-                    </ImageButton>
+                        android:backgroundTint="#00FF00"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/accept"></ImageButton>
                 </LinearLayout>
 
 
@@ -314,101 +310,101 @@
                     android:id="@+id/gameStatus_finish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
                     android:text="I've finished/beaten the game!" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="60dp">
+                android:layout_marginTop="60dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="80dp"
-                    android:layout_height="50dp" >
+                    android:layout_height="50dp">
+
                     <ImageButton
                         android:id="@+id/gameStatus_stillPlaying_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:src="@drawable/playbutton"
-                        android:scaleType="fitCenter"
                         android:alpha="0.5"
-                        android:backgroundTint="#FFFF00">
-                    </ImageButton>
+                        android:backgroundTint="#FFFF00"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/playbutton"></ImageButton>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/gameStatus_stillPlaying"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
                     android:text="I'm still playing." />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="100dp">
+                android:layout_marginTop="100dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="80dp"
-                    android:layout_height="50dp" >
+                    android:layout_height="50dp">
+
                     <ImageButton
                         android:id="@+id/gameStatus_paused_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:src="@drawable/pause"
-                        android:scaleType="fitCenter"
                         android:alpha="0.5"
-                        android:backgroundTint="#FFA500">
-                    </ImageButton>
+                        android:backgroundTint="#FFA500"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pause"></ImageButton>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/gameStatus_paused"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
                     android:text="I paused for now." />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="140dp">
+                android:layout_marginTop="140dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="80dp"
-                    android:layout_height="50dp" >
+                    android:layout_height="50dp">
+
                     <ImageButton
                         android:id="@+id/gameStatus_stopped_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:src="@drawable/stop"
-                        android:scaleType="fitCenter"
                         android:alpha="0.5"
-                        android:backgroundTint="#FF0000">
-                    </ImageButton>
+                        android:backgroundTint="#FF0000"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/stop"></ImageButton>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/gameStatus_stopped"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
                     android:text="I quit!" />
             </LinearLayout>
 
@@ -418,19 +414,19 @@
             android:id="@+id/addgame_makeReview_button"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_rating"
-            android:layout_marginTop="25dp">
+            app:layout_constraintTop_toBottomOf="@+id/addgame_rating">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/register_button"
                 android:layout_width="250dp"
                 android:layout_height="45dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/edit_background_login"
                 android:fontFamily="@font/montserrat"
-                android:layout_centerInParent="true"
                 android:text="Make review"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -449,11 +445,11 @@
                 android:id="@+id/home_home"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:background="@color/blanc"
                 android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
                 android:src="@drawable/house"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -463,12 +459,12 @@
                 android:id="@+id/home_footer"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:background="@drawable/navbar"
                 android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/navbar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="0dp">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageButton
                     android:id="@+id/home_library"
@@ -516,7 +512,6 @@
                     android:textColor="#000000"
                     android:textSize="10sp" />
             </RelativeLayout>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

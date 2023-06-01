@@ -70,8 +70,7 @@
                 android:layout_height="130dp"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="6.5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/firstgame" />
+                android:layout_marginTop="5dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -82,7 +81,6 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="God of War: Ragnarok"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="17sp"
@@ -103,10 +101,9 @@
 
         <ImageView
             android:id="@+id/game_infoimage"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
-            android:src="@drawable/baseline_account_circle_24"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="17sp"
@@ -119,8 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:fontFamily="@font/montserrat"
-            android:text="Santa Monica Studio"
             android:textAlignment="center"
+            android:maxLength="15"
             android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +141,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:fontFamily="@font/montserrat"
-            android:text="09/11/2022"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="17sp"
@@ -211,12 +207,12 @@
         android:id="@+id/forum_recyclerview_background"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/edit_background"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/edit_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forum_filter"/>
+        app:layout_constraintTop_toBottomOf="@+id/forum_filter" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/forum_recyclerview"

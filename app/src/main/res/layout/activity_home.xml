@@ -82,8 +82,7 @@
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:layout_marginStart="6.5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/firstgame" />
+                android:layout_marginTop="5dp" />
 
         </RelativeLayout>
 
@@ -106,8 +105,7 @@
                 android:layout_height="95dp"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="6.5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/secondgame" />
+                android:layout_marginTop="5dp" />
 
         </RelativeLayout>
 
@@ -131,8 +129,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="8.5dp"
-                android:src="@drawable/thirdgame" />
+                android:layout_marginEnd="8.5dp" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -164,8 +161,7 @@
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:layout_marginStart="6.5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/fourthgame" />
+                android:layout_marginTop="5dp" />
 
         </RelativeLayout>
 
@@ -188,8 +184,7 @@
                 android:layout_height="95dp"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="6.5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/fifthgame" />
+                android:layout_marginTop="5dp" />
 
         </RelativeLayout>
 
@@ -213,8 +208,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="8.5dp"
-                android:src="@drawable/sixthgame" />
+                android:layout_marginEnd="8.5dp" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -241,8 +235,9 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/edit_background"
         android:drawableLeft="@drawable/search_reduced"
+        android:drawablePadding="5dp"
         android:fontFamily="@font/montserrat"
-        android:hint="  Search for a Game"
+        android:hint="Search for a Game"
         android:paddingHorizontal="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
