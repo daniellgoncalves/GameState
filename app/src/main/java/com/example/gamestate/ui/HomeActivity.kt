@@ -38,12 +38,12 @@ class HomeActivity : AppCompatActivity() {
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        val searchgametext : EditText = findViewById(R.id.home_search_edit_text)
+        val searchGameText : EditText = findViewById(R.id.home_search_edit_text)
         val recyclerView = findViewById<RecyclerView>(R.id.home_games_recyclerview)
-        username.setText(loginAutomatic)
+        username.text = loginAutomatic
 
         fun searchGame() {
-            val nameText = searchgametext.text.toString()
+            val nameText = searchGameText.text.toString()
             val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
                 .baseUrl(serverIP)
@@ -86,7 +86,7 @@ class HomeActivity : AppCompatActivity() {
             t.start()
         }
 
-        searchgametext.addTextChangedListener(object : TextWatcher{
+        searchGameText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }

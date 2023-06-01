@@ -1,6 +1,5 @@
 package com.example.gamestate.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ArrayAdapter
@@ -24,7 +23,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Collections
 import java.util.Locale
 
 
@@ -51,12 +49,12 @@ class RegisterActivity : AppCompatActivity() {
         val countries = ArrayList<String>()
         for (locale in locales) {
             val country = locale.displayCountry
-            if (country.trim { it <= ' ' }.length > 0 && !countries.contains(country)) {
+            if (country.trim { it <= ' ' }.isNotEmpty() && !countries.contains(country)) {
                 countries.add(country)
             }
         }
 
-        Collections.sort(countries)
+        countries.sort()
         for (country in countries) {
             println(country)
         }
@@ -69,7 +67,7 @@ class RegisterActivity : AppCompatActivity() {
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Apply the adapter to the your spinner
         // Apply the adapter to the your spinner
-        country.setAdapter(countryAdapter)
+        country.adapter = countryAdapter
 
         fun inputCheck(username: String, email: String, password: String, confPassword: String): Boolean {
             return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword))
@@ -81,10 +79,10 @@ class RegisterActivity : AppCompatActivity() {
             val passwordText = password.text.toString()
             val confPasswordText = confPassword.text.toString()
             val countryText = country.selectedItem.toString()
-            val server_ip = resources.getString(R.string.server_ip)
+            val serverIP = resources.getString(R.string.server_ip)
             val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
-                .baseUrl(server_ip)
+                .baseUrl(serverIP)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)

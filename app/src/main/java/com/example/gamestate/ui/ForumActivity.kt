@@ -1,7 +1,6 @@
 package com.example.gamestate.ui
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -52,10 +51,10 @@ class ForumActivity : AppCompatActivity() {
         //identificador tem de vir de outras páginas, por agora fica na seguinte variável
 
         val gameID = 904947
-        val server_ip = resources.getString(R.string.server_ip)
+        val serverIP = resources.getString(R.string.server_ip)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(server_ip)
+            .baseUrl(serverIP)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetroFitService::class.java)

@@ -24,17 +24,15 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         val sendEmail: Button = findViewById(R.id.forgot_password_send_button)
 
-        val server_ip = resources.getString(R.string.server_ip)
-
         sendEmail.setOnClickListener {
             val email: EditText = findViewById(R.id.forgot_password_editemail)
             val emailText: String = email.text.toString()
-            val server_ip = resources.getString(R.string.server_ip)
+            val serverIP = resources.getString(R.string.server_ip)
             if(emailText.isEmpty()) {
                 Toast.makeText(this, "Type in your email", Toast.LENGTH_SHORT).show()
             } else {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(server_ip)
+                    .baseUrl(serverIP)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)
