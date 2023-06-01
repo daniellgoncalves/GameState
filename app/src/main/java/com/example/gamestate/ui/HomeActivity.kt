@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.RecViewHomeAdapter
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
@@ -38,26 +39,26 @@ class HomeActivity : AppCompatActivity() {
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        val searchgametext : EditText = findViewById(R.id.home_search_edit_text)
-        val firstimg : ImageView = findViewById(R.id.first_game)
-        val secondimg : ImageView = findViewById(R.id.second_game)
-        val thirdimg : ImageView = findViewById(R.id.thirdgame)
-        val fourthimg : ImageView = findViewById(R.id.fourth_game)
-        val fiftyimg : ImageView = findViewById(R.id.fifth_game)
-        val sixtyimg : ImageView = findViewById(R.id.sixth_game)
+        val searchGameText : EditText = findViewById(R.id.home_search_edit_text)
+        val firstImg : ImageView = findViewById(R.id.first_game)
+        val secondImg : ImageView = findViewById(R.id.second_game)
+        val thirdImg : ImageView = findViewById(R.id.thirdgame)
+        val fourthImg : ImageView = findViewById(R.id.fourth_game)
+        val fiftyImg : ImageView = findViewById(R.id.fifth_game)
+        val sixtyImg : ImageView = findViewById(R.id.sixth_game)
         val recyclerView = findViewById<RecyclerView>(R.id.home_games_recyclerview)
         username.setText(loginAutomatic)
 
 
-        fun imgpopular(){
-            val server_ip = resources.getString(R.string.server_ip)
+        fun popularGames(){
+            val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
-                .baseUrl(server_ip)
+                .baseUrl(serverIP)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
             val requestBody = JsonObject()
-            val call = userService.sendgame(requestBody)
+            val call = userService.sendGame(requestBody)
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
@@ -68,38 +69,38 @@ class HomeActivity : AppCompatActivity() {
                         try {
                             val jsonObject = JSONObject(res!!)
                             val status = jsonObject.getInt("status")
-                            val populargamesimg =jsonObject.getJSONArray("populargames")
-                            val populargames = ArrayList<String>()
-                            for (i in 0 until populargamesimg.length())
+                            val popularGamesImg =jsonObject.getJSONArray("populargames")
+                            val popularGames = ArrayList<String>()
+                            for (i in 0 until popularGamesImg.length())
                             {
-                                populargames.add(populargamesimg.getString(i))
+                                popularGames.add(popularGamesImg.getString(i))
                             }
                             if (status == 200) {
 
                                 Glide.with(applicationContext)
-                                    .load(populargames[0])
+                                    .load(popularGames[0])
                                     .centerCrop()
-                                    .into(firstimg)
+                                    .into(firstImg)
                                 Glide.with(applicationContext)
-                                    .load(populargames[1])
+                                    .load(popularGames[1])
                                     .centerCrop()
-                                    .into(secondimg)
+                                    .into(secondImg)
                                 Glide.with(applicationContext)
-                                    .load(populargames[2])
+                                    .load(popularGames[2])
                                     .centerCrop()
-                                    .into(thirdimg)
+                                    .into(thirdImg)
                                 Glide.with(applicationContext)
-                                    .load(populargames[3])
+                                    .load(popularGames[3])
                                     .centerCrop()
-                                    .into(fourthimg)
+                                    .into(fourthImg)
                                 Glide.with(applicationContext)
-                                    .load(populargames[4])
+                                    .load(popularGames[4])
                                     .centerCrop()
-                                    .into(fiftyimg)
+                                    .into(fiftyImg)
                                 Glide.with(applicationContext)
-                                    .load(populargames[5])
+                                    .load(popularGames[5])
                                     .centerCrop()
-                                    .into(sixtyimg)
+                                    .into(sixtyImg)
                             }
 
                         } catch (e: JSONException) {
@@ -117,18 +118,18 @@ class HomeActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
-        fun searhgame() {
-            val nameText = searchgametext.text.toString()
-            val server_ip = resources.getString(R.string.server_ip)
+        fun searchGame() {
+            val nameText = searchGameText.text.toString()
+            val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
-                .baseUrl(server_ip)
+                .baseUrl(serverIP)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
             val requestBody = JsonObject()
             requestBody.addProperty("name", nameText)
 
-            val call = userService.sendgame(requestBody)
+            val call = userService.sendGame(requestBody)
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
@@ -166,8 +167,8 @@ class HomeActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
-        imgpopular()
-        searchgametext.addTextChangedListener(object : TextWatcher{
+        popularGames()
+        searchGameText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -177,7 +178,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                searhgame()
+                searchGame()
 
             }
 
