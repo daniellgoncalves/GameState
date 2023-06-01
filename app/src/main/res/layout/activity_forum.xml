@@ -61,7 +61,7 @@
             <ImageView
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/edit_background_games" />
 
             <ImageView

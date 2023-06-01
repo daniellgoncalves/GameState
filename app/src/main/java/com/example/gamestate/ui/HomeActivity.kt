@@ -31,6 +31,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
+    private  var idimg = ArrayList<Int>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -73,7 +74,16 @@ class HomeActivity : AppCompatActivity() {
                             val popularGames = ArrayList<String>()
                             for (i in 0 until popularGamesImg.length())
                             {
-                                popularGames.add(popularGamesImg.getString(i))
+                                if(i%2==0)
+                                {
+                                    popularGames.add(popularGamesImg.getString(i))
+                                }
+                                else
+                                {
+                                    idimg.add(popularGamesImg.getInt(i))
+
+                                }
+
                             }
                             if (status == 200) {
 
@@ -168,6 +178,36 @@ class HomeActivity : AppCompatActivity() {
             t.start()
         }
         popularGames()
+        firstImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[0]);
+            startActivity(intent)
+        }
+        secondImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[1]);
+            startActivity(intent)
+        }
+        thirdImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[2]);
+            startActivity(intent)
+        }
+        fourthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[3]);
+            startActivity(intent)
+        }
+        fiftyImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[4]);
+            startActivity(intent)
+        }
+        sixtyImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[5]);
+            startActivity(intent)
+        }
         searchGameText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -183,7 +223,6 @@ class HomeActivity : AppCompatActivity() {
             }
 
         })
-
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -199,7 +238,6 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }
-
         val forumAdapter = SpinnerAdapter(applicationContext, images, settings)
         spin.adapter = forumAdapter
     }
