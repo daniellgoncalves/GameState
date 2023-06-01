@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ForumActivity">
+
+    <LinearLayout
+        android:id="@+id/forum_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/border_linearlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/home_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:src="@drawable/baseline_account_circle_24" />
+
+        <TextView
+            android:id="@+id/home_user_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center_vertical"
+            android:text="user"
+            android:textColor="@color/black" />
+
+        <Spinner
+            android:id="@+id/home_header_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_linearlayout_popular_games_images"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forum_header">
+
+        <RelativeLayout
+            android:id="@+id/home_relativelayout_popular_games_images2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_games_text">
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/edit_background_games" />
+
+            <ImageView
+                android:id="@+id/second_game"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="6.5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/firstgame" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/game_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="God of War: Ragnarok"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_linearlayout_popular_games_images" />
+
+    <LinearLayout
+        android:id="@+id/home_linearlayout_gameinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_text">
+
+        <ImageView
+            android:id="@+id/game_infoimage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat"
+            android:src="@drawable/baseline_account_circle_24"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/game_infotext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Santa Monica Studio |"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/game_infotext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:fontFamily="@font/montserrat"
+            android:text="09/11/2022"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_linearlayout_gamebio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_linearlayout_gameinfo">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/review_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="10"
+            android:background="@drawable/edit_background_login"
+            android:fontFamily="@font/montserrat"
+            android:text="CREATE TOPIC"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/map_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_background_login"
+            android:paddingVertical="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pinpoint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/forum_filter"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_background_filter_spinner"
+        android:dropDownWidth="match_parent"
+        android:dropDownVerticalOffset="52dp"
+        android:fontFamily="@font/montserrat"
+        android:popupBackground="@drawable/edit_background"
+        android:spinnerMode="dropdown"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_linearlayout_gamebio" />
+
+    <ImageView
+        android:id="@+id/forum_recyclerview_background"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/edit_background"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forum_filter"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/forum_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/forum_recyclerview_background" />
+
+    <RelativeLayout
+        android:id="@+id/home_footer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/navbar"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/home_library"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/blanc"
+            android:scaleType="fitCenter"
+            android:src="@drawable/library" />
+
+        <TextView
+            android:id="@+id/home_library_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_library"
+            android:layout_marginHorizontal="61dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/montserrat"
+            android:text="LIBRARY"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+
+        <ImageButton
+            android:id="@+id/home_notifications"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/blanc"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notifications" />
+
+        <TextView
+            android:id="@+id/home_notifications_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_notifications"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="43dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/montserrat"
+            android:text="NOTIFICATIONS"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/home_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/blanc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
