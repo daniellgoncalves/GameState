@@ -2,16 +2,13 @@ package com.example.gamestate.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gamestate.R
-import com.example.gamestate.ui.data.Forum.RecViewForumAdapter
-import com.example.gamestate.ui.data.Forum.SpinnerForumAdapter
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
 import com.google.gson.JsonObject
@@ -25,32 +22,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ForumActivity : AppCompatActivity() {
-    private var settings = arrayOf("Trending topics","New topics","Most liked")
-    private var images = intArrayOf(
-        R.drawable.baseline_trending_up_24,
-        R.drawable.baseline_access_time_24,
-        R.drawable.baseline_heart_24)
-
-    private var settings1 = arrayOf("Settings","Logout")
-    private var images1 = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
-
+class CreateTopicActivity : AppCompatActivity() {
+    private var settings = arrayOf("Settings","Logout")
+    private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forum)
-
-        val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
-        val spinner: Spinner = findViewById(R.id.forum_filter)
+        setContentView(R.layout.activity_create_topic)
         val username: TextView = findViewById(R.id.home_user_text)
-        val btnTopic : Button = findViewById(R.id.review_button)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        username.text = loginAutomatic
-
-        //identificador tem de vir de outras páginas, por agora fica na seguinte variável
-
+        val userid = sharedPreferences.getString("userid","")
+        val title: EditText = findViewById(R.id.editTexttitle)
+        val topic: EditText = findViewById(R.id.edittexttopic)
+        val btnTopic : Button = findViewById(R.id.topic_button)
         val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
+        username.setText(loginAutomatic)
 
         val retrofit = Retrofit.Builder()
             .baseUrl(serverIP)
@@ -74,7 +62,7 @@ class ForumActivity : AppCompatActivity() {
                             val name: TextView = findViewById(R.id.game_text)
                             val developer: TextView = findViewById(R.id.game_infotext)
                             val releaseDate: TextView = findViewById(R.id.game_infotext2)
-                            val gameImage: ImageView = findViewById(R.id.second_game)
+                            val gameImage : ImageView = findViewById(R.id.gameimg)
                             val developerImage: ImageView = findViewById(R.id.game_infoimage)
 
                             val date = responseJson.getJSONObject("message").getString("release_date")
@@ -114,30 +102,61 @@ class ForumActivity : AppCompatActivity() {
         val t = Thread(r)
         t.start()
 
-        btnTopic.setOnClickListener {
-            val intent = Intent(this,CreateTopicActivity::class.java)
-            intent.putExtra("id",gameID);
-            startActivity(intent)
+        fun topicinit(){
+            val titleText = title.text.toString()
+            val topicText = topic.text.toString()
+            requestBody.addProperty("name", titleText)
+            requestBody.addProperty("text", topicText)
+            requestBody.addProperty("user_id",userid)
+            requestBody.addProperty("forum_id",gameID)
+            val call1 = service.createTopic(requestBody)
+
+            val r1 = Runnable {
+                call1.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val res = response.body()?.string()
+                            val responseJson = JSONObject(res!!)
+                            val msm = responseJson.getString("message")
+                            if (responseJson.getInt("status") == 200)
+                            {
+                                Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT)
+                                    .show()
+                                finish()
+                            }
+                            else {
+                                Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            val t1 = Thread(r1)
+            t1.start()
         }
+        btnTopic.setOnClickListener {
+            topicinit()
+        }
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
 
-        val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
-        spinnerHeader.adapter = customAdapterSettings
+            override fun onNothingSelected(parent: AdapterView<*>) {
 
-        val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
-        spinner.adapter = customAdapter
-
-        val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
-        recyclerView.adapter = RecViewForumAdapter(listOf("Gosto mais dos antigos",
-            "Estou preso nesta quest",
-            "Bug no início do jogo",
-            "Melhor jogo do ano?",
-            "A personagem é muito lenta",
-            "Dá para alterar a dificuldade a meio?",
-            "O que acharam da história?",
-            "Drop de frames quando ataco",
-            "Guia para speedrun",
-            "O Atreus irrita-me!!!"), ContextCompat.getColor(applicationContext, R.color.gold20))
-        recyclerView.layoutManager = LinearLayoutManager(this)
+            }
+        }
+        val Adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = Adapter
 
     }
 }

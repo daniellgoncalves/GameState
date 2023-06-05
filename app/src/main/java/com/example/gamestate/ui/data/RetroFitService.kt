@@ -21,4 +21,7 @@ interface RetroFitService {
 
     @POST("/game/searchbyid")
     fun sendGameByID(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/topic/create")
+    fun createTopic(@Body body: JsonObject): Call<ResponseBody>
 }

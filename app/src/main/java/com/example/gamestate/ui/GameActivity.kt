@@ -1,14 +1,15 @@
 package com.example.gamestate.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.gamestate.R
+import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
@@ -22,13 +23,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GameActivity : AppCompatActivity() {
+    private var settings = arrayOf("Settings","Logout")
+    private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-
+        val username: TextView = findViewById(R.id.home_user_text)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val loginAutomatic = sharedPreferences.getString("username","")
         val reviewButton = findViewById<Button>(R.id.review_button)
         val forumButton = findViewById<Button>(R.id.forum_button)
-
+        username.setText(loginAutomatic)
         val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
 
@@ -98,7 +104,26 @@ class GameActivity : AppCompatActivity() {
         }
 
         forumButton.setOnClickListener {
-            startActivity(Intent(this, ForumActivity::class.java))
+            val intent = Intent(this,ForumActivity::class.java)
+            intent.putExtra("id",gameID);
+            startActivity(intent)
         }
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        val Adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = Adapter
     }
 }
