@@ -22,43 +22,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GameActivity : AppCompatActivity() {
+class CreateTopicActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
-
+        setContentView(R.layout.activity_create_topic)
         val username: TextView = findViewById(R.id.home_user_text)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        username.text = loginAutomatic
-
-        val spin: Spinner = findViewById(R.id.home_header_spinner)
-
-        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if(position == 1){
-                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                    editor.putString("username","")
-                    editor.apply()
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
-                    finish()
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
-        val adapter = SpinnerAdapter(applicationContext, images, settings)
-        spin.adapter = adapter
-
-        val reviewButton = findViewById<Button>(R.id.review_button)
-        val forumButton = findViewById<Button>(R.id.forum_button)
-
-        val gameID = intent.getIntExtra("id",0)
+        val userid = sharedPreferences.getString("userid","")
+        val title: EditText = findViewById(R.id.editTexttitle)
+        val topic: EditText = findViewById(R.id.edittexttopic)
+        val btnTopic : Button = findViewById(R.id.topic_button)
+        val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
+        username.setText(loginAutomatic)
 
         val retrofit = Retrofit.Builder()
             .baseUrl(serverIP)
@@ -121,16 +101,62 @@ class GameActivity : AppCompatActivity() {
         }
         val t = Thread(r)
         t.start()
-        reviewButton.setOnClickListener {
-            val intent = Intent(this, AddGameActivity::class.java)
-            intent.putExtra("id", gameID)
-            startActivity(intent)
-        }
 
-        forumButton.setOnClickListener {
-            val intent = Intent(this, ForumActivity::class.java)
-            intent.putExtra("id", gameID)
-            startActivity(intent)
+        fun topicinit(){
+            val titleText = title.text.toString()
+            val topicText = topic.text.toString()
+            requestBody.addProperty("name", titleText)
+            requestBody.addProperty("text", topicText)
+            requestBody.addProperty("user_id",userid)
+            requestBody.addProperty("forum_id",gameID)
+            val call1 = service.createTopic(requestBody)
+
+            val r1 = Runnable {
+                call1.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val res = response.body()?.string()
+                            val responseJson = JSONObject(res!!)
+                            val msm = responseJson.getString("message")
+                            if (responseJson.getInt("status") == 200)
+                            {
+                                Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT)
+                                    .show()
+                                finish()
+                            }
+                            else {
+                                Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            val t1 = Thread(r1)
+            t1.start()
         }
+        btnTopic.setOnClickListener {
+            topicinit()
+        }
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        val Adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = Adapter
+
     }
 }

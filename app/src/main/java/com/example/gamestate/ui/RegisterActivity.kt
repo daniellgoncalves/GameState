@@ -1,5 +1,6 @@
 package com.example.gamestate.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ArrayAdapter
@@ -108,6 +109,7 @@ class RegisterActivity : AppCompatActivity() {
                                     val jsonObject = JSONObject(res!!)
                                     val status = jsonObject.getInt("status")
                                     val msm = jsonObject.getString("message")
+
                                     if (status == 200) {
                                         Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT)
                                             .show()
