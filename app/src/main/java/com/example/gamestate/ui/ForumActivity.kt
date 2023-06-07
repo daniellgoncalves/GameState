@@ -1,12 +1,10 @@
 package com.example.gamestate.ui
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +42,7 @@ class ForumActivity : AppCompatActivity() {
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val spinner: Spinner = findViewById(R.id.forum_filter)
         val username: TextView = findViewById(R.id.home_user_text)
+        val btnTopic : Button = findViewById(R.id.review_button)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         username.text = loginAutomatic
@@ -116,6 +115,12 @@ class ForumActivity : AppCompatActivity() {
             }
             val t = Thread(r)
             t.start()
+
+            btnTopic.setOnClickListener {
+                val intent = Intent(this,CreateTopicActivity::class.java)
+                intent.putExtra("id",gameID);
+                startActivity(intent)
+            }
 
             val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
             spinnerHeader.adapter = customAdapterSettings

@@ -66,7 +66,6 @@ class LibraryActivity : AppCompatActivity() {
         }
 
         val serverIP = resources.getString(R.string.server_ip)
-        Toast.makeText(applicationContext, resources.getString(R.string.server_ip), Toast.LENGTH_SHORT).show()
 
         val retrofit = Retrofit.Builder()
             .baseUrl(serverIP)

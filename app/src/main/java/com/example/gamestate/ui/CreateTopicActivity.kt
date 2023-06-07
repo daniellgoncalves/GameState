@@ -32,7 +32,7 @@ class CreateTopicActivity : AppCompatActivity() {
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        val userid = sharedPreferences.getString("userid","")
+        val userID = sharedPreferences.getString("userid","")
         val title: EditText = findViewById(R.id.editTexttitle)
         val topic: EditText = findViewById(R.id.edittexttopic)
         val btnTopic : Button = findViewById(R.id.topic_button)
@@ -107,7 +107,7 @@ class CreateTopicActivity : AppCompatActivity() {
             val topicText = topic.text.toString()
             requestBody.addProperty("name", titleText)
             requestBody.addProperty("text", topicText)
-            requestBody.addProperty("user_id",userid)
+            requestBody.addProperty("user_id",userID)
             requestBody.addProperty("forum_id",gameID)
             val call1 = service.createTopic(requestBody)
 

@@ -38,6 +38,7 @@ class HomeActivity : AppCompatActivity() {
 
         val username: TextView = findViewById(R.id.home_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val library: ImageButton = findViewById(R.id.home_library)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val searchGameText : EditText = findViewById(R.id.home_search_edit_text)
@@ -49,7 +50,6 @@ class HomeActivity : AppCompatActivity() {
         val sixtyImg : ImageView = findViewById(R.id.sixth_game)
         val recyclerView = findViewById<RecyclerView>(R.id.home_games_recyclerview)
         username.setText(loginAutomatic)
-
 
         fun popularGames(){
             val serverIP = resources.getString(R.string.server_ip)
@@ -178,6 +178,9 @@ class HomeActivity : AppCompatActivity() {
             t.start()
         }
         popularGames()
+        library.setOnClickListener {
+            startActivity(Intent(applicationContext, LibraryActivity::class.java))
+        }
         firstImg.setOnClickListener {
             val intent = Intent(this,GameActivity::class.java)
             intent.putExtra("id",idimg[0]);
