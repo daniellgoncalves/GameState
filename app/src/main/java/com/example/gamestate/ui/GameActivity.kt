@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -21,6 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 class GameActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
@@ -35,7 +37,10 @@ class GameActivity : AppCompatActivity() {
         username.text = loginAutomatic
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
-
+        fun removeBrTags(htmlString: String): String {
+            val stringWithoutTags = htmlString.replace("<[^>]+>".toRegex(), "")
+            return stringWithoutTags.replace("\n", "")
+        }
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -84,9 +89,12 @@ class GameActivity : AppCompatActivity() {
                             val releaseDate: TextView = findViewById(R.id.game_infotext2)
                             val gameImage : ImageView = findViewById(R.id.gameimg)
                             val developerImage: ImageView = findViewById(R.id.game_infoimage)
-
+                            val gamebio: TextView = findViewById(R.id.gamebio_textview)
                             val date = responseJson.getJSONObject("message").getString("release_date")
-
+                            val gamebiotext = responseJson.getJSONObject("message").getString("description")
+                            val cleanbr = removeBrTags(gamebiotext)
+                            //val cleanString = removeHtmlTags(cleanbr)
+                            gamebio.text = cleanbr
                             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                             val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 

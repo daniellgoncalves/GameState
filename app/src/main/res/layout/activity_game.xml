@@ -264,13 +264,14 @@
         <TextView
             android:id="@+id/gamebio_textview"
             android:layout_width="match_parent"
-            android:layout_height="107dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_background"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:textSize="14sp" />
+            android:scrollbars = "vertical"
+            android:textSize="11sp" />
 
         <LinearLayout
             android:id="@+id/home_linearlayout_gamebio"
