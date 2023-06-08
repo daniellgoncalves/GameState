@@ -48,7 +48,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/addgame_gameImage"
+            android:id="@+id/topic_gameImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/addgame_gameName"
+            android:id="@+id/topic_gameName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -91,7 +91,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/addgame_gameCompanyDate_layout"
+            android:id="@+id/topic_gameCompanyDate_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -116,7 +116,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/addgame_gameCompany"
+                android:id="@+id/topic_gameCompany"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
@@ -134,7 +134,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/addgame_gameSeparator"
+                android:id="@+id/topic_gameSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
@@ -152,7 +152,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/addgame_gameDate"
+                android:id="@+id/topic_gameDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
@@ -185,18 +185,18 @@
                 android:id="@+id/topicTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
                 android:textSize="50dp"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/topicText_tv"
                 android:layout_width="380dp"
                 android:layout_height="150dp"
+                android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
-                android:gravity="top"
-                android:text="Teste texto topico"/>
+                android:gravity="top" />
 
         </RelativeLayout>
 
@@ -220,7 +220,7 @@
             <ImageButton
                 android:id="@+id/topic_like_button"
                 android:layout_width="90dp"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:alpha="0.5"
                 android:backgroundTint="#00FF00"
                 android:layout_marginStart="5dp"
@@ -230,7 +230,7 @@
             <ImageButton
                 android:id="@+id/topic_dislike_button"
                 android:layout_width="90dp"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:alpha="0.5"
                 android:backgroundTint="#FF0000"
@@ -239,6 +239,22 @@
                 android:src="@drawable/like"></ImageButton>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topic_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="15dp"
+                android:paddingVertical="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/forum_recyclerview_background" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

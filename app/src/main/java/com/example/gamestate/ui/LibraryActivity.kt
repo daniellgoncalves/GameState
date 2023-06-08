@@ -73,16 +73,16 @@ class LibraryActivity : AppCompatActivity() {
             .build()
         val service = retrofit.create(RetroFitService::class.java)
 
-        val requestBody = JsonObject()
-        requestBody.addProperty("username", loginAutomatic)
+        val requestBodyUser = JsonObject()
+        requestBodyUser.addProperty("username", loginAutomatic)
 
-        val call = service.sendTopicByUser(requestBody)
+        val callUser = service.sendTopicByUser(requestBodyUser)
 
         val mainHandler = Handler(Looper.getMainLooper())
 
         val r = Runnable {
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            callUser.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(callUser: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         val res = response.body()?.string()
                         val responseJson = JSONObject(res!!)
@@ -90,16 +90,21 @@ class LibraryActivity : AppCompatActivity() {
                         {
                             val topicNameList = ArrayList<String>()
                             val topicImageList = ArrayList<String>()
+                            val topicIDList = ArrayList<String>()
                             val topicsArray = responseJson.getJSONObject("message").getJSONArray("topics")
                             val imagesArray = responseJson.getJSONObject("message").getJSONArray("images")
+                            val forumID = ArrayList<Int>()
+                            val gameID = responseJson.getJSONObject("message").getJSONArray("topics")
 
                             for (i in 0 until topicsArray.length()) {
                                 topicNameList.add(topicsArray.getJSONObject(i).getString("name"))
                                 topicImageList.add(imagesArray.getString(i))
+                                topicIDList.add(topicsArray.getJSONObject(i).getString("_id"))
+                                forumID.add(gameID.getJSONObject(i).getInt("forum_id"))
                             }
 
                             mainHandler.post {
-                                recyclerView.adapter = RecViewLibraryAdapter(topicNameList, topicImageList)
+                                recyclerView.adapter = RecViewLibraryAdapter(topicNameList, topicImageList, topicIDList, forumID)
                                 recyclerView.layoutManager = linearLayoutManager
                             }
                         }
