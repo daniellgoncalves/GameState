@@ -51,7 +51,6 @@ class GameActivity : AppCompatActivity() {
                     finish()
                 }
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
