@@ -27,4 +27,7 @@ interface RetroFitService {
 
     @POST("/topic/searchbyid")
     fun sendTopicByUser(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/topic/searchbytopicid")
+    fun sendTopicByID(@Body body: JsonObject): Call<ResponseBody>
 }
