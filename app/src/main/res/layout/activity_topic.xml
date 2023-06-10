@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,261 +7,360 @@
     tools:context=".ui.TopicActivity">
 
     <LinearLayout
-        android:id="@+id/topic_main_layout"
+        android:id="@+id/homePage_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="60dp"
+        android:background="@drawable/border_linearlayout"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/topic_header"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/border_linearlayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/home_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/baseline_account_circle_24" />
-
-            <TextView
-                android:id="@+id/home_user_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat_medium"
-                android:gravity="center_vertical"
-                android:text="user"
-                android:textColor="@color/black" />
-
-            <Spinner
-                android:id="@+id/home_header_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:background="@null"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/topic_gameImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_header">
-
-            <ImageView
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/edit_background_games" />
-
-            <ImageView
-                android:id="@+id/gameImage"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/topic_gameName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_gameImage">
-
-            <TextView
-                android:id="@+id/gameName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="6.5dp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/topic_gameCompanyDate_layout"
+        <ImageView
+            android:id="@+id/homePage_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:src="@drawable/baseline_account_circle_24"></ImageView>
 
-            <RelativeLayout
-                android:id="@+id/addgame_gameCompanyImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
+        <TextView
+            android:id="@+id/homePage_user_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center_vertical"
+            android:text="user"
+            android:textColor="@color/black"></TextView>
 
-                <ImageView
-                    android:id="@+id/gameCompanyImage"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </RelativeLayout>
+        <Spinner
+            android:id="@+id/home_header_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:textSize="14sp"></Spinner>
 
-            <RelativeLayout
-                android:id="@+id/topic_gameCompany"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/gameCompany"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="6.5dp"
-                    android:maxLength="15" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/topic_gameSeparator"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
-
-                <TextView
-                    android:id="@+id/gameSeparator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="6.5dp"
-                    android:text="|" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/topic_gameDate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addgame_gameName">
-
-                <TextView
-                    android:id="@+id/gameDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="6.5dp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/topic_Text"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/layout_bg"
-            app:layout_constraintTop_toBottomOf="@+id/addgame_rating">
-
-            <TextView
-                android:id="@+id/topicTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="50dp"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/topicText_tv"
-                android:layout_width="380dp"
-                android:layout_height="150dp"
-                android:textColor="@color/black"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
-                android:gravity="top" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/topic_comment_button"
-                android:layout_width="200dp"
-                android:layout_height="45dp"
-                android:background="@drawable/edit_background_login"
-                android:fontFamily="@font/montserrat"
-                android:text="COMMENT"
-                android:textColor="@color/black"
-                android:layout_marginStart="15dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/topic_like_button"
-                android:layout_width="90dp"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:backgroundTint="#00FF00"
-                android:layout_marginStart="5dp"
-                android:drawablePadding="-15sp"
-                android:fontFamily="@font/montserrat"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:drawableStart="@drawable/like">
-            </Button>
-
-            <Button
-                android:id="@+id/topic_dislike_button"
-                android:layout_width="90dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_gravity="center"
-                android:alpha="0.5"
-                android:backgroundTint="#FF0000"
-                android:drawablePadding="-15sp"
-                android:fontFamily="@font/montserrat"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:drawableStart="@drawable/like"></Button>
-        </LinearLayout>
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/homePage_header"
+        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topic_recyclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginHorizontal="15dp"
-                android:paddingVertical="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/forum_recyclerview_background" />
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/topic_selectedGame"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_background_games" />
+
+                    <ImageView
+                        android:id="@+id/selectedGame_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gameInfo_layout"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/gameName_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="5dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/gameCompany_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/gameCompany_tv"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:maxLength="20"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/gameReleaseDate_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_bg"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/topicTitle_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="50dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/topicText_tv"
+                    android:layout_width="380dp"
+                    android:layout_height="150dp"
+                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="top" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/topic_comment_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_background_login"
+                    android:fontFamily="@font/montserrat"
+                    android:text="COMMENT"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.5"
+                    android:layout_marginEnd="5dp"/>
+
+                <LinearLayout
+                    android:id="@+id/topic_like_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="#3324FF00"
+                    android:gravity="center"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like"
+                        android:layout_gravity="center_vertical"></ImageView>
+
+                    <TextView
+                        android:id="@+id/number_likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="132"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/topic_dislike_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="#33FF5151"
+                    android:gravity="center"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like"
+                        android:layout_gravity="center_vertical"
+                        android:scaleY="-1"></ImageView>
+
+                    <TextView
+                        android:id="@+id/number_dislikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="132"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/topic_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/homePage_footer_rl"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/navbar"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/homePage_footer"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/navbar"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginEnd="90dp">
+
+                <ImageButton
+                    android:id="@+id/homePage_library"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginHorizontal="70dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/blanc"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/library" />
+
+                <TextView
+                    android:id="@+id/home_library_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_library"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="LIBRARY"
+                    android:textColor="#000000"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/homePage_notifications"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginHorizontal="70dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/blanc"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/notifications" />
+
+                <TextView
+                    android:id="@+id/homePage_notifications_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/homePage_notifications"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="NOTIFICATIONS"
+                    android:textColor="#000000"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/home_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/blanc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

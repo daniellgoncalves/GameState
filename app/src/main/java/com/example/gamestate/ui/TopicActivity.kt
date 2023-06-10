@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -41,7 +40,7 @@ class TopicActivity : AppCompatActivity() {
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_topic_2)
+        setContentView(R.layout.activity_topic)
 
         // Retornar à página caso username esteja guardado
         val username: TextView = findViewById(R.id.homePage_user_text)
