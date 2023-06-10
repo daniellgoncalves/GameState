@@ -1,207 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
-    android:fillViewport="true"
     tools:context=".ui.RegisterActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/register_logo"
-            android:layout_width="match_parent"
-            android:layout_height="172dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/register_info"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Don't have a GameState account? \n Don't know what you're missing!"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_logo" />
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <TextView
-            android:id="@+id/register_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Username"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_info" />
+            <ImageView
+                android:id="@+id/register_logo"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:src="@drawable/logo"
+                android:layout_marginTop="40dp"></ImageView>
 
-        <EditText
-            android:id="@+id/register_editusername"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:drawableRight="@drawable/help"
-            android:fontFamily="@font/montserrat"
-            android:hint="Username"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_username" />
+            <TextView
+                android:id="@+id/main_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/montserrat"
+                android:textSize="17dp"
+                android:text="Don't have a GameState account? \n Don't know what you're missing!"></TextView>
 
-        <TextView
-            android:id="@+id/register_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Email"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_editusername" />
+            <LinearLayout
+                android:id="@+id/layout_register_input_infos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/register_editemail"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:drawableRight="@drawable/help"
-            android:fontFamily="@font/montserrat"
-            android:hint="Email"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_email" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Username"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/register_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Password"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_editemail" />
+                <EditText
+                    android:id="@+id/register_username_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableRight="@drawable/help"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Username"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/register_editpassword"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:drawableRight="@drawable/help"
-            android:fontFamily="@font/montserrat"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_password" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Email"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/register_confirmpassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Confirm password"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_editpassword" />
+                <EditText
+                    android:id="@+id/register_email_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableRight="@drawable/help"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/register_editconfpassword"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:drawableRight="@drawable/help"
-            android:fontFamily="@font/montserrat"
-            android:hint="Password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_confirmpassword" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Password"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/register_country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Country"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_editpassword" />
+                <EditText
+                    android:id="@+id/register_password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableRight="@drawable/help"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp" />
 
-        <Spinner
-            android:id="@+id/register_editcountry"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_background"
-            android:drawableRight="@drawable/help"
-            android:fontFamily="@font/montserrat"
-            android:hint="Country"
-            android:paddingHorizontal="10dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_country" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Confirm password"
+                    android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/register_button"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/edit_background_login"
-            android:fontFamily="@font/montserrat"
-            android:text="Register"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_editcountry" />
+                <EditText
+                    android:id="@+id/register_confpassword_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableRight="@drawable/help"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/register_existingaccountinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/already_have_an_account_n_log_in"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_button" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Country"
+                    android:textStyle="bold" />
 
-    </LinearLayout>
+                <Spinner
+                    android:id="@+id/register_country_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background_filter_spinner"
+                    android:drawableRight="@drawable/help"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Country"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:theme="@style/SpinnerTheme"/>
 
-</ScrollView>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/register_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/edit_background_login"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Register"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/register_existingaccountinfo_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/already_have_an_account_n_log_in"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

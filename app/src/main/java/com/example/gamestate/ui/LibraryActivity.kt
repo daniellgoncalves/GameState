@@ -34,8 +34,8 @@ class LibraryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_library)
 
-        val spinnerHeader: Spinner = findViewById(R.id.library_header_spinner)
-        val username: TextView = findViewById(R.id.library_user_text)
+        val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
+        val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         username.text = loginAutomatic

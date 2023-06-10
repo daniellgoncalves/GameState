@@ -36,19 +36,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val username: TextView = findViewById(R.id.home_user_text)
+        val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
-        val library: ImageButton = findViewById(R.id.home_library)
+        val library: ImageButton = findViewById(R.id.homePage_library)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
-        val searchGameText : EditText = findViewById(R.id.home_search_edit_text)
+        val searchGameText : EditText = findViewById(R.id.home_search_et)
         val firstImg : ImageView = findViewById(R.id.first_game)
         val secondImg : ImageView = findViewById(R.id.second_game)
         val thirdImg : ImageView = findViewById(R.id.thirdgame)
         val fourthImg : ImageView = findViewById(R.id.fourth_game)
         val fiftyImg : ImageView = findViewById(R.id.fifth_game)
         val sixtyImg : ImageView = findViewById(R.id.sixth_game)
-        val recyclerView = findViewById<RecyclerView>(R.id.home_games_recyclerview)
+        val recyclerView = findViewById<RecyclerView>(R.id.home_gameSearch_recyclerview)
         username.setText(loginAutomatic)
 
         fun popularGames(){

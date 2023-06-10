@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
         mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         val btnLogin: Button = findViewById(R.id.main_login_button)
-        val newAccountInfo : TextView = findViewById(R.id.main_newaccountinfo)
-        val forgotPasswordInfo: TextView = findViewById(R.id.main_forgotpassword)
-        val editPassword: EditText = findViewById(R.id.main_editpassword)
-        val editUsername: EditText = findViewById(R.id.main_editusername)
+        val newAccountInfo : TextView = findViewById(R.id.main_newaccountinfo_tv)
+        val forgotPasswordInfo: TextView = findViewById(R.id.main_forgotpassword_tv)
+        val editPassword: EditText = findViewById(R.id.main_password_et)
+        val editUsername: EditText = findViewById(R.id.main_username_et)
 
         val serverIP = resources.getString(R.string.server_ip)
 

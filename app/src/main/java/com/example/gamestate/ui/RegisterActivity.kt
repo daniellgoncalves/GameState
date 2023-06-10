@@ -1,6 +1,6 @@
 package com.example.gamestate.ui
 
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ArrayAdapter
@@ -38,13 +38,13 @@ class RegisterActivity : AppCompatActivity() {
         mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         val btnRegister : Button = findViewById(R.id.register_button)
-        val username : EditText = findViewById(R.id.register_editusername)
-        val email : EditText = findViewById(R.id.register_editemail)
-        val password : EditText = findViewById(R.id.register_editpassword)
-        val confPassword : EditText = findViewById(R.id.register_editconfpassword)
-        val country : Spinner = findViewById(R.id.register_editcountry)
+        val username : EditText = findViewById(R.id.register_username_et)
+        val email : EditText = findViewById(R.id.register_email_et)
+        val password : EditText = findViewById(R.id.register_password_et)
+        val confPassword : EditText = findViewById(R.id.register_confpassword_et)
+        val country : Spinner = findViewById(R.id.register_country_spinner)
 
-        val existingAccountInfo : TextView = findViewById(R.id.register_existingaccountinfo)
+        val existingAccountInfo : TextView = findViewById(R.id.register_existingaccountinfo_tv)
 
         val locales = Locale.getAvailableLocales()
         val countries = ArrayList<String>()
@@ -147,6 +147,10 @@ class RegisterActivity : AppCompatActivity() {
 
         btnRegister.setOnClickListener {
             insertIntoDatabase()
+        }
+
+        existingAccountInfo.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }

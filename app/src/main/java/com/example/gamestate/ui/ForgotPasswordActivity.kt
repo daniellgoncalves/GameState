@@ -22,10 +22,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
-        val sendEmail: Button = findViewById(R.id.forgot_password_send_button)
+        val sendEmail: Button = findViewById(R.id.forgotPW_sendEmail_button)
 
         sendEmail.setOnClickListener {
-            val email: EditText = findViewById(R.id.forgot_password_editemail)
+            val email: EditText = findViewById(R.id.forgotPW_email_et)
             val emailText: String = email.text.toString()
             val serverIP = resources.getString(R.string.server_ip)
             if(emailText.isEmpty()) {

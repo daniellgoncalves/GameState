@@ -3,6 +3,7 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,7 +31,7 @@ class AddGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_game)
 
-        val username: TextView = findViewById(R.id.home_user_text)
+        val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         username.text = loginAutomatic
@@ -80,11 +81,11 @@ class AddGameActivity : AppCompatActivity() {
                             val responseJson = JSONObject(res!!)
                             if (responseJson.getInt("status") == 200)
                             {
-                                val name: TextView = findViewById(R.id.gameName)
-                                val developer: TextView = findViewById(R.id.gameCompany)
-                                val releaseDate: TextView = findViewById(R.id.gameDate)
-                                val gameImage: ImageView = findViewById(R.id.gameImage)
-                                val developerImage: ImageView = findViewById(R.id.gameCompanyImage)
+                                val name: TextView = findViewById(R.id.gameName_tv)
+                                val developer: TextView = findViewById(R.id.gameCompany_tv)
+                                val releaseDate: TextView = findViewById(R.id.gameReleaseDate_tv)
+                                val gameImage: ImageView = findViewById(R.id.selectedGame_iv)
+                                val developerImage: ImageView = findViewById(R.id.gameCompany_iv)
 
                                 val date = responseJson.getJSONObject("message").getString("release_date")
 
@@ -123,42 +124,42 @@ class AddGameActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
 
-            val finishButton = findViewById<ImageButton>(R.id.gameStatus_finish_btn)
-            val stillPlayingButton = findViewById<ImageButton>(R.id.gameStatus_stillPlaying_btn)
-            val pauseButton = findViewById<ImageButton>(R.id.gameStatus_paused_btn)
-            val quitButton = findViewById<ImageButton>(R.id.gameStatus_stopped_btn)
+            val finishButton = findViewById<LinearLayout>(R.id.gameStatusFinished_button)
+            val stillPlayingButton = findViewById<LinearLayout>(R.id.gameStatusStillPlaying_button)
+            val pauseButton = findViewById<LinearLayout>(R.id.gameStatusPaused_button)
+            val quitButton = findViewById<LinearLayout>(R.id.gameStatusStopped_button)
             var buttonState = 0;
 
 
             finishButton.setOnClickListener {
-                finishButton.alpha = 0.7F;
-                stillPlayingButton.alpha = 0.5F;
-                pauseButton.alpha = 0.5F;
-                quitButton.alpha = 0.5F;
+                finishButton.setBackgroundColor(Color.parseColor("#6624FF00"))
+                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
+                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                 buttonState = 1;
             }
 
             stillPlayingButton.setOnClickListener {
-                stillPlayingButton.alpha = 0.7F;
-                finishButton.alpha = 0.5F;
-                pauseButton.alpha = 0.5F;
-                quitButton.alpha = 0.5F;
+                stillPlayingButton.setBackgroundColor(Color.parseColor("#66FBFF4C"))
+                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
+                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                 buttonState = 2;
             }
 
             pauseButton.setOnClickListener {
-                pauseButton.alpha = 0.7F;
-                finishButton.alpha = 0.5F;
-                stillPlayingButton.alpha = 0.5F;
-                quitButton.alpha = 0.5F;
+                pauseButton.setBackgroundColor(Color.parseColor("#66FFA840"))
+                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                 buttonState = 3;
             }
 
             quitButton.setOnClickListener {
-                quitButton.alpha = 0.7F;
-                finishButton.alpha = 0.5F;
-                stillPlayingButton.alpha = 0.5F;
-                pauseButton.alpha = 0.5F;
+                quitButton.setBackgroundColor(Color.parseColor("#66FF5151"))
+                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
                 buttonState = 4;
             }
         }

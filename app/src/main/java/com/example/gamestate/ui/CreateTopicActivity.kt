@@ -28,14 +28,15 @@ class CreateTopicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_topic)
-        val username: TextView = findViewById(R.id.home_user_text)
+
+        val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
-        val title: EditText = findViewById(R.id.editTexttitle)
-        val topic: EditText = findViewById(R.id.edittexttopic)
-        val btnTopic : Button = findViewById(R.id.topic_button)
+        val title: EditText = findViewById(R.id.createTopic_title_et)
+        val topic: EditText = findViewById(R.id.createTopic_text_et)
+        val btnTopic : Button = findViewById(R.id.createTopic_button)
         val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
         username.setText(loginAutomatic)
@@ -59,11 +60,11 @@ class CreateTopicActivity : AppCompatActivity() {
                         val responseJson = JSONObject(res!!)
                         if (responseJson.getInt("status") == 200)
                         {
-                            val name: TextView = findViewById(R.id.game_text)
-                            val developer: TextView = findViewById(R.id.game_infotext)
-                            val releaseDate: TextView = findViewById(R.id.game_infotext2)
-                            val gameImage : ImageView = findViewById(R.id.gameimg)
-                            val developerImage: ImageView = findViewById(R.id.game_infoimage)
+                            val name: TextView = findViewById(R.id.gameName_tv)
+                            val developer: TextView = findViewById(R.id.gameCompany_tv)
+                            val releaseDate: TextView = findViewById(R.id.gameReleaseDate_tv)
+                            val gameImage : ImageView = findViewById(R.id.selectedGame_iv)
+                            val developerImage: ImageView = findViewById(R.id.gameCompany_iv)
 
                             val date = responseJson.getJSONObject("message").getString("release_date")
 

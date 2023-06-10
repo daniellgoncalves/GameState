@@ -1,224 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context=".ui.CreateTopicActivity">
 
     <LinearLayout
+        android:id="@+id/homePage_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="60dp"
+        android:background="@drawable/border_linearlayout"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/forum_header"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/border_linearlayout">
-
-            <ImageView
-                android:id="@+id/home_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/baseline_account_circle_24" />
-
-            <TextView
-                android:id="@+id/home_user_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat_medium"
-                android:gravity="center_vertical"
-                android:text="user"
-                android:textColor="@color/black" />
-
-            <Spinner
-                android:id="@+id/home_header_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:background="@null"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/home_linearlayout_popular_games_images"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
+        <ImageView
+            android:id="@+id/homePage_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="20dp">
-
-            <RelativeLayout
-                android:id="@+id/home_relativelayout_popular_games_images2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/edit_background_games" />
-
-                <ImageView
-                    android:id="@+id/gameimg"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="6.5dp"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/firstgame" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:src="@drawable/baseline_account_circle_24"></ImageView>
 
         <TextView
-            android:id="@+id/game_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="5dp"
+            android:id="@+id/homePage_user_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
-            android:text="God of War: Ragnarok"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:gravity="center_vertical"
+            android:text="user"
+            android:textColor="@color/black"></TextView>
+
+        <Spinner
+            android:id="@+id/home_header_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:textSize="14sp"></Spinner>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/homePage_header"
+        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl">
 
         <LinearLayout
-            android:id="@+id/home_linearlayout_gameinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="2dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/game_infoimage"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:src="@drawable/baseline_account_circle_24"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/game_infotext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:fontFamily="@font/montserrat"
-                android:text="Santa Monica Studio"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:fontFamily="@font/montserrat"
-                android:text="|"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/game_infotext2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:fontFamily="@font/montserrat"
-                android:text="09/11/2022"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/topic_Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:id="@+id/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Topic Title"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTexttitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/layout_bg"
-                android:hint="Write your topic title"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/topic_Text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="25dp">
-
-            <TextView
-                android:id="@+id/texttopic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Topic Text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edittexttopic"
-                android:layout_width="380dp"
-                android:layout_height="230dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/layout_bg"
-                android:gravity="top"
-                android:hint="Say something..."
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/topic_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="250px"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_background_login"
-            android:fontFamily="@font/montserrat"
-            android:text="CREATE TOPIC"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <RelativeLayout
-                android:id="@+id/home_footer"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/navbar"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/createTopic_selectedGame"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_background_games" />
+
+                    <ImageView
+                        android:id="@+id/selectedGame_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gameInfo_layout"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/gameName_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="5dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/gameCompany_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/gameCompany_tv"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:maxLength="20"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/gameReleaseDate_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Topic Title"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/createTopic_title_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_bg"
+                    android:hint="Write your topic title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Topic Text"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"/>
+
+                <EditText
+                    android:id="@+id/createTopic_text_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_bg"
+                    android:gravity="top"
+                    android:hint="Say something..."
+                    android:textSize="14sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/createTopic_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_background_login"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Create topic"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/homePage_footer_rl"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/navbar"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/homePage_footer"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/navbar"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_marginEnd="90dp">
 
                 <ImageButton
-                    android:id="@+id/home_library"
+                    android:id="@+id/homePage_library"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginHorizontal="70dp"
@@ -232,15 +240,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_library"
-                    android:layout_marginHorizontal="61dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/montserrat"
                     android:text="LIBRARY"
                     android:textColor="#000000"
                     android:textSize="10sp" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
                 <ImageButton
-                    android:id="@+id/home_notifications"
+                    android:id="@+id/homePage_notifications"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentEnd="true"
@@ -251,30 +267,33 @@
                     android:src="@drawable/notifications" />
 
                 <TextView
-                    android:id="@+id/home_notifications_text"
+                    android:id="@+id/homePage_notifications_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/home_notifications"
+                    android:layout_below="@+id/homePage_notifications"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginHorizontal="43dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/montserrat"
                     android:text="NOTIFICATIONS"
                     android:textColor="#000000"
                     android:textSize="10sp" />
-            </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/home_home"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="30dp"
-                android:background="@color/blanc"
-                android:scaleType="fitCenter"
-                android:src="@drawable/house"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-</ScrollView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/home_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/blanc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

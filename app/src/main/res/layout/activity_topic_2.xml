@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ForumActivity">
+    tools:context=".ui.TopicActivity">
 
     <LinearLayout
         android:id="@+id/homePage_header"
@@ -62,7 +62,7 @@
                 android:gravity="center">
 
                 <RelativeLayout
-                    android:id="@+id/forum_selectedGame"
+                    android:id="@+id/topic_selectedGame"
                     android:layout_width="140dp"
                     android:layout_height="140dp">
 
@@ -144,73 +144,123 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:background="@drawable/layout_bg"
+                android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/createTopic_button"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/topicTitle_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="10"
-                    android:background="@drawable/edit_background_login"
-                    android:fontFamily="@font/montserrat"
-                    android:text="CREATE TOPIC"
+                    android:textSize="50dp"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/map_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background_login"
-                    android:paddingVertical="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/pinpoint"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/topicText_tv"
+                    android:layout_width="380dp"
+                    android:layout_height="150dp"
+                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="top" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-                <Spinner
-                    android:id="@+id/forum_filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_background_filter_spinner"
-                    android:dropDownWidth="match_parent"
-                    android:dropDownVerticalOffset="52dp"
-                    android:fontFamily="@font/montserrat"
-                    android:popupBackground="@drawable/edit_background"
-                    android:spinnerMode="dropdown"
-                    android:textSize="14sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/topic_comment_button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
+                    android:background="@drawable/edit_background_login"
+                    android:fontFamily="@font/montserrat"
+                    android:text="COMMENT"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.5"
+                    android:layout_marginEnd="5dp"/>
+
+                <LinearLayout
+                    android:id="@+id/topic_like_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="#3324FF00"
+                    android:gravity="center"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp">
 
                     <ImageView
-                        android:id="@+id/forum_recyclerview_background"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:background="@drawable/edit_background" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like"
+                        android:layout_gravity="center_vertical"></ImageView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/forum_recyclerview"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:paddingVertical="5dp" />
+                    <TextView
+                        android:id="@+id/number_likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="132"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black">
+                    </TextView>
 
-                </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/topic_dislike_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="#33FF5151"
+                    android:gravity="center"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like"
+                        android:layout_gravity="center_vertical"
+                        android:scaleY="-1"></ImageView>
+
+                    <TextView
+                        android:id="@+id/number_dislikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="132"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/topic_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp" />
 
             </LinearLayout>
 

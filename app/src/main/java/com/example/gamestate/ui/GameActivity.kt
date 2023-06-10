@@ -29,7 +29,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        val username: TextView = findViewById(R.id.home_user_text)
+        val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         username.text = loginAutomatic
@@ -79,11 +79,11 @@ class GameActivity : AppCompatActivity() {
                         val responseJson = JSONObject(res!!)
                         if (responseJson.getInt("status") == 200)
                         {
-                            val name: TextView = findViewById(R.id.game_text)
-                            val developer: TextView = findViewById(R.id.game_infotext)
-                            val releaseDate: TextView = findViewById(R.id.game_infotext2)
-                            val gameImage : ImageView = findViewById(R.id.gameimg)
-                            val developerImage: ImageView = findViewById(R.id.game_infoimage)
+                            val name: TextView = findViewById(R.id.gameName_tv)
+                            val developer: TextView = findViewById(R.id.gameCompany_tv)
+                            val releaseDate: TextView = findViewById(R.id.gameReleaseDate_tv)
+                            val gameImage : ImageView = findViewById(R.id.selectedGame_iv)
+                            val developerImage: ImageView = findViewById(R.id.gameCompany_iv)
 
                             val date = responseJson.getJSONObject("message").getString("release_date")
 
