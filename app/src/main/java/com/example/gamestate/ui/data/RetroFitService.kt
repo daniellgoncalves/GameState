@@ -30,4 +30,10 @@ interface RetroFitService {
 
     @POST("/topic/searchbytopicid")
     fun sendTopicByID(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/topic/likedislike")
+    fun likeDislikeTopic(@Body body: JsonObject): Call<ResponseBody>
+
+    @POST("/topic/createcomment")
+    fun createcomment(@Body body: JsonObject): Call<ResponseBody>
 }

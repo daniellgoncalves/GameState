@@ -6,7 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gamestate.ui.data.Topic.RecViewHolderTopicAdapter
 import com.example.gamestate.ui.data.Comment
 
-class RecViewTopicAdapter(private val mList: List<Comment>) : RecyclerView.Adapter<RecViewHolderTopicAdapter>() {
+class RecViewTopicAdapter(private var mList: List<Comment>) : RecyclerView.Adapter<RecViewHolderTopicAdapter>() {
+
+    fun setData(newData: List<Comment>) {
+        mList = newData
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecViewHolderTopicAdapter {
         val inflater = LayoutInflater.from(parent.context)
         return RecViewHolderTopicAdapter(inflater, parent)
