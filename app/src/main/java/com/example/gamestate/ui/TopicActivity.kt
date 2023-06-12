@@ -46,7 +46,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecViewTopicAdapter
     private  var commentsList = ArrayList<Comment>()
 
