@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.example.gamestate.ui.data.Forum.RecViewForumAdapter
 import com.example.gamestate.ui.data.Forum.SpinnerForumAdapter
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
+import com.example.gamestate.ui.data.TopicDC
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -41,6 +44,7 @@ class ForumActivity : AppCompatActivity() {
 
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val spinner: Spinner = findViewById(R.id.forum_filter)
+        val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
         val username: TextView = findViewById(R.id.homePage_user_text)
         val btnTopic : Button = findViewById(R.id.createTopic_button)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
@@ -63,10 +67,10 @@ class ForumActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             requestBody.addProperty("id", gameID)
 
-            val call = service.sendGameByID(requestBody)
+            val callGame = service.sendGameByID(requestBody)
 
-            val r = Runnable {
-                call.enqueue(object : Callback<ResponseBody> {
+            val rGame = Runnable {
+                callGame.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if (response.isSuccessful) {
                             val res = response.body()?.string()
@@ -113,12 +117,12 @@ class ForumActivity : AppCompatActivity() {
                     }
                 })
             }
-            val t = Thread(r)
-            t.start()
+            val tGame = Thread(rGame)
+            tGame.start()
 
             btnTopic.setOnClickListener {
                 val intent = Intent(this,CreateTopicActivity::class.java)
-                intent.putExtra("id",gameID);
+                intent.putExtra("id",gameID)
                 startActivity(intent)
             }
 
@@ -128,18 +132,42 @@ class ForumActivity : AppCompatActivity() {
             val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
             spinner.adapter = customAdapter
 
-            val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
-            recyclerView.adapter = RecViewForumAdapter(listOf("Gosto mais dos antigos",
-                "Estou preso nesta quest",
-                "Bug no início do jogo",
-                "Melhor jogo do ano?",
-                "A personagem é muito lenta",
-                "Dá para alterar a dificuldade a meio?",
-                "O que acharam da história?",
-                "Drop de frames quando ataco",
-                "Guia para speedrun",
-                "O Atreus irrita-me!!!"), ContextCompat.getColor(applicationContext, R.color.gold20))
-            recyclerView.layoutManager = LinearLayoutManager(this)
+            val callTopic = service.searchTopicByGameID(gameID)
+
+            val mainHandler = Handler(Looper.getMainLooper())
+
+            val rTopic = Runnable {
+                callTopic.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val res = response.body()?.string()
+                            val responseJson = JSONObject(res!!)
+                            if (responseJson.getInt("status") == 200)
+                            {
+                                val topicList = ArrayList<TopicDC>()
+                                val topicArray = responseJson.getJSONArray("topics")
+
+                                for(i in 0 until topicArray.length()) {
+                                    topicList.add(TopicDC(topicArray.getJSONObject(i).getString("_id"), topicArray.getJSONObject(i).getString("name")))
+                                }
+
+                                mainHandler.post {
+                                    recyclerView.adapter = RecViewForumAdapter(topicList, gameID, ContextCompat.getColor(applicationContext, R.color.gold20))
+                                    recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                                }
+                            }
+                            else {
+                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            val tTopic = Thread(rTopic)
+            tTopic.start()
         }
     }
 }
