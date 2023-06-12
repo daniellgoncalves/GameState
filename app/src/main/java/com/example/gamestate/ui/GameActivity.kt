@@ -35,7 +35,10 @@ class GameActivity : AppCompatActivity() {
         username.text = loginAutomatic
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
-
+        fun removeBrTags(htmlString: String): String {
+            val stringWithoutTags = htmlString.replace("<[^>]+>".toRegex(), "")
+            return stringWithoutTags.replace("\n", "")
+        }
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -84,9 +87,12 @@ class GameActivity : AppCompatActivity() {
                             val releaseDate: TextView = findViewById(R.id.gameReleaseDate_tv)
                             val gameImage : ImageView = findViewById(R.id.selectedGame_iv)
                             val developerImage: ImageView = findViewById(R.id.gameCompany_iv)
-
+                            val gamebio: TextView = findViewById(R.id.gameBio_tv)
                             val date = responseJson.getJSONObject("message").getString("release_date")
-
+                            val gamebiotext = responseJson.getJSONObject("message").getString("description")
+                            val cleanbr = removeBrTags(gamebiotext)
+                            //val cleanString = removeHtmlTags(cleanbr)
+                            gamebio.text = cleanbr
                             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                             val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
