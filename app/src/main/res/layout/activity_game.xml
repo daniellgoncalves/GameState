@@ -47,8 +47,8 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/homePage_header"
-        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl">
+        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl"
+        app:layout_constraintTop_toBottomOf="@id/homePage_header">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,28 +86,28 @@
 
             <LinearLayout
                 android:id="@+id/gameInfo_layout"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/gameName_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="@font/montserrat"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="5dp" />
+                    android:textSize="17sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/gameCompany_iv"
@@ -120,9 +120,9 @@
 
                     <TextView
                         android:id="@+id/gameCompany_tv"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat"
                         android:maxLength="20"
                         android:textAlignment="center"
@@ -142,11 +142,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/gamePage_ratingBar"
@@ -163,11 +163,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,8 +193,8 @@
                             android:layout_marginTop="5dp"
                             android:background="@drawable/edit_background"
                             android:paddingHorizontal="10dp"
-                            android:scrollbars="vertical"
                             android:paddingVertical="5dp"
+                            android:scrollbars="vertical"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -205,29 +205,29 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/review_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1.5"
                         android:background="@drawable/edit_background_login"
                         android:fontFamily="@font/montserrat"
-                        android:layout_weight="1.5"
                         android:text="Review game"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginRight="10dp"/>
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/forum_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@drawable/edit_background_login"
                         android:fontFamily="@font/montserrat"
-                        android:layout_weight="1"
                         android:text="Forum"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -250,11 +250,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -264,70 +264,27 @@
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
-                <LinearLayout
-                    android:layout_marginTop="5dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/game_platforms_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageplatform1"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/playstation"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
-                    <TextView
-                        android:id="@+id/platform1"
-                        android:layout_width="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="PlayStation 4"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageplatform2"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/playstation"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
-                    <TextView
-                        android:id="@+id/platform2"
-                        android:layout_width="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="PlayStation 5"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
-                </LinearLayout>
+                    android:layout_marginTop="10dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Reviews"
-                    android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -344,16 +301,18 @@
                         android:src="@drawable/kazzio"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
+
                     <TextView
                         android:id="@+id/reviews1_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_medium"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="Melhor jogo de sempre"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
+
                     <ImageView
                         android:id="@+id/elipse_point"
                         android:layout_width="wrap_content"
@@ -363,12 +322,13 @@
                         android:src="@drawable/ellipse"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
+
                     <ImageView
                         android:id="@+id/star"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
                         android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/montserrat"
                         android:src="@drawable/star1"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
@@ -376,11 +336,11 @@
                     <TextView
                         android:id="@+id/textreview"
                         android:layout_width="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="9"
-                        android:layout_gravity="center_vertical"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -399,16 +359,18 @@
                         android:src="@drawable/logotestegame"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
+
                     <TextView
                         android:id="@+id/reviews2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_medium"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="Review sobre o TLOU2 (sem spoiler)"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
+
                     <ImageView
                         android:id="@+id/elipse_point2"
                         android:layout_width="wrap_content"
@@ -418,12 +380,13 @@
                         android:src="@drawable/ellipse"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
+
                     <ImageView
                         android:id="@+id/star2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
                         android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/montserrat"
                         android:src="@drawable/star1"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
@@ -431,11 +394,11 @@
                     <TextView
                         android:id="@+id/textreview2"
                         android:layout_width="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="2"
-                        android:layout_gravity="center_vertical"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -466,10 +429,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_marginEnd="90dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginEnd="90dp">
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/homePage_library"
@@ -497,9 +460,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/homePage_notifications"
