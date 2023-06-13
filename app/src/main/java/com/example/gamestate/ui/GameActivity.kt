@@ -5,10 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gamestate.R
+import com.example.gamestate.ui.data.Game.RecViewGameAdapter
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
 import com.google.gson.JsonObject
@@ -28,6 +33,14 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.game_platforms_recyclerview)
+
+        val linearLayoutManager = object : LinearLayoutManager(this) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
 
         val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
@@ -74,6 +87,8 @@ class GameActivity : AppCompatActivity() {
 
         val call = service.sendGameByID(requestBody)
 
+        val mainHandler = Handler(Looper.getMainLooper())
+
         val r = Runnable {
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -90,6 +105,13 @@ class GameActivity : AppCompatActivity() {
                             val gamebio: TextView = findViewById(R.id.gameBio_tv)
                             val date = responseJson.getJSONObject("message").getString("release_date")
                             val gamebiotext = responseJson.getJSONObject("message").getString("description")
+                            val platformList = ArrayList<String>()
+                            val platformArray = responseJson.getJSONObject("message").getJSONArray("platforms")
+
+                            for (i in 0 until platformArray.length()) {
+                                platformList.add(platformArray.getJSONObject(i).getJSONObject("platform").getString("name"))
+                            }
+
                             val cleanbr = removeBrTags(gamebiotext)
                             //val cleanString = removeHtmlTags(cleanbr)
                             gamebio.text = cleanbr
@@ -114,6 +136,11 @@ class GameActivity : AppCompatActivity() {
                                 .load(developerImageUrl)
                                 .centerCrop()
                                 .into(developerImage)
+
+                            mainHandler.post {
+                                recyclerView.adapter = RecViewGameAdapter(platformList)
+                                recyclerView.layoutManager = linearLayoutManager
+                            }
                         }
                         else {
                             Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
