@@ -1,5 +1,6 @@
 package com.example.gamestate.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -45,7 +46,7 @@ interface RecyclerViewUpdateListener {
 class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
-
+    var gameImageUrl= ""
     private lateinit var adapter: RecViewTopicAdapter
     private  var commentsList = ArrayList<Comment>()
 
@@ -165,8 +166,8 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                                     responseJson.getJSONObject("message").getJSONArray("developers")
                                         .getJSONObject(0).getString("name")
                                 releaseDate.text = formattedDate
-                                val gameImageUrl =
-                                    responseJson.getJSONObject("message").getString("image")
+                                gameImageUrl = responseJson.getJSONObject("message").getString("image")
+
                                 val developerImageUrl =
                                     responseJson.getJSONObject("message").getJSONArray("developers")
                                         .getJSONObject(0).getString("image")
@@ -273,6 +274,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             var likeStatus: Number = 0
             var dislikeStatus: Number = 0
 
+
             val retrofitLikeDislike = Retrofit.Builder()
                 .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -280,6 +282,8 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             val serviceLikeDislike = retrofitLikeDislike.create(RetroFitService::class.java)
 
             likeButton.setOnClickListener {
+
+
                 Log.d("lol", likes.toString())
                 var number_likes = likes.text.toString().toInt()
                 var number_dislikes = dislikes.text.toString().toInt()
@@ -289,11 +293,13 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_likes += 1
                     likeStatus = 1
+
                 } else if (likeStatus == 1 && dislikeStatus == 0) {
                     likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_likes -= 1
                     likeStatus = 0
+
                 } else if (likeStatus == 0 && dislikeStatus == 1) {
                     likeButton.setBackgroundColor(Color.parseColor("#6624FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))

@@ -41,7 +41,7 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -177,7 +177,7 @@
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
-                <ScrollView
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -199,7 +199,7 @@
 
                     </LinearLayout>
 
-                </ScrollView>
+                </androidx.core.widget.NestedScrollView>
 
 
                 <LinearLayout
@@ -445,7 +445,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
         android:id="@+id/homePage_footer_rl"
