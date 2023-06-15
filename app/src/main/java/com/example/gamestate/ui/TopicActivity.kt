@@ -49,6 +49,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
     private lateinit var adapter: RecViewTopicAdapter
     private  var commentsList = ArrayList<Comment>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_topic)
@@ -60,6 +61,10 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
 
         var likes = findViewById<TextView>(R.id.number_likes)
         var dislikes = findViewById<TextView>(R.id.number_dislikes)
+        var likeStatus: Number = 0
+        var usernameLD: String = "user"
+        val likeButton = findViewById<LinearLayout>(R.id.topic_like_button)
+        val dislikeButton = findViewById<LinearLayout>(R.id.topic_dislike_button)
 
         // Retornar à página caso username esteja guardado
         val username: TextView = findViewById(R.id.homePage_user_text)
@@ -128,7 +133,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
 
             val callGame = service.sendGameByID(requestBodyGame)
             val callID = service.sendTopicByID(requestBodyTopic)
-
 
             val mainHandler = Handler(Looper.getMainLooper())
 
@@ -212,6 +216,32 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
 
                                 likes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("likes")
                                 dislikes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("dislikes")
+                                likeStatus = responseJson.getJSONObject("message").getJSONObject("topics").getJSONArray("likeDislike").getJSONObject(0).getInt("likeDislike")
+
+                                for(index in 0..100) {
+                                    Log.d("hehe", responseJson.getJSONObject("message")
+                                        .getJSONObject("topics").getJSONArray("likeDislike")
+                                        .getJSONObject(index).getString("username") )
+                                    if (responseJson.getJSONObject("message")
+                                            .getJSONObject("topics").getJSONArray("likeDislike")
+                                            .getJSONObject(index).getString("username") == username.text.toString()
+                                    ) {
+                                        usernameLD = username.text.toString()
+                                        Log.d("hehe", usernameLD)
+                                        break
+                                    } else {
+                                        usernameLD = ""
+                                        break
+                                    }
+                                }
+
+                                if(likeStatus == 1) {
+                                    likeButton.setBackgroundColor(Color.parseColor("#6624FF00"))
+                                    dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
+                                } else if (likeStatus == -1) {
+                                    likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+                                    dislikeButton.setBackgroundColor(Color.parseColor("#66FF5151"))
+                                }
 
                                 val title: TextView = findViewById(R.id.topicTitle_tv)
                                 val text: TextView = findViewById(R.id.topicText_tv)
@@ -268,10 +298,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             val t_topic = Thread(r_topic)
             t_topic.start()
 
-            val likeButton = findViewById<LinearLayout>(R.id.topic_like_button)
-            val dislikeButton = findViewById<LinearLayout>(R.id.topic_dislike_button)
-            var likeStatus: Number = 0
-            var dislikeStatus: Number = 0
+
 
             val retrofitLikeDislike = Retrofit.Builder()
                 .baseUrl(server_ip)
@@ -279,38 +306,45 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 .build()
             val serviceLikeDislike = retrofitLikeDislike.create(RetroFitService::class.java)
 
+            Log.d("lol", usernameLD)
+
             likeButton.setOnClickListener {
-                Log.d("lol", likes.toString())
                 var number_likes = likes.text.toString().toInt()
                 var number_dislikes = dislikes.text.toString().toInt()
 
-                if(likeStatus == 0 && dislikeStatus == 0) {
+                if (likeStatus == 0) {
                     likeButton.setBackgroundColor(Color.parseColor("#6624FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_likes += 1
                     likeStatus = 1
-                } else if (likeStatus == 1 && dislikeStatus == 0) {
+                } else if (likeStatus == 1) {
                     likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_likes -= 1
                     likeStatus = 0
-                } else if (likeStatus == 0 && dislikeStatus == 1) {
+                } else if (likeStatus == -1) {
                     likeButton.setBackgroundColor(Color.parseColor("#6624FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_likes += 1
                     number_dislikes -= 1
                     likeStatus = 1
-                    dislikeStatus = 0
                 }
                 likes.text = number_likes.toString()
                 dislikes.text = number_dislikes.toString()
+                Log.d("lol", usernameLD)
 
                 val requestBodyLikeDislike = JsonObject()
                 requestBodyLikeDislike.addProperty("topic_id", topicID)
                 requestBodyLikeDislike.addProperty("likes", number_likes)
                 requestBodyLikeDislike.addProperty("dislikes", number_dislikes)
+                requestBodyLikeDislike.addProperty("likeDislike", likeStatus)
+                requestBodyLikeDislike.addProperty("username", username.text.toString())
+                requestBodyLikeDislike.addProperty("usernameLD", usernameLD)
 
-                val callLikeDislike = serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
+                usernameLD = username.text.toString()
+
+                val callLikeDislike =
+                    serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
 
                 val r = Runnable {
                     callLikeDislike.enqueue(object : Callback<ResponseBody> {
@@ -334,7 +368,11 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                         }
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                applicationContext,
+                                "Network Failure",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     })
@@ -347,33 +385,39 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             dislikeButton.setOnClickListener {
                 var number_likes = likes.text.toString().toInt()
                 var number_dislikes = dislikes.text.toString().toInt()
-                if(likeStatus == 0 && dislikeStatus == 0) {
+                if (likeStatus == 0) {
                     likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#66FF5151"))
                     number_dislikes += 1
-                    dislikeStatus = 1
-                } else if (likeStatus == 0 && dislikeStatus == 1) {
+                    likeStatus = -1
+                } else if (likeStatus == -1) {
                     likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#33FF5151"))
                     number_dislikes -= 1
-                    dislikeStatus = 0
-                } else if (likeStatus == 1 && dislikeStatus == 0) {
+                    likeStatus = 0
+                } else if (likeStatus == 1) {
                     likeButton.setBackgroundColor(Color.parseColor("#3324FF00"))
                     dislikeButton.setBackgroundColor(Color.parseColor("#66FF5151"))
                     number_dislikes += 1
                     number_likes -= 1
-                    dislikeStatus = 1
-                    likeStatus = 0
+                    likeStatus = -1
                 }
                 likes.text = number_likes.toString()
                 dislikes.text = number_dislikes.toString()
+
 
                 val requestBodyLikeDislike = JsonObject()
                 requestBodyLikeDislike.addProperty("topic_id", topicID)
                 requestBodyLikeDislike.addProperty("likes", number_likes)
                 requestBodyLikeDislike.addProperty("dislikes", number_dislikes)
+                requestBodyLikeDislike.addProperty("likeDislike", likeStatus)
+                requestBodyLikeDislike.addProperty("username", username.text.toString())
+                requestBodyLikeDislike.addProperty("usernameLD", usernameLD)
 
-                val callLikeDislike = serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
+                usernameLD = username.text.toString()
+
+                val callLikeDislike =
+                    serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
 
                 val r = Runnable {
                     callLikeDislike.enqueue(object : Callback<ResponseBody> {
@@ -397,7 +441,11 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                         }
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                applicationContext,
+                                "Network Failure",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     })
