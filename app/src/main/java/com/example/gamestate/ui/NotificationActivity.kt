@@ -100,7 +100,6 @@ class NotificationActivity : AppCompatActivity() {
                             val forumID = ArrayList<Int>()
                             val elapsedtimeList = ArrayList<String>()
                             for (i in 0 until commentsbytopicsArray.length()) {
-
                                     topicIDListcomment.add(commentsbytopicsArray.getJSONObject(i).getString("topicid"))
                                     forumID.add(commentsbytopicsArray.getJSONObject(i).getInt("gameid"))
                                     topicImageList.add(commentsbytopicsArray.getJSONObject(i).getString("image"))

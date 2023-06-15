@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gamestate.R
+import com.example.gamestate.ui.GameActivity
 import com.example.gamestate.ui.TopicActivity
 
 class RecViewHolderNotificationAdapter(inflater: LayoutInflater, val parent: ViewGroup) :
@@ -25,5 +26,12 @@ class RecViewHolderNotificationAdapter(inflater: LayoutInflater, val parent: Vie
             .load(image)
             .centerCrop()
             .into(iv)
+
+        itemView.setOnClickListener {
+            val intent = Intent(parent.context, TopicActivity::class.java)
+            intent.putExtra("id", id)
+            intent.putExtra("forum_id", forumID)
+            parent.context.startActivity(intent)
+        }
     }
 }
