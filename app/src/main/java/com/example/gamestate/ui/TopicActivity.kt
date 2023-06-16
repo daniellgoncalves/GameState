@@ -218,20 +218,19 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                                 dislikes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("dislikes")
                                 likeStatus = responseJson.getJSONObject("message").getJSONObject("topics").getJSONArray("likeDislike").getJSONObject(0).getInt("likeDislike")
 
-                                for(index in 0..100) {
-                                    Log.d("hehe", responseJson.getJSONObject("message")
-                                        .getJSONObject("topics").getJSONArray("likeDislike")
-                                        .getJSONObject(index).getString("username") )
+                                for(index in 0 until responseJson.getJSONObject("message")
+                                    .getJSONObject("topics").getJSONArray("likeDislike").length()) {
                                     if (responseJson.getJSONObject("message")
                                             .getJSONObject("topics").getJSONArray("likeDislike")
                                             .getJSONObject(index).getString("username") == username.text.toString()
                                     ) {
                                         usernameLD = username.text.toString()
+                                        likeStatus = responseJson.getJSONObject("message").getJSONObject("topics").getJSONArray("likeDislike").getJSONObject(index).getInt("likeDislike")
                                         Log.d("hehe", usernameLD)
+                                        Log.d("hehe", likeStatus.toString())
                                         break
                                     } else {
                                         usernameLD = ""
-                                        break
                                     }
                                 }
 
