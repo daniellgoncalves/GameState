@@ -39,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
         val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val searchGameText : EditText = findViewById(R.id.home_search_et)
@@ -151,14 +152,23 @@ class HomeActivity : AppCompatActivity() {
                             val jsonObject = JSONObject(res!!)
                             val status = jsonObject.getInt("status")
                             val msm =jsonObject.getJSONArray("game")
+                            val gameid =jsonObject.getJSONArray("id")
                             val Names = ArrayList<String>()
+                            val gameID = ArrayList<Int>()
+                          //  val intent = Intent(this,GameActivity::class.java)
+                            //intent.putExtra("id",idimg[0]);
+                            //startActivity(intent)
                             for (i in 0 until msm.length())
                             {
                                 Names.add(msm.getString(i))
                            }
+                            for (i in 0 until  gameid.length())
+                            {
+                                gameID.add(gameid.getInt(i))
+                            }
                             if (status == 200) {
 
-                                recyclerView.adapter = RecViewHomeAdapter(Names, ContextCompat.getColor(applicationContext, R.color.gold20))
+                                recyclerView.adapter = RecViewHomeAdapter(Names, ContextCompat.getColor(applicationContext, R.color.gold20),gameID)
                                 recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                             }
 
@@ -177,9 +187,14 @@ class HomeActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
+
+
         popularGames()
         library.setOnClickListener {
-            startActivity(Intent(applicationContext, LibraryActivity::class.java))
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
         }
         firstImg.setOnClickListener {
             val intent = Intent(this,GameActivity::class.java)
@@ -222,7 +237,6 @@ class HomeActivity : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 searchGame()
-
             }
 
         })
