@@ -280,6 +280,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/allgamereviewstv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
@@ -287,6 +288,18 @@
                     android:text="Reviews"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/fragmentContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/review1"
@@ -334,7 +347,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/textreview"
+                        android:id="@+id/ratingreview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -392,7 +405,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/textreview2"
+                        android:id="@+id/ratingreview2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
