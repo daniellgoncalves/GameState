@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "146774101799",
+    "project_id": "gamestate-1f926",
+    "storage_bucket": "gamestate-1f926.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146774101799:android:dfb61730c5c313a0d46302",
+        "android_client_info": {
+          "package_name": "com.example.gamestate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146774101799-l03u51l1ut4pth0iromn3v7gerbmdk0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6GwQcTHx92SGX12UswLPaIicwkinu2uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146774101799-l03u51l1ut4pth0iromn3v7gerbmdk0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,14 +1,17 @@
 package com.example.gamestate.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -257,6 +260,20 @@ class HomeActivity : AppCompatActivity() {
         }
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spin.adapter = adapter
+
+        //Verify if the app has notification permissions, if not ask for them
+
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { _: Boolean -> }
+
+        if (ContextCompat.checkSelfPermission(applicationContext,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(
+                Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 }
 

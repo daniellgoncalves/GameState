@@ -5,5 +5,6 @@
     <string name="already_have_an_account_n_log_in">Already have an account?\n <font color='#FFD700'> Log in</font></string>
     <string name="bulletpoint">\u2022</string>
     <string name="server_ip">http://192.168.1.79:3000/</string>
+    <string name="pushNotificationKey">key=AAAAIixrDyc:APA91bEKtvzCgrGmhYA6dEqpochegWuSTXWoOfqlPmENyyDZXVSPmTp71tzWoeUwlXSc6quN7pE2_oOxJMXStv0ABaFLsncI5vcCiMdFVpbwK1G6Loj5FqHbp-wX0ypIRrCF4jPCFSbW</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

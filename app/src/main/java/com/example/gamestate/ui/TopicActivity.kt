@@ -58,6 +58,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
 
         val gameID = intent.getIntExtra("forum_id",-1)
         val topicID = intent.getStringExtra("id")
+        var userID: String = ""
 
         var likes = findViewById<TextView>(R.id.number_likes)
         var dislikes = findViewById<TextView>(R.id.number_dislikes)
@@ -99,20 +100,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             override fun canScrollVertically(): Boolean {
                 return false
             }
-        }
-
-        topicCommentButton.setOnClickListener {
-            val fragment = FragmentTopic()
-            val args = Bundle()
-            args.putString("topicid", topicID)
-            args.putString("username", username.text.toString())
-            args.putSerializable("arraylistcomment",commentsList)
-            fragment.arguments = args
-            val fragmentManager: FragmentManager = supportFragmentManager
-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
         }
 
         if (gameID == -1) {
@@ -242,6 +229,8 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                                     dislikeButton.setBackgroundColor(Color.parseColor("#66FF5151"))
                                 }
 
+                                val userIDAPI = responseJson.getJSONObject("message").getJSONObject("topics").getString("user_id")
+
                                 val title: TextView = findViewById(R.id.topicTitle_tv)
                                 val text: TextView = findViewById(R.id.topicText_tv)
 
@@ -273,6 +262,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                                     adapter = RecViewTopicAdapter(commentsList)
                                     recyclerView.adapter = adapter
                                     recyclerView.layoutManager = linearLayoutManager
+                                    userID = userIDAPI
                                 }
 
                                 title.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("name")
@@ -296,8 +286,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             }
             val t_topic = Thread(r_topic)
             t_topic.start()
-
-
 
             val retrofitLikeDislike = Retrofit.Builder()
                 .baseUrl(server_ip)
@@ -378,7 +366,22 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 }
                 val t = Thread(r)
                 t.start()
+            }
 
+            topicCommentButton.setOnClickListener {
+                val fragment = FragmentTopic()
+                val args = Bundle()
+                args.putString("topicid", topicID)
+                args.putString("username", username.text.toString())
+                args.putSerializable("arraylistcomment",commentsList)
+                args.putString("userID", userID)
+                args.putInt("gameID", gameID)
+                fragment.arguments = args
+                val fragmentManager: FragmentManager = supportFragmentManager
+                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+                fragmentTransaction.addToBackStack(null)
+                fragmentTransaction.commit()
             }
 
             dislikeButton.setOnClickListener {

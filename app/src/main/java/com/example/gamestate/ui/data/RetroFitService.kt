@@ -3,10 +3,7 @@ package com.example.gamestate.ui.data
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface RetroFitService {
     @POST("/user/forgotpwd")
@@ -41,4 +38,10 @@ interface RetroFitService {
 
     @GET("/topic/searchbygameid/{gameId}")
     fun searchTopicByGameID(@Path("gameId") id: Int): Call<ResponseBody>
+
+    @POST("/fcm/send")
+    fun sendPushNotification(@Body body: JsonObject, @Header("Content-Type") type: String, @Header("Authorization") key: String): Call<ResponseBody>
+
+    @GET("/user/{userID}")
+    fun searchUserByID(@Path("userID") id: String): Call<ResponseBody>
 }

@@ -15,6 +15,9 @@ import com.example.gamestate.R
 import com.example.gamestate.ui.data.RetroFitService
 import com.example.gamestate.ui.data.User
 import com.example.gamestate.ui.data.UserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -25,6 +28,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Locale
+import java.util.concurrent.CompletableFuture
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -66,8 +70,6 @@ class RegisterActivity : AppCompatActivity() {
         )
 
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Apply the adapter to the your spinner
-        // Apply the adapter to the your spinner
         country.adapter = countryAdapter
 
         fun inputCheck(username: String, email: String, password: String, confPassword: String): Boolean {
@@ -94,8 +96,11 @@ class RegisterActivity : AppCompatActivity() {
                     requestBody.addProperty("password", passwordText)
                     requestBody.addProperty("email", emailText)
                     requestBody.addProperty("country",countryText)
+                    getPushToken().thenAccept { token ->
+                        requestBody.addProperty("pushToken", token)
+                    }
 
-                  //  mUserViewModel.addUser(user)
+                    //  mUserViewModel.addUser(user)
 
                     val call = userService.register(requestBody)
                     val r = Runnable {
@@ -153,4 +158,21 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
     }
+    private fun getPushToken(): CompletableFuture<String> {
+        val future = CompletableFuture<String>()
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task: Task<String> ->
+                if (!task.isSuccessful) {
+                    future.completeExceptionally(task.exception!!)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result
+                future.complete(token)
+            })
+
+        return future
+    }
+
 }
