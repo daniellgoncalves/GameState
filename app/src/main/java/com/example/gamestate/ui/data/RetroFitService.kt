@@ -39,6 +39,9 @@ interface RetroFitService {
     @POST("/topic/createcomment")
     fun createcomment(@Body body: JsonObject): Call<ResponseBody>
 
+    @POST("/reviews/create")
+    fun createReview(@Body body: JsonObject): Call<ResponseBody>
+
     @GET("/topic/searchbygameid/{gameId}")
     fun searchTopicByGameID(@Path("gameId") id: Int): Call<ResponseBody>
 }

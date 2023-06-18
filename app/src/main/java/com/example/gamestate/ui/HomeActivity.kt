@@ -52,6 +52,11 @@ class HomeActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.home_gameSearch_recyclerview)
         username.setText(loginAutomatic)
 
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         fun popularGames(){
             val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()

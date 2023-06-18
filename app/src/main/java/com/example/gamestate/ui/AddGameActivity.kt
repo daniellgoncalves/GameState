@@ -1,13 +1,15 @@
 package com.example.gamestate.ui
 
-import android.content.Context
+import android.R.attr.rating
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.RatingBar.OnRatingBarChangeListener
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
@@ -23,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
 class AddGameActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
@@ -32,11 +35,19 @@ class AddGameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_game)
 
         val username: TextView = findViewById(R.id.homePage_user_text)
-        val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val sharedPreferences = application.getSharedPreferences("login", MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val userid = sharedPreferences.getString("userid","")
         username.text = loginAutomatic
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val reviewButton = findViewById<Button>(R.id.makeReview_button)
+
+        val ratingBar = findViewById<RatingBar>(R.id.rating)
+
+        val title = findViewById<EditText>(R.id.reviewTitle_et).text
+        val text = findViewById<EditText>(R.id.reviewText_et).text
+
 
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -161,6 +172,69 @@ class AddGameActivity : AppCompatActivity() {
                 stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
                 pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
                 buttonState = 4;
+            }
+
+            reviewButton.setOnClickListener {
+
+                val getrating = ratingBar.getRating()
+
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(server_ip)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val service = retrofit.create(RetroFitService::class.java)
+
+                val requestBody = JsonObject()
+                requestBody.addProperty("rating", getrating)
+                requestBody.addProperty("title", title.toString())
+                requestBody.addProperty("text", text.toString())
+                requestBody.addProperty("gameStatus", buttonState)
+                requestBody.addProperty("user_id", userid)
+                requestBody.addProperty("forum_id", gameID)
+
+                Log.d("rating", getrating.toString())
+
+                val call = service.createReview(requestBody)
+
+                val r = Runnable {
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            callID: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                val res = response.body()?.string()
+                                val responseJson = JSONObject(res!!)
+                                if (responseJson.getInt("status") == 200) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        responseJson.getString("message"),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        responseJson.getString("message"),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Network Failure",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                    })
+                }
+                val t = Thread(r)
+                t.start()
+
+                finish()
             }
         }
     }

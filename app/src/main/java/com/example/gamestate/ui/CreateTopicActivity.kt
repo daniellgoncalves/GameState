@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -107,10 +108,23 @@ class CreateTopicActivity : AppCompatActivity() {
             val titleText = title.text.toString()
             val topicText = topic.text.toString()
             val requestBody1 = JsonObject()
+            val likeDislike = 0
+
+            Log.d("lol", likeDislike.toString())
+            Log.d("lol", username.text.toString())
+
             requestBody1.addProperty("name", titleText)
             requestBody1.addProperty("text", topicText)
-            requestBody1.addProperty("user_id",userid)
-            requestBody1.addProperty("forum_id",gameID)
+            requestBody1.addProperty("user_id", userid)
+            requestBody1.addProperty("forum_id", gameID)
+
+            val likeDislikeObject = JsonObject()
+
+            likeDislikeObject.addProperty("username", username.text.toString())
+            likeDislikeObject.addProperty("likeDislike", likeDislike)
+
+            requestBody1.add("likeDislike", likeDislikeObject)
+
             val call1 = service.createTopic(requestBody1)
 
             val r1 = Runnable {
