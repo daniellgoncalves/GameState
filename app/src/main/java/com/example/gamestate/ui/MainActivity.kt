@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                                     getPushToken().thenAccept { token ->
                                         requestBody.addProperty("pushToken", token)
                                         val call = service.updateUserPushToken(id, requestBody)
-                                        val r = Runnable {Log.d("TOKEN", requestBody.toString());call.execute()}
+                                        val r = Runnable { call.execute() }
                                         val t = Thread(r)
                                         t.start()
                                     }
