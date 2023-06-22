@@ -15,6 +15,9 @@ interface RetroFitService {
     @POST("/user/login")
     fun login(@Body body: JsonObject): Call<ResponseBody>
 
+    @PUT("/user/{userID}")
+    fun updateUserPushToken(@Path("userID") id: String, @Body body: JsonObject): Call<ResponseBody>
+
     @POST("/game/search")
     fun sendGame(@Body body: JsonObject): Call<ResponseBody>
 

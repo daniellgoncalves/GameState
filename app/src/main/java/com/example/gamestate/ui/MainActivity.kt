@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -13,6 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.RetroFitService
 import com.example.gamestate.ui.data.UserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -21,6 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.CompletableFuture
 
 
 class MainActivity : AppCompatActivity() {
@@ -89,6 +94,14 @@ class MainActivity : AppCompatActivity() {
                                     editor.putString("username",username)
                                     editor.putString("userid",id)
                                     editor.apply()
+                                    val requestBody = JsonObject()
+                                    getPushToken().thenAccept { token ->
+                                        requestBody.addProperty("pushToken", token)
+                                        val call = service.updateUserPushToken(id, requestBody)
+                                        val r = Runnable {Log.d("TOKEN", requestBody.toString());call.execute()}
+                                        val t = Thread(r)
+                                        t.start()
+                                    }
                                     Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(applicationContext, HomeActivity::class.java))
                                     finish()
@@ -123,5 +136,21 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun getPushToken(): CompletableFuture<String> {
+        val future = CompletableFuture<String>()
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task: Task<String> ->
+                if (!task.isSuccessful) {
+                    future.completeExceptionally(task.exception!!)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result
+                future.complete(token)
+            })
+
+        return future
     }
 }

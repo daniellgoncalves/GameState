@@ -174,5 +174,4 @@ class RegisterActivity : AppCompatActivity() {
 
         return future
     }
-
 }
