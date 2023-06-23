@@ -44,4 +44,7 @@ interface RetroFitService {
 
     @GET("/topic/searchbygameid/{gameId}")
     fun searchTopicByGameID(@Path("gameId") id: Int): Call<ResponseBody>
+
+    @POST("/reviews/getreviewsbyuser")
+    fun getReviewsByUser(@Body body: JsonObject): Call<ResponseBody>
 }

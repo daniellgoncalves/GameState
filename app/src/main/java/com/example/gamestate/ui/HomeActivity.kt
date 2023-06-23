@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -43,12 +44,12 @@ class HomeActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val searchGameText : EditText = findViewById(R.id.home_search_et)
-        val firstImg : ImageView = findViewById(R.id.first_game)
-        val secondImg : ImageView = findViewById(R.id.second_game)
-        val thirdImg : ImageView = findViewById(R.id.thirdgame)
-        val fourthImg : ImageView = findViewById(R.id.fourth_game)
-        val fiftyImg : ImageView = findViewById(R.id.fifth_game)
-        val sixtyImg : ImageView = findViewById(R.id.sixth_game)
+            val firstImg : ImageView = findViewById(R.id.first_game)
+            val secondImg : ImageView = findViewById(R.id.second_game)
+            val thirdImg : ImageView = findViewById(R.id.thirdgame)
+            val fourthImg : ImageView = findViewById(R.id.fourth_game)
+            val fiftyImg : ImageView = findViewById(R.id.fifth_game)
+            val sixtyImg : ImageView = findViewById(R.id.sixth_game)
         val recyclerView = findViewById<RecyclerView>(R.id.home_gameSearch_recyclerview)
         username.setText(loginAutomatic)
 
@@ -76,7 +77,7 @@ class HomeActivity : AppCompatActivity() {
                         try {
                             val jsonObject = JSONObject(res!!)
                             val status = jsonObject.getInt("status")
-                            val popularGamesImg =jsonObject.getJSONArray("populargames")
+                            val popularGamesImg = jsonObject.getJSONArray("populargames")
                             val popularGames = ArrayList<String>()
                             for (i in 0 until popularGamesImg.length())
                             {

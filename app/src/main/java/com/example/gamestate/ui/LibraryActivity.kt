@@ -3,20 +3,24 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.Library.RecViewLibraryAdapter
 import com.example.gamestate.ui.data.RetroFitService
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +33,7 @@ class LibraryActivity : AppCompatActivity() {
 
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
+    private  var idimg = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,29 @@ class LibraryActivity : AppCompatActivity() {
         val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val userID = sharedPreferences.getString("userid","")
+
+        val firstImg : ImageView = findViewById(R.id.first_game)
+        val secondImg : ImageView = findViewById(R.id.second_game)
+        val thirdImg : ImageView = findViewById(R.id.third_game)
+        val fourthImg : ImageView = findViewById(R.id.fourth_game)
+        val fifthImg : ImageView = findViewById(R.id.fifth_game)
+        val sixthImg : ImageView = findViewById(R.id.sixth_game)
+
+        val firstGameStatus : ImageView = findViewById(R.id.gameStatus_firstGame)
+        val secondGameStatus : ImageView = findViewById(R.id.gameStatus_secondGame)
+        val thirdGameStatus : ImageView = findViewById(R.id.gameStatus_thirdGame)
+        val fourthGameStatus : ImageView = findViewById(R.id.gameStatus_fourthGame)
+        val fifthGameStatus : ImageView = findViewById(R.id.gameStatus_fifthGame)
+        val sixthGameStatus : ImageView = findViewById(R.id.gameStatus_sixthGame)
+
+        val firstRating : TextView = findViewById(R.id.gameRating_firstGame)
+        val secondRating : TextView = findViewById(R.id.gameRating_secondGame)
+        val thirdRating : TextView = findViewById(R.id.gameRating_thirdGame)
+        val fourthRating : TextView = findViewById(R.id.gameRating_fourthGame)
+        val fifthRating : TextView = findViewById(R.id.gameRating_fifthGame)
+        val sixthRating : TextView = findViewById(R.id.gameRating_sixthGame)
+
         username.text = loginAutomatic
 
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -64,6 +92,120 @@ class LibraryActivity : AppCompatActivity() {
                 return false
             }
         }
+
+        var images = arrayListOf<ImageView>(firstImg, secondImg, thirdImg, fourthImg, fifthImg, sixthImg)
+
+        var gameStatusImg = arrayListOf<ImageView>(firstGameStatus, secondGameStatus, thirdGameStatus, fourthGameStatus, fifthGameStatus, sixthGameStatus)
+
+        var ratingsImg = arrayListOf<TextView>(firstRating, secondRating, thirdRating, fourthRating, fifthRating, sixthRating)
+
+        fun subscribedGames() {
+            val serverIP = resources.getString(R.string.server_ip)
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(serverIP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val subscribedGames = retrofit.create(RetroFitService::class.java)
+
+            val requestBody = JsonObject()
+            requestBody.addProperty("user_id", userID)
+
+            val call = subscribedGames.getReviewsByUser(requestBody)
+            val r = Runnable {
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        val res = response.body()?.string()
+                        try {
+                            val jsonObject = JSONObject(res!!)
+                            val status = jsonObject.getInt("status")
+                            val subscribedGamesImg = jsonObject.getJSONObject("subscribedgames").getJSONArray("subscribedgames")
+                            val subscribedGames = ArrayList<String>()
+
+                            val ratingsArray = jsonObject.getJSONObject("ratings").getJSONArray("ratings")
+                            val ratings = ArrayList<String>()
+
+                            val gameStatusArray = jsonObject.getJSONObject("gameStatus").getJSONArray("gameStatus")
+                            val gameStatus = ArrayList<Int>()
+
+                            for (i in 0 until subscribedGamesImg.length())
+                            {
+                                if(i%2==0)
+                                {
+                                    subscribedGames.add(subscribedGamesImg.getString(i))
+                                }
+                                else
+                                {
+                                    idimg.add(subscribedGamesImg.getInt(i))
+
+                                }
+
+                            }
+                            for (i in 0 until gameStatusArray.length())
+                            {
+                                gameStatus.add(gameStatusArray.getInt(i))
+                            }
+                            for (i in 0 until ratingsArray.length())
+                            {
+                                ratings.add(ratingsArray.getString(i))
+                            }
+
+                            if (status == 200) {
+
+                                for (i in 0 until subscribedGames.count()) {
+                                    Glide.with(applicationContext)
+                                        .load(subscribedGames[i])
+                                        .centerCrop()
+                                        .into(images[i])
+
+                                    when (gameStatus[i]) {
+                                        0 -> Glide.with(applicationContext)
+                                            .load(R.drawable.questionmark)
+                                            .centerCrop()
+                                            .into(gameStatusImg[i])
+                                        1 -> Glide.with(applicationContext)
+                                            .load(R.drawable.accept)
+                                            .centerCrop()
+                                            .into(gameStatusImg[i])
+                                        2 -> Glide.with(applicationContext)
+                                            .load(R.drawable.playbutton)
+                                            .centerCrop()
+                                            .into(gameStatusImg[i])
+                                        3 -> Glide.with(applicationContext)
+                                            .load(R.drawable.pause)
+                                            .centerCrop()
+                                            .into(gameStatusImg[i])
+                                        4 -> Glide.with(applicationContext)
+                                            .load(R.drawable.stop)
+                                            .centerCrop()
+                                            .into(gameStatusImg[i])
+                                    }
+
+                                    ratingsImg[i].text = ratings[i]
+                                }
+                            }
+
+                        } catch (e: JSONException) {
+                            // Handle JSON parsing error
+                            // ...
+                        }
+                    }
+
+                    override fun onFailure(calll: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                })
+            }
+            val t = Thread(r)
+            t.start()
+        }
+
+        subscribedGames()
 
         val serverIP = resources.getString(R.string.server_ip)
 

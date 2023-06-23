@@ -83,6 +83,7 @@
                         android:gravity="center"
                         android:layout_marginTop="10dp">
 
+
                         <RelativeLayout
                             android:layout_width="110dp"
                             android:layout_height="110dp"
@@ -94,6 +95,7 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/edit_background_games" />
 
+
                             <ImageView
                                 android:id="@+id/first_game"
                                 android:layout_width="match_parent"
@@ -104,6 +106,51 @@
                                 android:layout_marginBottom="5dp"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
+
+                            <ImageView
+                                android:id="@+id/gameStatus_firstGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/accept"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_firstGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="7"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
 
                         </RelativeLayout>
 
@@ -130,6 +177,51 @@
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
 
+                            <ImageView
+                                android:id="@+id/gameStatus_secondGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/pause"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_secondGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="5"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -143,7 +235,7 @@
                                 android:background="@drawable/edit_background_games" />
 
                             <ImageView
-                                android:id="@+id/thirdgame"
+                                android:id="@+id/third_game"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
@@ -153,6 +245,51 @@
                                 android:layout_marginBottom="5dp"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
+
+                            <ImageView
+                                android:id="@+id/gameStatus_thirdGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/stop"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_thirdGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
 
                         </RelativeLayout>
 
@@ -187,6 +324,51 @@
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
 
+                            <ImageView
+                                android:id="@+id/gameStatus_fourthGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/stop"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_fourthGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="1.7"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -213,6 +395,51 @@
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
 
+                            <ImageView
+                                android:id="@+id/gameStatus_fifthGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/playbutton"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_fifthGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="10"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -236,6 +463,51 @@
                                 android:layout_marginBottom="5dp"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY" />
+
+                            <ImageView
+                                android:id="@+id/gameStatus_sixthGame"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/accept"
+                                android:adjustViewBounds="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/strokegamestatus">
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="35dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/libraryratingbase"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:src="@drawable/star1"
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
+
+                                <TextView
+                                    android:id="@+id/gameRating_sixthGame"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="2.5"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center"
+                                    android:textSize="10dp"
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
+
+                            </LinearLayout>
 
                         </RelativeLayout>
 
