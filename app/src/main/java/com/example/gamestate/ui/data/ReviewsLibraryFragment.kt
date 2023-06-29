@@ -54,7 +54,7 @@ class ReviewsLibraryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_reviews_library, container, false)
         // Inflate the layout for this fragment
         val activity: Activity? = activity
-        val username = arguments?.getString("username")
+        val user_id = arguments?.getString("userid")
         val recyclerView = view.findViewById<RecyclerView>(R.id.library_reviews_recyclerview)
         val serverIP = resources.getString(R.string.server_ip)
         val linearLayoutManager = object : LinearLayoutManager(activity) {
@@ -67,10 +67,10 @@ class ReviewsLibraryFragment : Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetroFitService::class.java)
-        val requestBodyUser = JsonObject()
-        requestBodyUser.addProperty("username", username)
         val mainHandler = Handler(Looper.getMainLooper())
         fun reviewsinit(){
+            val requestBodyUser = JsonObject()
+            requestBodyUser.addProperty("user_id", user_id)
             val callReviews = service.sendReviewByUser(requestBodyUser)
             val r1 = Runnable {
                 callReviews.enqueue(object : Callback<ResponseBody> {
@@ -82,13 +82,11 @@ class ReviewsLibraryFragment : Fragment() {
                             {
                                 val reviewsArray = responseJson.getJSONArray("reviewsbyusernames")
                                 val reviewstitleList = ArrayList<String>()
-                                //val reviewsImageList = ArrayList<String>()
                                 val reviewsimagesList = ArrayList<String>()
                                 for(i in 0 until reviewsArray.length())
                                 {
                                     reviewstitleList.add(reviewsArray.getJSONObject(i).getString("title"))
                                     reviewsimagesList.add(reviewsArray.getJSONObject(i).getString("image"))
-
                                 }
                                 mainHandler.post {
                                     adapter = RecViewReviewsLibraryAdapter(reviewstitleList,reviewsimagesList)

@@ -34,7 +34,8 @@ class GameActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private var reviewstatus = 0
-    private var noreviews = 0
+    private var reviewsnumber = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -185,6 +186,12 @@ class GameActivity : AppCompatActivity() {
                             {
                                 reviewstitle.setText(reviewsArray.getJSONObject(0).getString("title"))
                                 reviewsrating.setText(reviewsArray.getJSONObject(0).getString("rating"))
+                                reviewsrating1.setVisibility(View.GONE)
+                                reviewstitle1.setVisibility(View.GONE)
+                                imagereviews2.setVisibility(View.GONE)
+                                elipse_point2.setVisibility(View.GONE)
+                                star2.setVisibility(View.GONE)
+                                reviewsnumber = 1
                             }
                             else if(reviewsArray.length() >= 2)
                             {
@@ -192,11 +199,11 @@ class GameActivity : AppCompatActivity() {
                                 reviewsrating.setText(reviewsArray.getJSONObject(0).getString("rating"))
                                 reviewstitle1.setText(reviewsArray.getJSONObject(1).getString("title"))
                                 reviewsrating1.setText(reviewsArray.getJSONObject(1).getString("rating"))
+                                reviewsnumber = 2
                             }
 
                         }
-                        else {
-                            noreviews = 1
+                        else{
                             reviewsrating.setVisibility(View.GONE)
                             reviewsrating1.setVisibility(View.GONE)
                             reviewstitle.setVisibility(View.GONE)
@@ -225,15 +232,6 @@ class GameActivity : AppCompatActivity() {
         }
 
         allgamereviewstv.setOnClickListener {
-            val fragment = ReviewsGameFragment()
-            val args = Bundle()
-            args.putInt("gameid", gameID)
-            fragment.arguments = args
-            val fragmentManager: FragmentManager = supportFragmentManager
-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
             if ( reviewstatus == 0) {
                 reviewsrating.setVisibility(View.GONE)
                 reviewsrating1.setVisibility(View.GONE)
@@ -246,9 +244,17 @@ class GameActivity : AppCompatActivity() {
                 star.setVisibility(View.GONE)
                 star2.setVisibility(View.GONE)
                 reviewstatus = 1
-
+                val fragment = ReviewsGameFragment()
+                val args = Bundle()
+                args.putInt("gameid", gameID)
+                fragment.arguments = args
+                val fragmentManager: FragmentManager = supportFragmentManager
+                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+                fragmentTransaction.addToBackStack(null)
+                fragmentTransaction.commit()
             }
-            else if(reviewstatus == 1 && noreviews==0)
+            else if(reviewstatus == 1  && reviewsnumber ==2)
             {
                 reviewsrating.setVisibility(View.VISIBLE)
                 reviewsrating1.setVisibility(View.VISIBLE)
@@ -261,7 +267,19 @@ class GameActivity : AppCompatActivity() {
                 star.setVisibility(View.VISIBLE)
                 star2.setVisibility(View.VISIBLE)
                 reviewstatus = 0
-                fragmentTransaction.hide(fragment)
+                val fragmentManager: FragmentManager = supportFragmentManager
+                fragmentManager.popBackStack()
+            }
+            else if(reviewstatus == 1 && reviewsnumber ==1)
+            {
+                reviewsrating.setVisibility(View.VISIBLE)
+                reviewstitle.setVisibility(View.VISIBLE)
+                imagereviews1.setVisibility(View.VISIBLE)
+                elipse_point.setVisibility(View.VISIBLE)
+                star.setVisibility(View.VISIBLE)
+                reviewstatus = 0
+                val fragmentManager: FragmentManager = supportFragmentManager
+                fragmentManager.popBackStack()
             }
 
         }
@@ -271,6 +289,8 @@ class GameActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 }
 
 

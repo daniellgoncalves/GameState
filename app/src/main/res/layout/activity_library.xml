@@ -538,7 +538,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="Este jogo irrita-me profundamente!!"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -568,21 +568,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="Review sobre o TLOU2 (sem spoiler)"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14sp" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical">
-                        <FrameLayout
-                            android:id="@+id/fragmentContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
+
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+                    <FrameLayout
+                        android:id="@+id/fragmentContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/showallreviewstv"
                     android:layout_width="match_parent"
@@ -592,6 +593,7 @@
                     android:soundEffectsEnabled="false"
                     android:text="Show all reviews"
                     android:textSize="12sp" />
+
             </LinearLayout>
 
             <LinearLayout

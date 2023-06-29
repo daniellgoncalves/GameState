@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.FragmentManager
@@ -39,7 +38,7 @@ class LibraryActivity : AppCompatActivity() {
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
     private var reviewstatus = 0
-    private var noreviews = 0
+    private var reviewsnumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -275,7 +274,9 @@ class LibraryActivity : AppCompatActivity() {
         val t = Thread(r)
         t.start()
 
-        val callReviewsuser = service.sendReviewByUser(requestBodyUser)
+        val requestBodyuser_id = JsonObject()
+        requestBodyuser_id.addProperty("user_id", userID)
+        val callReviewsuser = service.sendReviewByUser(requestBodyuser_id)
 
         val rReviewsuser = Runnable {
             callReviewsuser.enqueue(object : Callback<ResponseBody> {
@@ -293,6 +294,10 @@ class LibraryActivity : AppCompatActivity() {
                                     .load(reviewsArray.getJSONObject(0).getString("image"))
                                     .centerCrop()
                                     .into(reviewimage1)
+                                reviewtext2.setVisibility(View.GONE)
+                                reviewimage2.setVisibility(View.GONE)
+                                reviewsnumber = 1
+                                Toast.makeText(applicationContext, "merda", Toast.LENGTH_SHORT).show()
                             }
                             else if(reviewsArray.length() >= 2)
                             {
@@ -306,11 +311,11 @@ class LibraryActivity : AppCompatActivity() {
                                     .load(reviewsArray.getJSONObject(1).getString("image"))
                                     .centerCrop()
                                     .into(reviewimage2)
+                                reviewsnumber = 2
                             }
 
                         }
                         else {
-                            noreviews = 1
                             reviewtext1.setVisibility(View.GONE)
                             reviewtext2.setVisibility(View.GONE)
                             reviewimage1.setVisibility(View.GONE)
@@ -328,36 +333,48 @@ class LibraryActivity : AppCompatActivity() {
         val tReviewsuser = Thread(rReviewsuser)
         tReviewsuser.start()
         showallreviewstv.setOnClickListener {
-            val fragment = ReviewsLibraryFragment()
-            val args = Bundle()
-            args.putString("username", loginAutomatic)
-            fragment.arguments = args
-            val fragmentManager: FragmentManager = supportFragmentManager
-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
 
             if ( reviewstatus == 0) {
+                showallreviewstv.setText("Show less reviews")
                 reviewtext1.setVisibility(View.GONE)
                 reviewtext2.setVisibility(View.GONE)
                 reviewimage1.setVisibility(View.GONE)
                 reviewimage2.setVisibility(View.GONE)
                 viewlibrary.setVisibility(View.GONE)
-                showallreviewstv.setText("Show only 2 reviews")
+                val fragment = ReviewsLibraryFragment()
+                val args = Bundle()
+                args.putString("userid", userID)
+                fragment.arguments = args
+                val fragmentManager: FragmentManager = supportFragmentManager
+                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+                fragmentTransaction.addToBackStack(null)
+                fragmentTransaction.commit()
                 reviewstatus = 1
             }
-            else if(reviewstatus == 1 && noreviews==0)
+            else if(reviewstatus == 1 && reviewsnumber==2)
             {
+                showallreviewstv.setText("Show all reviews")
                 reviewtext1.setVisibility(View.VISIBLE)
                 reviewtext2.setVisibility(View.VISIBLE)
                 reviewimage1.setVisibility(View.VISIBLE)
                 reviewimage2.setVisibility(View.VISIBLE)
                 viewlibrary.setVisibility(View.VISIBLE)
-                showallreviewstv.setText("Show all reviews")
+                val fragmentManager: FragmentManager = supportFragmentManager
+                fragmentManager.popBackStack()
                 reviewstatus = 0
-                fragmentTransaction.hide(fragment)
             }
+            else if(reviewstatus == 1 && reviewsnumber==1)
+            {
+                showallreviewstv.setText("Show all reviews")
+                reviewtext1.setVisibility(View.VISIBLE)
+                reviewimage1.setVisibility(View.VISIBLE)
+                viewlibrary.setVisibility(View.VISIBLE)
+                val fragmentManager: FragmentManager = supportFragmentManager
+                fragmentManager.popBackStack()
+                reviewstatus = 0
+            }
+
         }
     }
 }
