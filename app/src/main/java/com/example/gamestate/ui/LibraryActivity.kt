@@ -297,7 +297,6 @@ class LibraryActivity : AppCompatActivity() {
                                 reviewtext2.setVisibility(View.GONE)
                                 reviewimage2.setVisibility(View.GONE)
                                 reviewsnumber = 1
-                                Toast.makeText(applicationContext, "merda", Toast.LENGTH_SHORT).show()
                             }
                             else if(reviewsArray.length() >= 2)
                             {
