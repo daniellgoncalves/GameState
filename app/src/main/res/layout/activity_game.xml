@@ -309,9 +309,9 @@
 
                     <ImageView
                         android:id="@+id/imagereviews1"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/kazzio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_account_circle_24"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -322,7 +322,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Melhor jogo de sempre"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -353,7 +353,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="9"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -367,9 +367,9 @@
 
                     <ImageView
                         android:id="@+id/imagereviews2"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/logotestegame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_account_circle_24"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -380,7 +380,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Review sobre o TLOU2 (sem spoiler)"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -411,7 +411,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="2"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
