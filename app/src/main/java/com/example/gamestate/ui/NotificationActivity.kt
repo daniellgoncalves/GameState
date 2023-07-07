@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -42,6 +43,18 @@ class NotificationActivity : AppCompatActivity() {
         //val notificationstv: TextView = findViewById(R.id.notifications_tv)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+
         val linearLayoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
                 return false
@@ -81,7 +94,7 @@ class NotificationActivity : AppCompatActivity() {
         val requestBodyUser = JsonObject()
         requestBodyUser.addProperty("username", loginAutomatic)
 
-        val callUser = service.sendTopicByUser(requestBodyUser)
+        val callUser = service.sendTopicByUser(token!!, loginAutomatic!!)
 
         val mainHandler = Handler(Looper.getMainLooper())
 

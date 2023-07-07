@@ -35,12 +35,27 @@ class CreateTopicActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         val title: EditText = findViewById(R.id.createTopic_title_et)
         val topic: EditText = findViewById(R.id.createTopic_text_et)
         val btnTopic : Button = findViewById(R.id.createTopic_button)
         val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
         username.setText(loginAutomatic)
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl(serverIP)
@@ -51,7 +66,7 @@ class CreateTopicActivity : AppCompatActivity() {
         val requestBody = JsonObject()
         requestBody.addProperty("id", gameID)
 
-        val call = service.sendGameByID(requestBody)
+        val call = service.searchByID(token!!, gameID)
 
         val r = Runnable {
             call.enqueue(object : Callback<ResponseBody> {
@@ -125,7 +140,7 @@ class CreateTopicActivity : AppCompatActivity() {
 
             requestBody1.add("likeDislike", likeDislikeObject)
 
-            val call1 = service.createTopic(requestBody1)
+            val call1 = service.createTopic(token!!, requestBody1)
 
             val r1 = Runnable {
                 call1.enqueue(object : Callback<ResponseBody> {

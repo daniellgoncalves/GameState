@@ -38,6 +38,7 @@ class AddGameActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
@@ -47,6 +48,20 @@ class AddGameActivity : AppCompatActivity() {
 
         val title = findViewById<EditText>(R.id.reviewTitle_et).text
         val text = findViewById<EditText>(R.id.reviewText_et).text
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
 
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -82,7 +97,7 @@ class AddGameActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             requestBody.addProperty("id", gameID)
 
-            val call = service.sendGameByID(requestBody)
+            val call = service.searchByID(token!!, gameID)
 
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
@@ -194,7 +209,7 @@ class AddGameActivity : AppCompatActivity() {
 
                 Log.d("rating", getrating.toString())
 
-                val call = service.createReview(requestBody)
+                val call = service.createReview(token!!, requestBody)
 
                 val r = Runnable {
                     call.enqueue(object : Callback<ResponseBody> {

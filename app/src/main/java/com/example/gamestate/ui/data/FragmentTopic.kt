@@ -77,6 +77,7 @@ class FragmentTopic : Fragment() {
         val activity: Activity? = activity
         val sharedPreferences =requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
         val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         val topicid = arguments?.getString("topicid")
         val username = arguments?.getString("username")
         val commentsList= arguments?.getSerializable("arraylistcomment")as? ArrayList<Comment>
@@ -97,7 +98,7 @@ class FragmentTopic : Fragment() {
             requestBody.addProperty("user_id",userid)
 
 
-            val call = service.createcomment(requestBody)
+            val call = service.createcomment(token!!, requestBody)
             val r1 = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

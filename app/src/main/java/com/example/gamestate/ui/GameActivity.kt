@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +46,22 @@ class GameActivity : AppCompatActivity() {
         val username: TextView = findViewById(R.id.homePage_user_text)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         fun removeBrTags(htmlString: String): String {
@@ -85,7 +101,7 @@ class GameActivity : AppCompatActivity() {
         val requestBody = JsonObject()
         requestBody.addProperty("id", gameID)
 
-        val call = service.sendGameByID(requestBody)
+        val call = service.searchByID(token!!, gameID)
 
         val mainHandler = Handler(Looper.getMainLooper())
 
@@ -103,10 +119,21 @@ class GameActivity : AppCompatActivity() {
                             val gameImage : ImageView = findViewById(R.id.selectedGame_iv)
                             val developerImage: ImageView = findViewById(R.id.gameCompany_iv)
                             val gamebio: TextView = findViewById(R.id.gameBio_tv)
+                            val gameRating = findViewById<RatingBar>(R.id.gamePage_ratingBar)
+                            val gameRatingNumber = findViewById<TextView>(R.id.gamePage_ratingValue)
                             val date = responseJson.getJSONObject("message").getString("release_date")
                             val gamebiotext = responseJson.getJSONObject("message").getString("description")
                             val platformList = ArrayList<String>()
                             val platformArray = responseJson.getJSONObject("message").getJSONArray("platforms")
+                            val gameRatingValue: String = responseJson.getJSONObject("message").getString("averageRating")
+                            Log.d("teste", gameRatingValue.toString())
+                            if(gameRatingValue != "0") {
+                                gameRating.rating = gameRatingValue.toFloat()
+                                gameRatingNumber.text = "(" + gameRatingValue + ")"
+                            } else {
+                                gameRating.rating = 0F
+                                gameRatingNumber.text="()"
+                            }
 
                             for (i in 0 until platformArray.length()) {
                                 platformList.add(platformArray.getJSONObject(i).getJSONObject("platform").getString("name"))

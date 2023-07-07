@@ -83,11 +83,13 @@ class MainActivity : AppCompatActivity() {
                                 val status = responseJson.getInt("status")
                                 val msm = responseJson.getString("message")
                                 val id = responseJson.getString("id")
+                                val token = responseJson.getString("token")
                                 if (status == 200)
                                 {
                                     val editor:SharedPreferences.Editor = sharedPreferences.edit()
                                     editor.putString("username",username)
                                     editor.putString("userid",id)
+                                    editor.putString("token", token)
                                     editor.apply()
                                     Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(applicationContext, HomeActivity::class.java))

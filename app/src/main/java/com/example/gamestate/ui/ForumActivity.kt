@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +50,22 @@ class ForumActivity : AppCompatActivity() {
         val btnTopic : Button = findViewById(R.id.createTopic_button)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
         val gameID = intent.getIntExtra("id",-1)
 
@@ -67,7 +83,7 @@ class ForumActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             requestBody.addProperty("id", gameID)
 
-            val callGame = service.sendGameByID(requestBody)
+            val callGame = service.searchByID(token!!, gameID)
 
             val rGame = Runnable {
                 callGame.enqueue(object : Callback<ResponseBody> {
@@ -132,7 +148,7 @@ class ForumActivity : AppCompatActivity() {
             val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
             spinner.adapter = customAdapter
 
-            val callTopic = service.searchTopicByGameID(gameID)
+            val callTopic = service.searchTopicByGameID(token!!, gameID)
 
             val mainHandler = Handler(Looper.getMainLooper())
 
@@ -157,7 +173,7 @@ class ForumActivity : AppCompatActivity() {
                                 }
                             }
                             else {
-                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

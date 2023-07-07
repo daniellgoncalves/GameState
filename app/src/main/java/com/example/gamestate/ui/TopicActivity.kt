@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -71,7 +72,22 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
         val topicCommentButton: Button = findViewById(R.id.topic_comment_button)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
 
@@ -131,8 +147,10 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             val requestBodyTopic = JsonObject()
             requestBodyTopic.addProperty("topic_id", topicID)
 
-            val callGame = service.sendGameByID(requestBodyGame)
-            val callID = service.sendTopicByID(requestBodyTopic)
+            val callGame = service.searchByID(token!!, gameID)
+            val callID = service.sendTopicByID(token!!, topicID.toString())
+
+            Log.d("teste", topicID.toString())
 
             val mainHandler = Handler(Looper.getMainLooper())
 
@@ -213,6 +231,8 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                             val res = response.body()?.string()
                             val responseJson = JSONObject(res!!)
                             if (responseJson.getInt("status") == 200) {
+
+                                Log.d("teste", responseJson.getJSONObject("message").getJSONObject("topics").getString("name"))
 
                                 likes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("likes")
                                 dislikes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("dislikes")
@@ -343,7 +363,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 usernameLD = username.text.toString()
 
                 val callLikeDislike =
-                    serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
+                    serviceLikeDislike.likeDislikeTopic(token!!, requestBodyLikeDislike)
 
                 val r = Runnable {
                     callLikeDislike.enqueue(object : Callback<ResponseBody> {
@@ -416,7 +436,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 usernameLD = username.text.toString()
 
                 val callLikeDislike =
-                    serviceLikeDislike.likeDislikeTopic(requestBodyLikeDislike)
+                    serviceLikeDislike.likeDislikeTopic(token!!, requestBodyLikeDislike)
 
                 val r = Runnable {
                     callLikeDislike.enqueue(object : Callback<ResponseBody> {
