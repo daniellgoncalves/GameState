@@ -43,8 +43,6 @@ class LibraryActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
-    private var reviewstatus = 0
-    private var reviewsnumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,12 +50,6 @@ class LibraryActivity : AppCompatActivity() {
 
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
-        val showallreviewstv: TextView = findViewById(R.id.showallreviewstv)
-        val reviewtext1: TextView = findViewById(R.id.library_reviews_text1)
-        val reviewtext2: TextView = findViewById(R.id.library_reviews_text2)
-        val reviewimage1: ImageView = findViewById(R.id.library_reviews_image1)
-        val reviewimage2: ImageView = findViewById(R.id.library_reviews_image2)
-        val viewlibrary: View = findViewById(R.id.viewlibrary)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userID = sharedPreferences.getString("userid","")
@@ -152,12 +144,6 @@ class LibraryActivity : AppCompatActivity() {
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spinnerHeader.adapter = adapter
 
-        val recyclerView = findViewById<RecyclerView>(R.id.library_recyclerview)
-        val linearLayoutManager = object : LinearLayoutManager(this) {
-            override fun canScrollVertically(): Boolean {
-                return false
-            }
-        }
 
         var images = arrayListOf<ImageView>(firstImg, secondImg, thirdImg, fourthImg, fifthImg, sixthImg)
 
