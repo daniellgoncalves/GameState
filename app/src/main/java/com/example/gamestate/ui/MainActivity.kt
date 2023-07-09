@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         val serverIP = resources.getString(R.string.server_ip)
 
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("imageUri","")
+        editor.apply()
         val loginAutomatic = sharedPreferences.getString("username","")
         if (loginAutomatic != null) {
             if (loginAutomatic.isNotEmpty()) {
@@ -87,12 +90,14 @@ class MainActivity : AppCompatActivity() {
                                 val responseJson = JSONObject(res!!)
                                 val status = responseJson.getInt("status")
                                 val msm = responseJson.getString("message")
-                                val id = responseJson.getString("id")
                                 if (status == 200)
                                 {
+                                    val id = responseJson.getString("id")
+                                    val token = responseJson.getString("token")
                                     val editor:SharedPreferences.Editor = sharedPreferences.edit()
                                     editor.putString("username",username)
                                     editor.putString("userid",id)
+                                    editor.putString("token", token)
                                     editor.apply()
                                     val requestBody = JsonObject()
                                     getPushToken().thenAccept { token ->

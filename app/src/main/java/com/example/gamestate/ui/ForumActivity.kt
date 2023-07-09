@@ -2,15 +2,19 @@ package com.example.gamestate.ui
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Forum.RecViewForumAdapter
 import com.example.gamestate.ui.data.Forum.SpinnerForumAdapter
@@ -49,7 +53,46 @@ class ForumActivity : AppCompatActivity() {
         val btnTopic : Button = findViewById(R.id.createTopic_button)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        val mapButton: ImageButton = findViewById(R.id.map_button)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
 
         val gameID = intent.getIntExtra("id",-1)
 
@@ -67,7 +110,7 @@ class ForumActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             requestBody.addProperty("id", gameID)
 
-            val callGame = service.sendGameByID(requestBody)
+            val callGame = service.searchByID(token!!, gameID)
 
             val rGame = Runnable {
                 callGame.enqueue(object : Callback<ResponseBody> {
@@ -126,13 +169,19 @@ class ForumActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            mapButton.setOnClickListener {
+                val intent = Intent(this, MapActivity::class.java)
+                intent.putExtra("id", gameID)
+                startActivity(intent)
+            }
+
             val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
             spinnerHeader.adapter = customAdapterSettings
 
             val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
             spinner.adapter = customAdapter
 
-            val callTopic = service.searchTopicByGameID(gameID)
+            val callTopic = service.searchTopicByGameID(token!!, gameID)
 
             val mainHandler = Handler(Looper.getMainLooper())
 
@@ -157,7 +206,7 @@ class ForumActivity : AppCompatActivity() {
                                 }
                             }
                             else {
-                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(applicationContext, responseJson.getString("message"), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

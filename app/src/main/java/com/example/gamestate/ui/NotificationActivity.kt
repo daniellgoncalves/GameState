@@ -3,17 +3,22 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.Notification.RecViewNotificationAdapter
@@ -42,12 +47,48 @@ class NotificationActivity : AppCompatActivity() {
         //val notificationstv: TextView = findViewById(R.id.notifications_tv)
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
+
         val linearLayoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
                 return false
             }
         }
         username.text = loginAutomatic
+
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -81,7 +122,7 @@ class NotificationActivity : AppCompatActivity() {
         val requestBodyUser = JsonObject()
         requestBodyUser.addProperty("username", loginAutomatic)
 
-        val callUser = service.sendTopicByUser(requestBodyUser)
+        val callUser = service.sendTopicByUser(token!!, loginAutomatic!!)
 
         val mainHandler = Handler(Looper.getMainLooper())
 

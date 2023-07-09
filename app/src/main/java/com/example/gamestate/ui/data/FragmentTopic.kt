@@ -9,9 +9,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.util.TimeUtils.formatDuration
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gamestate.R
 import com.example.gamestate.ui.RecyclerViewUpdateListener
+import com.example.gamestate.ui.TopicActivity
+import com.example.gamestate.ui.data.Library.RecViewLibraryAdapter
+import com.example.gamestate.ui.data.Topic.RecViewTopicAdapter
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -20,6 +25,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -68,14 +75,14 @@ class FragmentTopic : Fragment() {
         val view = inflater.inflate(R.layout.fragment_topic, container, false)
         // Inflate the layout for this fragment
         val activity: Activity? = activity
-        var sharedPreferences =
-            requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
-        val userid = sharedPreferences.getString("userid", "")
+        val sharedPreferences =requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
+        val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         val userIDTopic = arguments?.getString("userID")
         val topicid = arguments?.getString("topicid")
-        val gameID = arguments?.getInt("gameID")
         val username = arguments?.getString("username")
-        val commentsList = arguments?.getSerializable("arraylistcomment") as? ArrayList<Comment>
+        val gameID = arguments?.getInt("gameID")
+        val commentsList= arguments?.getSerializable("arraylistcomment")as? ArrayList<Comment>
         val commentbutton: ImageButton = view.findViewById(R.id.commentbutton)
         val comment: EditText = view.findViewById(R.id.editcomment)
         val serverIP = resources.getString(R.string.server_ip)
@@ -86,38 +93,35 @@ class FragmentTopic : Fragment() {
         val service = retrofit.create(RetroFitService::class.java)
 
         val requestBody = JsonObject()
-        fun commentinit() {
+        fun commentinit(){
             val commentText = comment.text.toString()
             requestBody.addProperty("text", commentText)
             requestBody.addProperty("topic_id", topicid)
-            requestBody.addProperty("user_id", userid)
+            requestBody.addProperty("user_id",userid)
 
-            val call = service.createcomment(requestBody)
+
+            val call = service.createcomment(token!!, requestBody)
             val r1 = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if (response.isSuccessful) {
                             val res = response.body()?.string()
                             val responseJson = JSONObject(res!!)
                             val msm = responseJson.getString("message")
-                            if (responseJson.getInt("status") == 200) {
-                                commentsList?.add(
-                                    Comment(
-                                        commentText, username!!, "Just Now"
-                                    )
+                            if (responseJson.getInt("status") == 200)
+                            {
+                                commentsList?.add(Comment(
+                                    commentText,username!!,"Just Now")
                                 )
                                 updateMainActivityRecyclerView(commentsList!!)
 
                                 Toast.makeText(activity, msm, Toast.LENGTH_SHORT).show()
-                            } else {
+                            }
+                            else {
                                 Toast.makeText(activity, msm, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
-
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Toast.makeText(activity, "Network Failure", Toast.LENGTH_SHORT).show()
                     }

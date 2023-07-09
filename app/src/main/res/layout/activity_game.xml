@@ -14,13 +14,13 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/homePage_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
-            android:src="@drawable/baseline_account_circle_24"></ImageView>
+            android:src="@drawable/baseline_account_circle_24"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:id="@+id/homePage_user_text"
@@ -146,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatRatingBar
@@ -155,11 +156,19 @@
                     android:layout_height="wrap_content"
                     android:isIndicator="true"
                     android:numStars="10"
+                    android:stepSize="0.1"
                     android:progressTint="#FFD700"
-                    android:rating="7.3"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:secondaryProgressTint="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/gamePage_ratingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp">
+
+                </TextView>
             </LinearLayout>
 
             <LinearLayout
@@ -179,27 +188,23 @@
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="150dp"
+                    android:background="@drawable/edit_background">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/gameBio_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/gameBio_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="105dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/edit_background"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="5dp"
-                            android:scrollbars="vertical"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
+                        android:layout_marginTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:textSize="14sp"
+                        android:scrollbars="vertical"
+                        android:scrollbarStyle="insideOverlay"
+                        android:overScrollMode="ifContentScrolls" />
 
                 </androidx.core.widget.NestedScrollView>
+
 
 
                 <LinearLayout

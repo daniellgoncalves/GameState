@@ -3,12 +3,14 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
@@ -35,12 +37,51 @@ class CreateTopicActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         val title: EditText = findViewById(R.id.createTopic_title_et)
         val topic: EditText = findViewById(R.id.createTopic_text_et)
         val btnTopic : Button = findViewById(R.id.createTopic_button)
         val gameID = intent.getIntExtra("id",0);
         val serverIP = resources.getString(R.string.server_ip)
         username.setText(loginAutomatic)
+
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl(serverIP)
@@ -51,7 +92,7 @@ class CreateTopicActivity : AppCompatActivity() {
         val requestBody = JsonObject()
         requestBody.addProperty("id", gameID)
 
-        val call = service.sendGameByID(requestBody)
+        val call = service.searchByID(token!!, gameID)
 
         val r = Runnable {
             call.enqueue(object : Callback<ResponseBody> {
@@ -125,7 +166,7 @@ class CreateTopicActivity : AppCompatActivity() {
 
             requestBody1.add("likeDislike", likeDislikeObject)
 
-            val call1 = service.createTopic(requestBody1)
+            val call1 = service.createTopic(token!!, requestBody1)
 
             val r1 = Runnable {
                 call1.enqueue(object : Callback<ResponseBody> {
@@ -138,7 +179,6 @@ class CreateTopicActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT)
                                     .show()
-                                finish()
                             }
                             else {
                                 Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
@@ -152,6 +192,10 @@ class CreateTopicActivity : AppCompatActivity() {
             }
             val t1 = Thread(r1)
             t1.start()
+
+            val intent = Intent(this,ForumActivity::class.java)
+            intent.putExtra("id",gameID);
+            startActivity(intent)
         }
         btnTopic.setOnClickListener {
             topicinit()

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/layout_image_library"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/layout_image_library"
+        app:layout_constraintTop_toTopOf="@id/layout_image_library">
+
+        <TextView
+            android:id="@+id/layout_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textStyle="bold"
+            android:text="lol"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/layout_image_library"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/layout_image_library"
+            app:layout_constraintTop_toTopOf="@id/layout_image_library"
+            android:layout_marginStart="15dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/layout_image_star_profile"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/star1"/>
+
+            <TextView
+                android:id="@+id/layout_rating_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="lol"
+                android:textSize="14sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/layout_image_library"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/layout_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lol"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_image_library"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

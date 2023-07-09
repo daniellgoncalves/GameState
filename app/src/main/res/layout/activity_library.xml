@@ -47,8 +47,8 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl"
-        app:layout_constraintTop_toBottomOf="@id/homePage_header">
+        app:layout_constraintTop_toBottomOf="@id/homePage_header"
+        app:layout_constraintBottom_toTopOf="@id/homePage_footer_rl">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,9 +79,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="10dp">
 
 
                         <RelativeLayout
@@ -111,39 +111,41 @@
                                 android:id="@+id/gameStatus_firstGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_firstgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_firstgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_firstGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -176,39 +178,41 @@
                                 android:id="@+id/gameStatus_secondGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_secondgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_secondgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_secondGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -240,39 +244,41 @@
                                 android:id="@+id/gameStatus_thirdGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_thirdgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_thirdgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_thirdGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -283,9 +289,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="10dp">
 
                         <RelativeLayout
                             android:layout_width="110dp"
@@ -313,39 +319,41 @@
                                 android:id="@+id/gameStatus_fourthGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_fourthgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_fourthgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_fourthGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -379,39 +387,41 @@
                                 android:id="@+id/gameStatus_fifthGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_fifthgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_fifthgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_fifthGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -443,39 +453,41 @@
                                 android:id="@+id/gameStatus_sixthGame"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:adjustViewBounds="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/strokegamestatus"></ImageView>
+                                android:layout_marginEnd="10dp">
+                            </ImageView>
 
                             <LinearLayout
+                                android:id="@+id/rating_base_sixthgame"
                                 android:layout_width="35dp"
                                 android:layout_height="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/libraryratingbase"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/star_sixthgame"
                                     android:layout_width="8dp"
                                     android:layout_height="8dp"
-                                    android:layout_marginRight="2dp"
-                                    android:src="@drawable/star1"></ImageView>
+                                    android:layout_marginRight="2dp">
+                                </ImageView>
 
                                 <TextView
                                     android:id="@+id/gameRating_sixthGame"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:fontFamily="@font/montserrat"
-                                    android:gravity="center"
-                                    android:textAlignment="center"
                                     android:textColor="@color/white"
+                                    android:textAlignment="center"
                                     android:textSize="10dp"
-                                    android:textStyle="bold"></TextView>
+                                    android:gravity="center"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat">
+                                </TextView>
 
                             </LinearLayout>
 
@@ -490,98 +502,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Reviews"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/library_reviews_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/library_reviews_image1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp" />
-
-                    <TextView
-                        android:id="@+id/library_reviews_text1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/viewlibrary"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@android:color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/library_reviews_image2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp" />
-
-                    <TextView
-                        android:id="@+id/library_reviews_text2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/fragmentContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/showallreviewstv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:soundEffectsEnabled="false"
-                    android:text="Show all reviews"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -592,7 +536,7 @@
                     android:textSize="17sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/library_recyclerview"
+                    android:id="@+id/library_topics_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
@@ -622,10 +566,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="90dp"
+                android:orientation="vertical"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginEnd="90dp">
 
                 <ImageButton
                     android:id="@+id/homePage_library"
@@ -653,9 +597,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:gravity="center">
 
                 <ImageButton
                     android:id="@+id/homePage_notifications"

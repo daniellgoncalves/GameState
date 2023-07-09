@@ -4,6 +4,7 @@ import android.R.attr.rating
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.*
 import android.widget.RatingBar.OnRatingBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
@@ -38,7 +40,13 @@ class AddGameActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
         val reviewButton = findViewById<Button>(R.id.makeReview_button)
@@ -47,6 +55,38 @@ class AddGameActivity : AppCompatActivity() {
 
         val title = findViewById<EditText>(R.id.reviewTitle_et).text
         val text = findViewById<EditText>(R.id.reviewText_et).text
+
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                    .centerCrop()
+                    .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
+
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
 
 
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -82,7 +122,7 @@ class AddGameActivity : AppCompatActivity() {
             val requestBody = JsonObject()
             requestBody.addProperty("id", gameID)
 
-            val call = service.sendGameByID(requestBody)
+            val call = service.searchByID(token!!, gameID)
 
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
@@ -194,7 +234,7 @@ class AddGameActivity : AppCompatActivity() {
 
                 Log.d("rating", getrating.toString())
 
-                val call = service.createReview(requestBody)
+                val call = service.createReview(token!!, requestBody)
 
                 val r = Runnable {
                     call.enqueue(object : Callback<ResponseBody> {
@@ -234,7 +274,9 @@ class AddGameActivity : AppCompatActivity() {
                 val t = Thread(r)
                 t.start()
 
-                finish()
+                val intent = Intent(this,GameActivity::class.java)
+                intent.putExtra("id",gameID);
+                startActivity(intent)
             }
         }
     }
