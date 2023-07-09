@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity() {
                                     val requestBody = JsonObject()
                                     getPushToken().thenAccept { token ->
                                         requestBody.addProperty("pushToken", token)
-                                        val call = service.updateUserPushToken(id, requestBody)
+                                        val token = sharedPreferences.getString("token","")
+                                        val call = service.updateUserPushToken(token!!, id, requestBody)
                                         val r = Runnable { call.execute() }
                                         val t = Thread(r)
                                         t.start()

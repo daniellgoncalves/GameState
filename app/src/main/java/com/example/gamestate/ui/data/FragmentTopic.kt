@@ -169,7 +169,8 @@ class FragmentTopic : Fragment() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
-            val call = service.searchUserByID(userIDTopic!!)
+            val token = sharedPreferences.getString("token","")
+            val call = service.searchUserByID(token!!, userIDTopic!!)
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(

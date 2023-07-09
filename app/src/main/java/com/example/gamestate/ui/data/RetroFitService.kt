@@ -40,8 +40,8 @@ interface RetroFitService {
     @Headers("Content-Type: application/json")
     fun searchByID(@Header("Authorization") authorizationHeader: String, @Path("id") id: Int): Call<ResponseBody>
 
-    @PUT("/user/{userID}")
-    fun updateUserPushToken(@Path("userID") id: String, @Body body: JsonObject): Call<ResponseBody>
+    @PUT("/users/{id}")
+    fun updateUserPushToken(@Header("Authorization") authorizationHeader: String, @Path("id") id: String, @Body body: JsonObject): Call<ResponseBody>
 
     @POST("/game/search")
     fun sendGame(@Body body: JsonObject): Call<ResponseBody>
@@ -108,8 +108,8 @@ interface RetroFitService {
     @POST("/fcm/send")
     fun sendPushNotification(@Body body: JsonObject, @Header("Content-Type") type: String, @Header("Authorization") key: String): Call<ResponseBody>
 
-    @GET("/user/{userID}")
-    fun searchUserByID(@Path("userID") id: String): Call<ResponseBody>
+    @GET("/users/{id}")
+    fun searchUserByID(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>
 
     @GET("/reviews/searchbyid/{gameId}")
     fun searchReviewsbyGameID(@Path("gameId") id: Int): Call<ResponseBody>
