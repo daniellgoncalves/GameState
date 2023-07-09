@@ -266,7 +266,7 @@ class GameActivity : AppCompatActivity() {
         }
 
 
-        val callReviews = service.searchReviewsbyGameID(gameID)
+        val callReviews = service.searchReviewsbyGameID(token!!,gameID)
 
         val rReviews = Runnable {
             callReviews.enqueue(object : Callback<ResponseBody> {
@@ -342,6 +342,7 @@ class GameActivity : AppCompatActivity() {
                 val fragment = ReviewsGameFragment()
                 val args = Bundle()
                 args.putInt("gameid", gameID)
+                args.putString("token", token)
                 fragment.arguments = args
                 val fragmentManager: FragmentManager = supportFragmentManager
                 val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

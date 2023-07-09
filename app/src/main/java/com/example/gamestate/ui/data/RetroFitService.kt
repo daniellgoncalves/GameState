@@ -112,7 +112,8 @@ interface RetroFitService {
     fun searchUserByID(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>
 
     @GET("/reviews/searchbyid/{gameId}")
-    fun searchReviewsbyGameID(@Path("gameId") id: Int): Call<ResponseBody>
+    @Headers("Content-Type: application/json")
+    fun searchReviewsbyGameID(@Header("Authorization") authorizationHeader: String,@Path("gameId") id: Int): Call<ResponseBody>
 
     @POST("/reviews/searchbyuser")
     fun sendReviewByUser(@Body body: JsonObject): Call<ResponseBody>

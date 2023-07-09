@@ -1,6 +1,7 @@
 package com.example.gamestate.ui.data
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -50,6 +51,7 @@ class ReviewsGameFragment : Fragment() {
         // Inflate the layout for this fragment
         val activity: Activity? = activity
         val gameID = arguments?.getInt("gameid")
+        val token = arguments?.getString("token")
         val recyclerView = view.findViewById<RecyclerView>(R.id.game_reviews_recyclerview)
         val serverIP = resources.getString(R.string.server_ip)
         val linearLayoutManager = object : LinearLayoutManager(activity) {
@@ -64,7 +66,7 @@ class ReviewsGameFragment : Fragment() {
         val service = retrofit.create(RetroFitService::class.java)
         val mainHandler = Handler(Looper.getMainLooper())
         fun reviewsinit(){
-            val callReviews = service.searchReviewsbyGameID(gameID!!)
+            val callReviews = service.searchReviewsbyGameID(token!!,gameID!!)
             val r1 = Runnable {
                 callReviews.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

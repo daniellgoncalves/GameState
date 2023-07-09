@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
@@ -26,23 +25,19 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
+import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.Profile.RecViewProfileReviewsAdapter
 import com.example.gamestate.ui.data.Profile.RecViewProfileTopicsAdapter
 import com.example.gamestate.ui.data.Profile.RecViewProfileWishlistAdapter
 import com.example.gamestate.ui.data.RetroFitService
-import com.google.gson.Gson
 import com.google.gson.JsonObject
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -180,6 +175,8 @@ class ProfileActivity : AppCompatActivity() {
 
             }
         }
+        val adapter = SpinnerAdapter(applicationContext, images, settings)
+        spinnerHeader.adapter = adapter
 
         var profileUsername = findViewById<TextView>(R.id.profile_name_tv)
         profileUsername.text = loginAutomatic
