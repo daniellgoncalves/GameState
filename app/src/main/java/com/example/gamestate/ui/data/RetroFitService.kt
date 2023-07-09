@@ -105,8 +105,8 @@ interface RetroFitService {
     @GET("/games/{id}/countries")
     @Headers("Content-Type: application/json")
     fun getCountries(@Header("Authorization") authorizationHeader: String, @Path("id") id: Int): Call<ResponseBody>
-    @POST("/fcm/send")
-    fun sendPushNotification(@Body body: JsonObject, @Header("Content-Type") type: String, @Header("Authorization") key: String): Call<ResponseBody>
+    @POST("/users/pushnotifications")
+    fun sendPushNotification(@Header("Authorization") authorizationHeader: String, @Body body: JsonObject): Call<ResponseBody>
 
     @GET("/users/{id}")
     fun searchUserByID(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>

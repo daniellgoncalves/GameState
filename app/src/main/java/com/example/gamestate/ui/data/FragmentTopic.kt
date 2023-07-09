@@ -132,7 +132,7 @@ class FragmentTopic : Fragment() {
         }
 
         fun sendPushNotification(pushToken: String) {
-            val server = "https://fcm.googleapis.com/"
+            val server = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
                 .baseUrl(server)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -140,23 +140,13 @@ class FragmentTopic : Fragment() {
             val service = retrofit.create(RetroFitService::class.java)
 
             val requestBody = JsonObject()
-            requestBody.addProperty("to", pushToken)
+            requestBody.addProperty("pushToken", pushToken)
+            requestBody.addProperty("body", "New Comment on the topic")
+            requestBody.addProperty("title", "New Comment")
+            requestBody.addProperty("topicId", topicid)
+            requestBody.addProperty("gameId", gameID)
 
-            val notificationObject = JsonObject()
-            notificationObject.addProperty("body", "$username commented on your topic")
-            notificationObject.addProperty("title", "Comment")
-
-            requestBody.add("notification", notificationObject)
-
-            val dataObject = JsonObject()
-            dataObject.addProperty("body", "$username commented on your topic")
-            dataObject.addProperty("title", "Comment")
-            dataObject.addProperty("topicID", topicid)
-            dataObject.addProperty("gameID", gameID)
-
-            requestBody.add("data", dataObject)
-
-            val call = service.sendPushNotification(requestBody, "application/json", resources.getString(R.string.pushNotificationKey))
+            val call = service.sendPushNotification(token!!, requestBody)
             val r = Runnable {call.execute()}
             val t = Thread(r)
             t.start()
