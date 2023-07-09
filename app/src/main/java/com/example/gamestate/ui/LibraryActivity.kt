@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.Image
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.Library.RecViewLibraryAdapter
@@ -87,6 +89,11 @@ class LibraryActivity : AppCompatActivity() {
 
         username.text = loginAutomatic
 
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
         val homeButton: ImageButton = findViewById(R.id.home_home)
 
@@ -95,6 +102,24 @@ class LibraryActivity : AppCompatActivity() {
         }
         notificationbutton.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
         }
 
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -258,6 +283,37 @@ class LibraryActivity : AppCompatActivity() {
         }
 
         subscribedGames()
+
+        firstImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[0]);
+            startActivity(intent)
+        }
+        secondImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[1]);
+            startActivity(intent)
+        }
+        thirdImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[2]);
+            startActivity(intent)
+        }
+        fourthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[3]);
+            startActivity(intent)
+        }
+        fifthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[4]);
+            startActivity(intent)
+        }
+        sixthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[5]);
+            startActivity(intent)
+        }
 
         val topicsRecyclerView = findViewById<RecyclerView>(R.id.library_topics_recyclerview)
         val linearLayoutManagerTopics = object : LinearLayoutManager(this) {

@@ -2,6 +2,8 @@ package com.example.gamestate.ui
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Forum.RecViewForumAdapter
 import com.example.gamestate.ui.data.Forum.SpinnerForumAdapter
@@ -53,9 +56,15 @@ class ForumActivity : AppCompatActivity() {
         val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
 
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         val library: ImageButton = findViewById(R.id.homePage_library)
         val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
         val homeButton: ImageButton = findViewById(R.id.home_home)
+        val mapButton: ImageButton = findViewById(R.id.map_button)
 
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
@@ -65,6 +74,24 @@ class ForumActivity : AppCompatActivity() {
         }
         notificationbutton.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
         }
 
         val gameID = intent.getIntExtra("id",-1)
@@ -139,6 +166,12 @@ class ForumActivity : AppCompatActivity() {
             btnTopic.setOnClickListener {
                 val intent = Intent(this,CreateTopicActivity::class.java)
                 intent.putExtra("id",gameID)
+                startActivity(intent)
+            }
+
+            mapButton.setOnClickListener {
+                val intent = Intent(this, MapActivity::class.java)
+                intent.putExtra("id", gameID)
                 startActivity(intent)
             }
 

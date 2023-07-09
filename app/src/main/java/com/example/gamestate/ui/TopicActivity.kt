@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -39,6 +40,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.ui.data.FragmentTopic
 interface RecyclerViewUpdateListener {
     fun updateRecyclerView(dataList: ArrayList<Comment>)
@@ -75,6 +77,11 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
         val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
 
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         val library: ImageButton = findViewById(R.id.homePage_library)
         val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
         val homeButton: ImageButton = findViewById(R.id.home_home)
@@ -87,6 +94,24 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
         }
         notificationbutton.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
         }
 
         val spin: Spinner = findViewById(R.id.home_header_spinner)
@@ -149,8 +174,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
 
             val callGame = service.searchByID(token!!, gameID)
             val callID = service.sendTopicByID(token!!, topicID.toString())
-
-            Log.d("teste", topicID.toString())
 
             val mainHandler = Handler(Looper.getMainLooper())
 

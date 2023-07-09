@@ -14,13 +14,13 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/homePage_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
-            android:src="@drawable/baseline_account_circle_24"></ImageView>
+            android:src="@drawable/baseline_account_circle_24"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:id="@+id/homePage_user_text"
@@ -64,14 +64,14 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_picture"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:scaleType="fitCenter"
                 android:layout_marginTop="50dp"
                 android:src="@drawable/baseline_account_circle_24"
                 android:background="@drawable/profile_image_circle"
-                android:layout_gravity="center_horizontal"></ImageView>
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/profile_name_tv"
@@ -111,6 +111,17 @@
                     android:textSize="15dp"></TextView>
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/upload_picture_button"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_background_login"
+                android:fontFamily="@font/montserrat"
+                android:text="Change profile picture"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/subscribedGames_layout"

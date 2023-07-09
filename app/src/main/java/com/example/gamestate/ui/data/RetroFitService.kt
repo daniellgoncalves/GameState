@@ -1,22 +1,25 @@
 package com.example.gamestate.ui.data
 
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetroFitService {
-    @POST("/user/forgotpwd")
+    @POST("/users/forgotpwd")
     @Headers("Content-Type: application/json")
     fun sendEmail(@Body body: JsonObject): Call<ResponseBody>
 
-    @POST("/user/register")
+    @POST("/users/register")
     @Headers("Content-Type: application/json")
     fun register(@Body body: JsonObject): Call<ResponseBody>
 
@@ -76,4 +79,24 @@ interface RetroFitService {
     @GET("/users/{id}/reviews")
     @Headers("Content-Type: application/json")
     fun findByUser(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>
+
+    @POST("/users/{id}/wishlist")
+    @Headers("Content-Type: application/json")
+    fun addGameToWishlist(@Header("Authorization") authorizationHeader: String, @Path("id") id: String, @Body body: JsonObject): Call<ResponseBody>
+
+    @GET("/users/{id}/wishlist")
+    @Headers("Content-Type: application/json")
+    fun getWishlist(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>
+
+    @Multipart
+    @POST("users/{id}/uploadprofilepicture") // Replace "upload" with the actual endpoint for image upload
+    fun uploadImage(
+        @Header("Authorization") authorizationHeader: String,
+        @Path("id") id: String,
+        @Part image: MultipartBody.Part
+    ): Call<ResponseBody>
+
+    @GET("/games/{id}/countries")
+    @Headers("Content-Type: application/json")
+    fun getCountries(@Header("Authorization") authorizationHeader: String, @Path("id") id: Int): Call<ResponseBody>
 }

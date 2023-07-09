@@ -3,7 +3,14 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,9 +18,11 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.RecViewHomeAdapter
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
@@ -36,9 +45,12 @@ class HomeActivity : AppCompatActivity() {
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
+
+    private lateinit var userPicture: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
 
         val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
@@ -46,6 +58,25 @@ class HomeActivity : AppCompatActivity() {
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
+
+        userPicture = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(RequestOptions()
+                    .centerCrop()
+                    .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
+
+
 
         val searchGameText : EditText = findViewById(R.id.home_search_et)
             val firstImg : ImageView = findViewById(R.id.first_game)
@@ -81,7 +112,7 @@ class HomeActivity : AppCompatActivity() {
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
 
-            val call = userService.getPopularGames(token!!, "grand theft auto", "releasedate")
+            val call = userService.getPopularGames(token!!, "", "releasedate")
 
             val r = Runnable {
                 call.enqueue(object : Callback<ResponseBody> {
@@ -198,7 +229,6 @@ class HomeActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
-
 
         popularGames()
 

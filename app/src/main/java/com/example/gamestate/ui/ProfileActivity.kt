@@ -1,30 +1,49 @@
 package com.example.gamestate.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
-import com.example.gamestate.ui.data.Library.RecViewLibraryAdapter
 import com.example.gamestate.ui.data.Profile.RecViewProfileReviewsAdapter
 import com.example.gamestate.ui.data.Profile.RecViewProfileTopicsAdapter
+import com.example.gamestate.ui.data.Profile.RecViewProfileWishlistAdapter
 import com.example.gamestate.ui.data.RetroFitService
+import com.google.gson.Gson
 import com.google.gson.JsonObject
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -33,6 +52,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.util.ArrayList
 
 class ProfileActivity : AppCompatActivity() {
@@ -41,13 +61,22 @@ class ProfileActivity : AppCompatActivity() {
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
 
+    private lateinit var profilePicture: ImageView
+    private lateinit var uploadProfilePicture: Button
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var userPicture: ImageView
+
+    private val SELECT_IMAGE_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
-        val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
         val userID = sharedPreferences.getString("userid","")
@@ -88,6 +117,39 @@ class ProfileActivity : AppCompatActivity() {
         val sixthRatingStar : ImageView = findViewById(R.id.star_sixthgame)
 
         username.text = loginAutomatic
+
+        profilePicture = findViewById(R.id.profile_picture)
+        uploadProfilePicture = findViewById(R.id.upload_picture_button)
+        userPicture = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        Log.d("teste", imageUriString!!)
+
+        if (imageUriString!! != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUriString)
+                .apply(RequestOptions()
+                    .centerCrop()
+                    .override(800, 800)) // Specify the desired dimensions of the ImageView
+                .into(profilePicture)
+
+            Glide.with(this)
+                .load(imageUriString)
+                .apply(RequestOptions()
+                    .centerCrop()
+                    .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
+
+        uploadProfilePicture.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, SELECT_IMAGE_REQUEST_CODE)
+        }
 
         val library: ImageButton = findViewById(R.id.homePage_library)
         val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
@@ -280,6 +342,85 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+        val wishlistRecyclerView = findViewById<RecyclerView>(R.id.profile_wishlist_recyclerview)
+        val linearLayoutManagerWishlist = object : LinearLayoutManager(this) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
+
+        fun getWishlist() {
+            val serverIP = resources.getString(R.string.server_ip)
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(serverIP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service = retrofit.create(RetroFitService::class.java)
+
+            val requestBodyUser = JsonObject()
+            requestBodyUser.addProperty("username", loginAutomatic)
+
+            val callUser = service.getWishlist(token!!, userID!!)
+
+            val mainHandler = Handler(Looper.getMainLooper())
+
+            val r = Runnable {
+                callUser.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(callUser: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val res = response.body()?.string()
+                            val responseJson = JSONObject(res!!)
+                            if (responseJson.getInt("status") == 200) {
+                                if (responseJson.getJSONArray("message").length() != 0) {
+                                    val wishlistNameList = ArrayList<String>()
+                                    val wishlistImageList = ArrayList<String>()
+                                    val gameIDList = ArrayList<Int>()
+                                    val wishlistArray = responseJson.getJSONArray("message")
+
+                                    for (i in 0 until wishlistArray.length()) {
+                                        wishlistNameList.add(
+                                            wishlistArray.getJSONObject(i).getString("gameName")
+                                        )
+                                        wishlistImageList.add(
+                                            wishlistArray.getJSONObject(i).getString("gameImages")
+                                        )
+                                        gameIDList.add(
+                                            wishlistArray.getJSONObject(i).getInt("wishlistGame")
+                                        )
+                                    }
+
+                                    mainHandler.post {
+                                        wishlistRecyclerView.adapter =
+                                            RecViewProfileWishlistAdapter(
+                                                wishlistNameList,
+                                                wishlistImageList,
+                                                gameIDList
+                                            )
+                                        wishlistRecyclerView.layoutManager =
+                                            linearLayoutManagerWishlist
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        responseJson.getString("message"),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Network Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            val t = Thread(r)
+            t.start()
+        }
+
+        getWishlist()
+
         fun getTopics() {
             val serverIP = resources.getString(R.string.server_ip)
 
@@ -373,13 +514,9 @@ class ProfileActivity : AppCompatActivity() {
 
                                 for (i in 0 until reviewsArray.length()) {
                                     reviewRatingList.add(reviewsArray.getJSONObject(i).getString("rating"))
-                                    Log.d("teste", reviewsArray.getJSONObject(i).getString("rating"))
                                     reviewTitleList.add(reviewsArray.getJSONObject(i).getString("title"))
-                                    Log.d("teste", reviewsArray.getJSONObject(i).getString("title"))
                                     reviewImageList.add(reviewsArray.getJSONObject(i).getString("image"))
-                                    Log.d("teste", reviewsArray.getJSONObject(i).getString("image"))
                                     reviewTextList.add(reviewsArray.getJSONObject(i).getString("text"))
-                                    Log.d("teste", reviewsArray.getJSONObject(i).getString("text"))
                                 }
 
                                 mainHandler.post {
@@ -403,4 +540,143 @@ class ProfileActivity : AppCompatActivity() {
 
         getReviews()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SELECT_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val imageUri: Uri? = data.data
+            if (imageUri != null) {
+                // Display the selected image using Glide
+                Glide.with(this)
+                    .load(imageUri)
+                    .centerCrop()
+                    .override(1000, 1000)
+                    .into(profilePicture)
+
+                Glide.with(this)
+                    .load(imageUri)
+                    .centerCrop()
+                    .override(100, 100)
+                    .into(userPicture)
+
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putString("imageUri",imageUri.toString())
+                editor.apply()
+
+                // Upload the image to the server (you can use the uploadImage() method from your existing code)
+                val imageFile = File(imageUri.path)
+                uploadImage(imageFile)
+            }
+        }
+    }
+
+
+    private fun uploadImage(imageFile: File) {
+        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+        val body = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+
+        val token = sharedPreferences.getString("token","")
+        val userID = sharedPreferences.getString("userid","")
+
+        val serverIP = resources.getString(R.string.server_ip)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(serverIP)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(RetroFitService::class.java)
+        val call = service.uploadImage(token!!, userID!!, body) // Replace authorizationHeader and userId with actual values
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    // Image uploaded successfully
+                    Toast.makeText(
+                        applicationContext,
+                        "Image uploaded successfully!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Handle server error
+                    Toast.makeText(
+                        applicationContext,
+                        "Failed to upload image. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                // Handle network error
+                Toast.makeText(
+                    applicationContext,
+                    "Failed to upload image. Please check your network connection.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+    private fun applyImageConditions(uri: Uri?) {
+        uri?.let { imageUri ->
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+
+            // Create a new Bitmap with the dimensions specified in the ImageView
+            val resultBitmap = Bitmap.createBitmap(profilePicture.width, profilePicture.height, Bitmap.Config.ARGB_8888)
+
+            // Create a Canvas object and set the resultBitmap as its target
+            val canvas = Canvas(resultBitmap)
+
+            // Create a Paint object with anti-aliasing enabled
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+            // Calculate the scaling factors to fit the uploaded image within the circular area
+            val scaleX = profilePicture.width.toFloat() / bitmap.width
+            val scaleY = profilePicture.height.toFloat() / bitmap.height
+
+            // Calculate the scaling factor to maintain the aspect ratio of the uploaded image
+            val scale = minOf(scaleX, scaleY)
+
+            // Calculate the target width and height of the scaled image
+            val scaledWidth = (bitmap.width * scale).toInt()
+            val scaledHeight = (bitmap.height * scale).toInt()
+
+            // Calculate the position to center the scaled image within the circular area
+            val offsetX = (profilePicture.width - scaledWidth) / 2
+            val offsetY = (profilePicture.height - scaledHeight) / 2
+
+            // Create a Matrix object to perform the scaling and translation
+            val matrix = Matrix()
+            matrix.postScale(scale, scale)
+            matrix.postTranslate(offsetX.toFloat(), offsetY.toFloat())
+
+            // Create a Path object to define the circular area
+            val path = Path().apply {
+                addCircle(
+                    profilePicture.width / 2f,
+                    profilePicture.height / 2f,
+                    (profilePicture.width - 2 * profilePicture.paddingStart) / 2f,
+                    Path.Direction.CCW
+                )
+                close()
+            }
+
+            // Clip the canvas to the circular area
+            canvas.clipPath(path)
+
+            // Apply the transformation to the uploaded image
+            val scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+            // Draw the transformed image on the Canvas
+            canvas.drawBitmap(scaledBitmap, 0f, 0f, paint)
+
+            // Set the final resultBitmap to the ImageView
+            profilePicture.setImageBitmap(resultBitmap)
+        }
+    }
+
+
 }

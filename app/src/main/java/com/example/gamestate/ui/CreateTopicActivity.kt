@@ -3,12 +3,14 @@ package com.example.gamestate.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
@@ -43,9 +45,15 @@ class CreateTopicActivity : AppCompatActivity() {
         val serverIP = resources.getString(R.string.server_ip)
         username.setText(loginAutomatic)
 
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         val library: ImageButton = findViewById(R.id.homePage_library)
         val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
         val homeButton: ImageButton = findViewById(R.id.home_home)
+
 
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
@@ -55,6 +63,24 @@ class CreateTopicActivity : AppCompatActivity() {
         }
         notificationbutton.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
         }
 
         val retrofit = Retrofit.Builder()
@@ -153,7 +179,6 @@ class CreateTopicActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT)
                                     .show()
-                                finish()
                             }
                             else {
                                 Toast.makeText(applicationContext, msm, Toast.LENGTH_SHORT).show()
@@ -167,6 +192,10 @@ class CreateTopicActivity : AppCompatActivity() {
             }
             val t1 = Thread(r1)
             t1.start()
+
+            val intent = Intent(this,ForumActivity::class.java)
+            intent.putExtra("id",gameID);
+            startActivity(intent)
         }
         btnTopic.setOnClickListener {
             topicinit()
