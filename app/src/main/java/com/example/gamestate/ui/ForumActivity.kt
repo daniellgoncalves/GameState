@@ -2,6 +2,7 @@ package com.example.gamestate.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +57,22 @@ class ForumActivity : AppCompatActivity() {
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
         username.text = loginAutomatic
+
+        spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
 
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)

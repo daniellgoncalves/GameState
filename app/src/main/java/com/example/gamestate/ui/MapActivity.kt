@@ -2,11 +2,14 @@ package com.example.gamestate.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.PointF.length
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -54,6 +57,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         val loginAutomatic = sharedPreferences.getString("username", "")
         val token = sharedPreferences.getString("token", "")
         username.text = loginAutomatic
+
+        spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
 
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
