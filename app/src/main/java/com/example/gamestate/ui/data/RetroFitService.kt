@@ -90,7 +90,7 @@ interface RetroFitService {
     @Headers("Content-Type: application/json")
     fun addGameToWishlist(@Header("Authorization") authorizationHeader: String, @Path("id") id: String, @Body body: JsonObject): Call<ResponseBody>
 
-    @GET("/users/{id}/wishlist")
+    @GET("/users/{id}/wishlistuser")
     @Headers("Content-Type: application/json")
     fun getWishlist(@Header("Authorization") authorizationHeader: String, @Path("id") id: String): Call<ResponseBody>
 
