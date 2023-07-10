@@ -41,13 +41,16 @@ class RegisterActivity : AppCompatActivity() {
 
         mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val btnRegister : Button = findViewById(R.id.register_button)
         val username : EditText = findViewById(R.id.register_username_et)
         val email : EditText = findViewById(R.id.register_email_et)
         val password : EditText = findViewById(R.id.register_password_et)
         val confPassword : EditText = findViewById(R.id.register_confpassword_et)
         val country : Spinner = findViewById(R.id.register_country_spinner)
-
         val existingAccountInfo : TextView = findViewById(R.id.register_existingaccountinfo_tv)
 
         val locales = Locale.getAvailableLocales()
@@ -76,16 +79,15 @@ class RegisterActivity : AppCompatActivity() {
             return !(TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword))
         }
 
+        // Criar user
         fun insertIntoDatabase() {
             val usernameText = username.text.toString()
             val emailText = email.text.toString()
             val passwordText = password.text.toString()
             val confPasswordText = confPassword.text.toString()
             val countryText = country.selectedItem.toString()
-            val serverIP = resources.getString(R.string.server_ip)
-            val user = User(0,usernameText, emailText, passwordText,countryText)
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
@@ -99,8 +101,6 @@ class RegisterActivity : AppCompatActivity() {
                     getPushToken().thenAccept { token ->
                         requestBody.addProperty("pushToken", token)
                     }
-
-                    //  mUserViewModel.addUser(user)
 
                     val call = userService.register(requestBody)
                     val r = Runnable {
@@ -154,6 +154,7 @@ class RegisterActivity : AppCompatActivity() {
             insertIntoDatabase()
         }
 
+        // Funcionalidade de botão para fazer login
         existingAccountInfo.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }

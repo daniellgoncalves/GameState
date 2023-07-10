@@ -35,12 +35,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ForumActivity : AppCompatActivity() {
+
+    // Inicialização das variáveis do spinner de fórum
     private var settings = arrayOf("Trending topics","New topics","Most liked")
     private var images = intArrayOf(
         R.drawable.baseline_trending_up_24,
         R.drawable.baseline_access_time_24,
         R.drawable.baseline_heart_24)
 
+    // Inicialização das variáveis do spinner de Logout
     private var settings1 = arrayOf("Settings","Logout")
     private var images1 = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
 
@@ -48,16 +51,61 @@ class ForumActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum)
 
+
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val spinner: Spinner = findViewById(R.id.forum_filter)
         val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerview)
         val username: TextView = findViewById(R.id.homePage_user_text)
         val btnTopic : Button = findViewById(R.id.createTopic_button)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        val mapButton: ImageButton = findViewById(R.id.map_button)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        val gameID = intent.getIntExtra("id",-1)
+
         username.text = loginAutomatic
 
+        // Funcionalidade dos botões de header e footer
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        // Funcionalidades dos restantes botões
+        btnTopic.setOnClickListener {
+            val intent = Intent(this,CreateTopicActivity::class.java)
+            intent.putExtra("id",gameID)
+            startActivity(intent)
+        }
+
+        mapButton.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("id", gameID)
+            startActivity(intent)
+        }
+
+        // População do spinner de logout
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -73,34 +121,18 @@ class ForumActivity : AppCompatActivity() {
 
             }
         }
+        val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
+        spinner.adapter = customAdapter
 
-        username.setOnClickListener {
-            val intent = Intent(this,ProfileActivity::class.java)
-            startActivity(intent)
-        }
+        // População do spinner do fórum
+        val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
+        spinnerHeader.adapter = customAdapterSettings
 
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-        val mapButton: ImageButton = findViewById(R.id.map_button)
 
-        homeButton.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-        }
-        library.setOnClickListener {
-            startActivity(Intent(this, LibraryActivity::class.java))
-        }
-        notificationbutton.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
-        }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -112,15 +144,12 @@ class ForumActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
-        val gameID = intent.getIntExtra("id",-1)
-
         if (gameID == -1) {
             Toast.makeText(applicationContext, "Game ID missing", Toast.LENGTH_SHORT).show()
         } else {
-            val serverIP = resources.getString(R.string.server_ip)
-
+            //Obter dados do jogo
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
@@ -181,24 +210,7 @@ class ForumActivity : AppCompatActivity() {
             val tGame = Thread(rGame)
             tGame.start()
 
-            btnTopic.setOnClickListener {
-                val intent = Intent(this,CreateTopicActivity::class.java)
-                intent.putExtra("id",gameID)
-                startActivity(intent)
-            }
-
-            mapButton.setOnClickListener {
-                val intent = Intent(this, MapActivity::class.java)
-                intent.putExtra("id", gameID)
-                startActivity(intent)
-            }
-
-            val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
-            spinnerHeader.adapter = customAdapterSettings
-
-            val customAdapter = SpinnerForumAdapter(applicationContext, images, settings)
-            spinner.adapter = customAdapter
-
+            // Obter tópicos
             val callTopic = service.searchTopicByGameID(token!!, gameID)
 
             val mainHandler = Handler(Looper.getMainLooper())

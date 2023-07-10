@@ -5,16 +5,19 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.PointF.length
 import android.location.Geocoder
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.gamestate.R
 import com.example.gamestate.ui.data.Home.SpinnerAdapter
 import com.example.gamestate.ui.data.RetroFitService
@@ -42,6 +45,7 @@ import kotlin.random.Random
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private lateinit var googleMap: GoogleMap
 
     private var settings1 = arrayOf("Settings","Logout")
@@ -51,13 +55,27 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username", "")
         val token = sharedPreferences.getString("token", "")
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
         username.text = loginAutomatic
 
+        // População do spinner de logout
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -74,9 +92,33 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             }
         }
 
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
+        }
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        // Obtenção da imagem de perfil
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+            // Use the retrieved image URI
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
         }
 
         val customAdapterSettings = SpinnerAdapter(applicationContext, images1, settings1)
@@ -87,10 +129,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         if (gameID == -1) {
             Toast.makeText(applicationContext, "Game ID missing", Toast.LENGTH_SHORT).show()
         } else {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)

@@ -26,35 +26,45 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateTopicActivity : AppCompatActivity() {
+
+    // Inicialização das variáveis do spinner de Logout
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_topic)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val title: EditText = findViewById(R.id.createTopic_title_et)
+        val topic: EditText = findViewById(R.id.createTopic_text_et)
+        val btnTopic : Button = findViewById(R.id.createTopic_button)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
         val token = sharedPreferences.getString("token","")
-        val title: EditText = findViewById(R.id.createTopic_title_et)
-        val topic: EditText = findViewById(R.id.createTopic_text_et)
-        val btnTopic : Button = findViewById(R.id.createTopic_button)
-        val gameID = intent.getIntExtra("id",0);
-        val serverIP = resources.getString(R.string.server_ip)
-        username.setText(loginAutomatic)
+        val imageUriString = sharedPreferences.getString("imageUri", null)
 
+        val gameID = intent.getIntExtra("id",0);
+
+        username.text = loginAutomatic
+
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
         }
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-
-
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -65,13 +75,9 @@ class CreateTopicActivity : AppCompatActivity() {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -83,8 +89,28 @@ class CreateTopicActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
+        // População do spinner de logout
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        val Adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = Adapter
+
+        // Obter dados do jogo
         val retrofit = Retrofit.Builder()
-            .baseUrl(serverIP)
+            .baseUrl(server_ip)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetroFitService::class.java)
@@ -145,14 +171,13 @@ class CreateTopicActivity : AppCompatActivity() {
         val t = Thread(r)
         t.start()
 
+
+        // Criação de tópico
         fun topicinit(){
             val titleText = title.text.toString()
             val topicText = topic.text.toString()
             val requestBody1 = JsonObject()
             val likeDislike = 0
-
-            Log.d("lol", likeDislike.toString())
-            Log.d("lol", username.text.toString())
 
             requestBody1.addProperty("name", titleText)
             requestBody1.addProperty("text", topicText)
@@ -197,26 +222,10 @@ class CreateTopicActivity : AppCompatActivity() {
             intent.putExtra("id",gameID);
             startActivity(intent)
         }
+
+        // Funcionalidades dos restantes botões
         btnTopic.setOnClickListener {
             topicinit()
         }
-        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if(position == 1){
-                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                    editor.putString("username","")
-                    editor.apply()
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
-                    finish()
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
-        val Adapter = SpinnerAdapter(applicationContext, images, settings)
-        spin.adapter = Adapter
-
     }
 }

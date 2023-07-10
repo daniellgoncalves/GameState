@@ -30,6 +30,7 @@ import java.util.concurrent.CompletableFuture
 
 class MainActivity : AppCompatActivity() {
 
+    // Inicialização das variáveis
     private  lateinit var sharedPreferences: SharedPreferences
     private lateinit var mUserViewModel: UserViewModel
 
@@ -39,25 +40,30 @@ class MainActivity : AppCompatActivity() {
 
         mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val btnLogin: Button = findViewById(R.id.main_login_button)
         val newAccountInfo : TextView = findViewById(R.id.main_newaccountinfo_tv)
         val forgotPasswordInfo: TextView = findViewById(R.id.main_forgotpassword_tv)
         val editPassword: EditText = findViewById(R.id.main_password_et)
         val editUsername: EditText = findViewById(R.id.main_username_et)
 
-        val serverIP = resources.getString(R.string.server_ip)
-
+        // Obtenção de dados sharedPreferences
         sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString("imageUri","")
         editor.apply()
         val loginAutomatic = sharedPreferences.getString("username","")
+
         if (loginAutomatic != null) {
             if (loginAutomatic.isNotEmpty()) {
                 startActivity(Intent(this,  HomeActivity::class.java))
             }
         }
 
+        // Funcionalidades dos botões
         newAccountInfo.setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
         }
@@ -71,16 +77,16 @@ class MainActivity : AppCompatActivity() {
             val password = editPassword.text.toString()
             if (username.isNotEmpty() &&  password.isNotEmpty())
             {
-                //val loginStatus = mUserViewModel.LoginUser(username, password)
-
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(serverIP)
+                    .baseUrl(server_ip)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)
+
                 val requestBody = JsonObject()
                 requestBody.addProperty("username", username)
                 requestBody.addProperty("password", password)
+
                 val call = service.login(requestBody)
                 val r = Runnable {
                     call.enqueue(object : Callback<ResponseBody> {
@@ -124,18 +130,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 val t = Thread(r)
                 t.start()
-               /* if(loginStatus == 1)
-                {
-                    val editor:SharedPreferences.Editor = sharedPreferences.edit()
-                    editor.putString("username",username)
-                    editor.apply()
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,HomeActivity::class.java))
-                }
-                else if(loginStatus == -1)
-                {
-                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
-                }*/
             }
             else
             {

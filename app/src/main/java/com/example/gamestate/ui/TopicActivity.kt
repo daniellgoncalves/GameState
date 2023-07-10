@@ -46,47 +46,55 @@ interface RecyclerViewUpdateListener {
     fun updateRecyclerView(dataList: ArrayList<Comment>)
 }
 class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
 
     private lateinit var adapter: RecViewTopicAdapter
     private  var commentsList = ArrayList<Comment>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_topic)
 
+        // IP do servidor Nest
         val server_ip = resources.getString(R.string.server_ip)
 
-        val gameID = intent.getIntExtra("forum_id",-1)
-        val topicID = intent.getStringExtra("id")
+        // Definições de variáveis
         var userID: String = ""
-
-        var likes = findViewById<TextView>(R.id.number_likes)
-        var dislikes = findViewById<TextView>(R.id.number_dislikes)
         var likeStatus: Number = 0
         var usernameLD: String = "user"
+
+        // Definição de variáveis (elementos XML)
+        var likes = findViewById<TextView>(R.id.number_likes)
+        var dislikes = findViewById<TextView>(R.id.number_dislikes)
         val likeButton = findViewById<LinearLayout>(R.id.topic_like_button)
         val dislikeButton = findViewById<LinearLayout>(R.id.topic_dislike_button)
-
-        // Retornar à página caso username esteja guardado
         val username: TextView = findViewById(R.id.homePage_user_text)
         val topicCommentButton: Button = findViewById(R.id.topic_comment_button)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val recyclerView = findViewById<RecyclerView>(R.id.topic_recyclerview)
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
         username.text = loginAutomatic
 
+        val gameID = intent.getIntExtra("forum_id",-1)
+        val topicID = intent.getStringExtra("id")
+
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
         }
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -97,13 +105,9 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+// Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -115,8 +119,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 .into(userPicture)
         }
 
-        val spin: Spinner = findViewById(R.id.home_header_spinner)
-
+        // População do spinner de logout
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -135,8 +138,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
         val adapter1 = SpinnerAdapter(applicationContext, images, settings)
         spin.adapter = adapter1
 
-        val recyclerView = findViewById<RecyclerView>(R.id.topic_recyclerview)
-
         val linearLayoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
                 return false
@@ -146,7 +147,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
         if (gameID == -1) {
             Toast.makeText(applicationContext, "Game ID missing", Toast.LENGTH_SHORT).show()
         } else {
-
+            // Obter dados do jogo
             val retrofit = Retrofit.Builder()
                 .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -231,6 +232,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             val t = Thread(r)
             t.start()
 
+            // Obter dados do tópico
             val r_topic = Runnable {
                 callID.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
@@ -241,8 +243,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                             val res = response.body()?.string()
                             val responseJson = JSONObject(res!!)
                             if (responseJson.getInt("status") == 200) {
-
-                                Log.d("teste", responseJson.getJSONObject("message").getJSONObject("topics").getString("name"))
 
                                 likes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("likes")
                                 dislikes.text = responseJson.getJSONObject("message").getJSONObject("topics").getString("dislikes")
@@ -256,8 +256,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                                     ) {
                                         usernameLD = username.text.toString()
                                         likeStatus = responseJson.getJSONObject("message").getJSONObject("topics").getJSONArray("likeDislike").getJSONObject(index).getInt("likeDislike")
-                                        Log.d("hehe", usernameLD)
-                                        Log.d("hehe", likeStatus.toString())
                                         break
                                     } else {
                                         usernameLD = ""
@@ -330,14 +328,14 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
             val t_topic = Thread(r_topic)
             t_topic.start()
 
+
             val retrofitLikeDislike = Retrofit.Builder()
                 .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val serviceLikeDislike = retrofitLikeDislike.create(RetroFitService::class.java)
 
-            Log.d("lol", usernameLD)
-
+            // Funcionalidade do botão de like
             likeButton.setOnClickListener {
                 var number_likes = likes.text.toString().toInt()
                 var number_dislikes = dislikes.text.toString().toInt()
@@ -361,7 +359,6 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 }
                 likes.text = number_likes.toString()
                 dislikes.text = number_dislikes.toString()
-                Log.d("lol", usernameLD)
 
                 val requestBodyLikeDislike = JsonObject()
                 requestBodyLikeDislike.addProperty("topic_id", topicID)
@@ -411,6 +408,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 t.start()
             }
 
+            // Funcionalidade do botão de comentar
             topicCommentButton.setOnClickListener {
                 val fragment = FragmentTopic()
                 val args = Bundle()
@@ -427,6 +425,7 @@ class TopicActivity : AppCompatActivity(), RecyclerViewUpdateListener {
                 fragmentTransaction.commit()
             }
 
+            // Funcionalidade do botão de dislike
             dislikeButton.setOnClickListener {
                 var number_likes = likes.text.toString().toInt()
                 var number_dislikes = dislikes.text.toString().toInt()

@@ -22,17 +22,21 @@ class ForgotPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
-        val sendEmail: Button = findViewById(R.id.forgotPW_sendEmail_button)
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
 
+        // Definição de variáveis (elementos XML)
+        val sendEmail: Button = findViewById(R.id.forgotPW_sendEmail_button)
+        val email: EditText = findViewById(R.id.forgotPW_email_et)
+
+        // Enviar email
         sendEmail.setOnClickListener {
-            val email: EditText = findViewById(R.id.forgotPW_email_et)
             val emailText: String = email.text.toString()
-            val serverIP = resources.getString(R.string.server_ip)
             if(emailText.isEmpty()) {
                 Toast.makeText(this, "Type in your email", Toast.LENGTH_SHORT).show()
             } else {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(serverIP)
+                    .baseUrl(server_ip)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 val service = retrofit.create(RetroFitService::class.java)

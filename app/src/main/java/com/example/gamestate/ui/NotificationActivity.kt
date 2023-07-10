@@ -37,21 +37,40 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NotificationActivity : AppCompatActivity() {
+
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
+
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
-        //val notificationstv: TextView = findViewById(R.id.notifications_tv)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+        val recyclerView = findViewById<RecyclerView>(R.id.notifications_recyclerview)
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
 
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
+        val imageUriString = sharedPreferences.getString("imageUri", null)
 
+        username.text = loginAutomatic
+
+
+        // Funcionalidade dos botões de header e footer
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -59,13 +78,9 @@ class NotificationActivity : AppCompatActivity() {
             startActivity(Intent(this, LibraryActivity::class.java))
         }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -81,12 +96,6 @@ class NotificationActivity : AppCompatActivity() {
             override fun canScrollVertically(): Boolean {
                 return false
             }
-        }
-        username.text = loginAutomatic
-
-        username.setOnClickListener {
-            val intent = Intent(this,ProfileActivity::class.java)
-            startActivity(intent)
         }
 
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -110,11 +119,10 @@ class NotificationActivity : AppCompatActivity() {
         }
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spinnerHeader.adapter = adapter
-        val recyclerView = findViewById<RecyclerView>(R.id.notifications_recyclerview)
-        val serverIP = resources.getString(R.string.server_ip)
 
+        // Obter tópicos
         val retrofit = Retrofit.Builder()
-            .baseUrl(serverIP)
+            .baseUrl(server_ip)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetroFitService::class.java)

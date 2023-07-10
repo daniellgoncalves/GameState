@@ -40,6 +40,7 @@ import java.util.*
 
 class LibraryActivity : AppCompatActivity() {
 
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
@@ -48,13 +49,12 @@ class LibraryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_library)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
-        val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
-        val loginAutomatic = sharedPreferences.getString("username","")
-        val userID = sharedPreferences.getString("userid","")
-        val token = sharedPreferences.getString("token","")
-
 
         val firstImg : ImageView = findViewById(R.id.first_game)
         val secondImg : ImageView = findViewById(R.id.second_game)
@@ -91,16 +91,25 @@ class LibraryActivity : AppCompatActivity() {
         val fifthRatingStar : ImageView = findViewById(R.id.star_fifthgame)
         val sixthRatingStar : ImageView = findViewById(R.id.star_sixthgame)
 
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        // Obtenção de dados sharedPreferences
+        val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val loginAutomatic = sharedPreferences.getString("username","")
+        val userID = sharedPreferences.getString("userid","")
+        val token = sharedPreferences.getString("token","")
+
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
         username.text = loginAutomatic
 
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
         }
-
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -108,13 +117,9 @@ class LibraryActivity : AppCompatActivity() {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -126,6 +131,7 @@ class LibraryActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
+        // População do spinner de logout
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -144,22 +150,18 @@ class LibraryActivity : AppCompatActivity() {
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spinnerHeader.adapter = adapter
 
-
+        // Inicialização de listas
         var images = arrayListOf<ImageView>(firstImg, secondImg, thirdImg, fourthImg, fifthImg, sixthImg)
-
         var gameStatusImg = arrayListOf<ImageView>(firstGameStatus, secondGameStatus, thirdGameStatus, fourthGameStatus, fifthGameStatus, sixthGameStatus)
-
         var ratingsImg = arrayListOf<TextView>(firstRating, secondRating, thirdRating, fourthRating, fifthRating, sixthRating)
-
         var ratingBases = arrayListOf<LinearLayout>(firstRatingBase, secondRatingBase, thirdRatingBase, fourthRatingBase, fifthRatingBase, sixthRatingBase)
-
         var ratingStars = arrayListOf<ImageView>(firstRatingStar, secondRatingStar, thirdRatingStar, fourthRatingStar, fifthRatingStar, sixthRatingStar)
 
-        fun subscribedGames() {
-            val serverIP = resources.getString(R.string.server_ip)
 
+        // Obter jogos subscritos
+        fun subscribedGames() {
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -288,6 +290,7 @@ class LibraryActivity : AppCompatActivity() {
 
         subscribedGames()
 
+        // Funcionalidades do clique em cada jogo
         firstImg.setOnClickListener {
             val intent = Intent(this,GameActivity::class.java)
             intent.putExtra("id",idimg[0]);
@@ -319,6 +322,7 @@ class LibraryActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Inicialização dos RecyclerView de tópicos e reviews
         val topicsRecyclerView = findViewById<RecyclerView>(R.id.library_topics_recyclerview)
         val linearLayoutManagerTopics = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
@@ -333,11 +337,10 @@ class LibraryActivity : AppCompatActivity() {
             }
         }
 
+        // Obter tópicos
         fun getTopics() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
@@ -393,16 +396,13 @@ class LibraryActivity : AppCompatActivity() {
 
         getTopics()
 
+        // Obter reviews
         fun getReviews() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
-
-            val requestBodyUser = JsonObject()
 
             val callUser = service.findByUser(token!!, userID!!)
 
@@ -453,7 +453,6 @@ class LibraryActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
-
         getReviews()
     }
 }

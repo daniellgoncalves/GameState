@@ -45,29 +45,47 @@ import java.util.TimerTask
 
 class HomeActivity : AppCompatActivity() {
 
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
 
     private lateinit var userPicture: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val username: TextView = findViewById(R.id.homePage_user_text)
         val spin: Spinner = findViewById(R.id.home_header_spinner)
+        userPicture = findViewById(R.id.homePage_user)
+        val searchGameText : EditText = findViewById(R.id.home_search_et)
+        val firstImg : ImageView = findViewById(R.id.first_game)
+        val secondImg : ImageView = findViewById(R.id.second_game)
+        val thirdImg : ImageView = findViewById(R.id.thirdgame)
+        val fourthImg : ImageView = findViewById(R.id.fourth_game)
+        val fiftyImg : ImageView = findViewById(R.id.fifth_game)
+        val sixtyImg : ImageView = findViewById(R.id.sixth_game)
+        val recyclerView = findViewById<RecyclerView>(R.id.home_gameSearch_recyclerview)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
 
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val token = sharedPreferences.getString("token","")
 
-        userPicture = findViewById(R.id.homePage_user)
-
         val imageUriString = sharedPreferences.getString("imageUri", null)
 
+        username.text = loginAutomatic
+
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -78,21 +96,11 @@ class HomeActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
-
-
-        val searchGameText : EditText = findViewById(R.id.home_search_et)
-            val firstImg : ImageView = findViewById(R.id.first_game)
-            val secondImg : ImageView = findViewById(R.id.second_game)
-            val thirdImg : ImageView = findViewById(R.id.thirdgame)
-            val fourthImg : ImageView = findViewById(R.id.fourth_game)
-            val fiftyImg : ImageView = findViewById(R.id.fifth_game)
-            val sixtyImg : ImageView = findViewById(R.id.sixth_game)
-        val recyclerView = findViewById<RecyclerView>(R.id.home_gameSearch_recyclerview)
-        username.setText(loginAutomatic)
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-
+        // Funcionalidade dos botões de header e footer
+        username.setOnClickListener {
+            val intent = Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
         library.setOnClickListener {
             startActivity(Intent(this, LibraryActivity::class.java))
         }
@@ -100,15 +108,29 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
-        username.setOnClickListener {
-            val intent = Intent(this,ProfileActivity::class.java)
-            startActivity(intent)
-        }
+        // População do spinner de logout
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if(position == 1){
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putString("username","")
+                    editor.apply()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        val adapter = SpinnerAdapter(applicationContext, images, settings)
+        spin.adapter = adapter
+
+        // Obter os jogos populares
         fun popularGames(){
-            val serverIP = resources.getString(R.string.server_ip)
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
@@ -175,11 +197,47 @@ class HomeActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
         }
+
+        popularGames()
+
+        // Funcionalidades do clique em cada jogo
+        firstImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[0]);
+            startActivity(intent)
+        }
+        secondImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[1]);
+            startActivity(intent)
+        }
+        thirdImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[2]);
+            startActivity(intent)
+        }
+        fourthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[3]);
+            startActivity(intent)
+        }
+        fiftyImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[4]);
+            startActivity(intent)
+        }
+        sixtyImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[5]);
+            startActivity(intent)
+        }
+
+        // Procura de jogo na barra de pesquisa
         fun searchGame() {
             val nameText = searchGameText.text.toString()
-            val serverIP = resources.getString(R.string.server_ip)
+
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val userService = retrofit.create(RetroFitService::class.java)
@@ -230,39 +288,6 @@ class HomeActivity : AppCompatActivity() {
             t.start()
         }
 
-
-        popularGames()
-
-        firstImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[0]);
-            startActivity(intent)
-        }
-        secondImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[1]);
-            startActivity(intent)
-        }
-        thirdImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[2]);
-            startActivity(intent)
-        }
-        fourthImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[3]);
-            startActivity(intent)
-        }
-        fiftyImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[4]);
-            startActivity(intent)
-        }
-        sixtyImg.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("id",idimg[5]);
-            startActivity(intent)
-        }
         searchGameText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -277,28 +302,11 @@ class HomeActivity : AppCompatActivity() {
                     override fun run() {
                         searchGame()
                     }
-                }, 500)
+                }, 400)
 
             }
 
         })
-        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if(position == 1){
-                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                    editor.putString("username","")
-                    editor.apply()
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
-                    finish()
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
-        val adapter = SpinnerAdapter(applicationContext, images, settings)
-        spin.adapter = adapter
 
         //Verify if the app has notification permissions, if not ask for them
 

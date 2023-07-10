@@ -29,6 +29,8 @@ import java.util.Locale
 
 
 class AddGameActivity : AppCompatActivity() {
+
+    // Inicialização das variáveis do spinner de Logout
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
 
@@ -36,48 +38,41 @@ class AddGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_game)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val username: TextView = findViewById(R.id.homePage_user_text)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val reviewButton = findViewById<Button>(R.id.makeReview_button)
+        val ratingBar = findViewById<RatingBar>(R.id.rating)
+        val title = findViewById<EditText>(R.id.reviewTitle_et).text
+        val text = findViewById<EditText>(R.id.reviewText_et).text
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+
+        val finishButton = findViewById<LinearLayout>(R.id.gameStatusFinished_button)
+        val stillPlayingButton = findViewById<LinearLayout>(R.id.gameStatusStillPlaying_button)
+        val pauseButton = findViewById<LinearLayout>(R.id.gameStatusPaused_button)
+        val quitButton = findViewById<LinearLayout>(R.id.gameStatusStopped_button)
+        var buttonState = 0;
+
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userid = sharedPreferences.getString("userid","")
         val token = sharedPreferences.getString("token","")
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
         username.text = loginAutomatic
 
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
         }
-
-        val spin: Spinner = findViewById(R.id.home_header_spinner)
-        val reviewButton = findViewById<Button>(R.id.makeReview_button)
-
-        val ratingBar = findViewById<RatingBar>(R.id.rating)
-
-        val title = findViewById<EditText>(R.id.reviewTitle_et).text
-        val text = findViewById<EditText>(R.id.reviewText_et).text
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
-
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
-        if (imageUriString != null) {
-            val imageUri = Uri.parse(imageUriString)
-
-
-            // Use the retrieved image URI
-            Glide.with(this)
-                .load(imageUri)
-                .apply(
-                    RequestOptions()
-                    .centerCrop()
-                    .override(100, 100)) // Specify the desired dimensions of the ImageView
-                .into(userPicture)
-        }
-
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -88,7 +83,53 @@ class AddGameActivity : AppCompatActivity() {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
+        // Funcionalidades dos botões do estado do jogo
+        finishButton.setOnClickListener {
+            finishButton.setBackgroundColor(Color.parseColor("#6624FF00"))
+            stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+            pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
+            quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
+            buttonState = 1;
+        }
 
+        stillPlayingButton.setOnClickListener {
+            stillPlayingButton.setBackgroundColor(Color.parseColor("#66FBFF4C"))
+            finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+            pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
+            quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
+            buttonState = 2;
+        }
+
+        pauseButton.setOnClickListener {
+            pauseButton.setBackgroundColor(Color.parseColor("#66FFA840"))
+            finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+            stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+            quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
+            buttonState = 3;
+        }
+
+        quitButton.setOnClickListener {
+            quitButton.setBackgroundColor(Color.parseColor("#66FF5151"))
+            finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
+            stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
+            pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
+            buttonState = 4;
+        }
+
+        // Obtenção da imagem de perfil
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+
+            Glide.with(this)
+                .load(imageUri)
+                .apply(
+                    RequestOptions()
+                    .centerCrop()
+                    .override(100, 100)) // Specify the desired dimensions of the ImageView
+                .into(userPicture)
+        }
+
+        // População do spinner de logout
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -107,12 +148,12 @@ class AddGameActivity : AppCompatActivity() {
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spin.adapter = adapter
 
+
         val gameID = intent.getIntExtra("id",-1)
         if (gameID == -1) {
             Toast.makeText(applicationContext, "Game ID missing", Toast.LENGTH_SHORT).show()
         } else {
-            val server_ip = resources.getString(R.string.server_ip)
-
+            // Obter dados do jogo
             val retrofit = Retrofit.Builder()
                 .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -175,45 +216,7 @@ class AddGameActivity : AppCompatActivity() {
             val t = Thread(r)
             t.start()
 
-            val finishButton = findViewById<LinearLayout>(R.id.gameStatusFinished_button)
-            val stillPlayingButton = findViewById<LinearLayout>(R.id.gameStatusStillPlaying_button)
-            val pauseButton = findViewById<LinearLayout>(R.id.gameStatusPaused_button)
-            val quitButton = findViewById<LinearLayout>(R.id.gameStatusStopped_button)
-            var buttonState = 0;
-
-
-            finishButton.setOnClickListener {
-                finishButton.setBackgroundColor(Color.parseColor("#6624FF00"))
-                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
-                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
-                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
-                buttonState = 1;
-            }
-
-            stillPlayingButton.setOnClickListener {
-                stillPlayingButton.setBackgroundColor(Color.parseColor("#66FBFF4C"))
-                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
-                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
-                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
-                buttonState = 2;
-            }
-
-            pauseButton.setOnClickListener {
-                pauseButton.setBackgroundColor(Color.parseColor("#66FFA840"))
-                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
-                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
-                quitButton.setBackgroundColor(Color.parseColor("#33FF5151"))
-                buttonState = 3;
-            }
-
-            quitButton.setOnClickListener {
-                quitButton.setBackgroundColor(Color.parseColor("#66FF5151"))
-                finishButton.setBackgroundColor(Color.parseColor("#3324FF00"))
-                stillPlayingButton.setBackgroundColor(Color.parseColor("#33FBFF4C"))
-                pauseButton.setBackgroundColor(Color.parseColor("#33FFA840"))
-                buttonState = 4;
-            }
-
+            // Fazer uma review
             reviewButton.setOnClickListener {
 
                 val getrating = ratingBar.getRating()
@@ -231,8 +234,6 @@ class AddGameActivity : AppCompatActivity() {
                 requestBody.addProperty("gameStatus", buttonState)
                 requestBody.addProperty("user_id", userid)
                 requestBody.addProperty("forum_id", gameID)
-
-                Log.d("rating", getrating.toString())
 
                 val call = service.createReview(token!!, requestBody)
 

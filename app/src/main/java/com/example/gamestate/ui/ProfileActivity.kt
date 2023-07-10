@@ -52,6 +52,7 @@ import java.util.ArrayList
 
 class ProfileActivity : AppCompatActivity() {
 
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private  var idimg = ArrayList<Int>()
@@ -69,12 +70,12 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val spinnerHeader: Spinner = findViewById(R.id.home_header_spinner)
         val username: TextView = findViewById(R.id.homePage_user_text)
-        val loginAutomatic = sharedPreferences.getString("username","")
-        val token = sharedPreferences.getString("token","")
-        val userID = sharedPreferences.getString("userid","")
 
         val firstImg : ImageView = findViewById(R.id.first_game)
         val secondImg : ImageView = findViewById(R.id.second_game)
@@ -111,18 +112,44 @@ class ProfileActivity : AppCompatActivity() {
         val fifthRatingStar : ImageView = findViewById(R.id.star_fifthgame)
         val sixthRatingStar : ImageView = findViewById(R.id.star_sixthgame)
 
-        username.text = loginAutomatic
-
         profilePicture = findViewById(R.id.profile_picture)
         uploadProfilePicture = findViewById(R.id.upload_picture_button)
         userPicture = findViewById(R.id.homePage_user)
 
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+
+        var profileUsername = findViewById<TextView>(R.id.profile_name_tv)
+
+        // Obtenção de dados sharedPreferences
+        sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val loginAutomatic = sharedPreferences.getString("username","")
+        val token = sharedPreferences.getString("token","")
+        val userID = sharedPreferences.getString("userid","")
+
         val imageUriString = sharedPreferences.getString("imageUri", null)
 
-        Log.d("teste", imageUriString!!)
+        username.text = loginAutomatic
 
+        // Funcionalidade dos botões de header e footer
+        uploadProfilePicture.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, SELECT_IMAGE_REQUEST_CODE)
+        }
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        library.setOnClickListener {
+            startActivity(Intent(this, LibraryActivity::class.java))
+        }
+        notificationbutton.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        // Obtenção da imagem de perfil
         if (imageUriString!! != null) {
-            val imageUri = Uri.parse(imageUriString)
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -140,26 +167,7 @@ class ProfileActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
-        uploadProfilePicture.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.type = "image/*"
-            startActivityForResult(intent, SELECT_IMAGE_REQUEST_CODE)
-        }
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-
-        homeButton.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-        }
-        library.setOnClickListener {
-            startActivity(Intent(this, LibraryActivity::class.java))
-        }
-        notificationbutton.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
-        }
-
+        // População do spinner de logout
         spinnerHeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -178,24 +186,19 @@ class ProfileActivity : AppCompatActivity() {
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spinnerHeader.adapter = adapter
 
-        var profileUsername = findViewById<TextView>(R.id.profile_name_tv)
         profileUsername.text = loginAutomatic
 
+        // Inicialização de listas
         var images = arrayListOf<ImageView>(firstImg, secondImg, thirdImg, fourthImg, fifthImg, sixthImg)
-
         var gameStatusImg = arrayListOf<ImageView>(firstGameStatus, secondGameStatus, thirdGameStatus, fourthGameStatus, fifthGameStatus, sixthGameStatus)
-
         var ratingsImg = arrayListOf<TextView>(firstRating, secondRating, thirdRating, fourthRating, fifthRating, sixthRating)
-
         var ratingBases = arrayListOf<LinearLayout>(firstRatingBase, secondRatingBase, thirdRatingBase, fourthRatingBase, fifthRatingBase, sixthRatingBase)
-
         var ratingStars = arrayListOf<ImageView>(firstRatingStar, secondRatingStar, thirdRatingStar, fourthRatingStar, fifthRatingStar, sixthRatingStar)
 
+        // Obter jogos subscritos
         fun subscribedGames() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -325,6 +328,39 @@ class ProfileActivity : AppCompatActivity() {
 
         subscribedGames()
 
+        // Funcionalidades do clique em cada jogo
+        firstImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[0]);
+            startActivity(intent)
+        }
+        secondImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[1]);
+            startActivity(intent)
+        }
+        thirdImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[2]);
+            startActivity(intent)
+        }
+        fourthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[3]);
+            startActivity(intent)
+        }
+        fifthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[4]);
+            startActivity(intent)
+        }
+        sixthImg.setOnClickListener {
+            val intent = Intent(this,GameActivity::class.java)
+            intent.putExtra("id",idimg[5]);
+            startActivity(intent)
+        }
+
+        // Inicialização dos RecyclerView de tópicos e reviews
         val topicsRecyclerView = findViewById<RecyclerView>(R.id.profile_topics_recyclerview)
         val linearLayoutManagerTopics = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
@@ -346,17 +382,13 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+        // Obter wishlist
         fun getWishlist() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
-
-            val requestBodyUser = JsonObject()
-            requestBodyUser.addProperty("username", loginAutomatic)
 
             val callUser = service.getWishlist(token!!, userID!!)
 
@@ -418,11 +450,10 @@ class ProfileActivity : AppCompatActivity() {
 
         getWishlist()
 
+        // Obter tópicos
         fun getTopics() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
@@ -478,16 +509,13 @@ class ProfileActivity : AppCompatActivity() {
 
         getTopics()
 
+        // Obter reviews
         fun getReviews() {
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
-
-            val requestBodyUser = JsonObject()
 
             val callUser = service.findByUser(token!!, userID!!)
 
@@ -617,63 +645,4 @@ class ProfileActivity : AppCompatActivity() {
             }
         })
     }
-    private fun applyImageConditions(uri: Uri?) {
-        uri?.let { imageUri ->
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
-
-            // Create a new Bitmap with the dimensions specified in the ImageView
-            val resultBitmap = Bitmap.createBitmap(profilePicture.width, profilePicture.height, Bitmap.Config.ARGB_8888)
-
-            // Create a Canvas object and set the resultBitmap as its target
-            val canvas = Canvas(resultBitmap)
-
-            // Create a Paint object with anti-aliasing enabled
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-            // Calculate the scaling factors to fit the uploaded image within the circular area
-            val scaleX = profilePicture.width.toFloat() / bitmap.width
-            val scaleY = profilePicture.height.toFloat() / bitmap.height
-
-            // Calculate the scaling factor to maintain the aspect ratio of the uploaded image
-            val scale = minOf(scaleX, scaleY)
-
-            // Calculate the target width and height of the scaled image
-            val scaledWidth = (bitmap.width * scale).toInt()
-            val scaledHeight = (bitmap.height * scale).toInt()
-
-            // Calculate the position to center the scaled image within the circular area
-            val offsetX = (profilePicture.width - scaledWidth) / 2
-            val offsetY = (profilePicture.height - scaledHeight) / 2
-
-            // Create a Matrix object to perform the scaling and translation
-            val matrix = Matrix()
-            matrix.postScale(scale, scale)
-            matrix.postTranslate(offsetX.toFloat(), offsetY.toFloat())
-
-            // Create a Path object to define the circular area
-            val path = Path().apply {
-                addCircle(
-                    profilePicture.width / 2f,
-                    profilePicture.height / 2f,
-                    (profilePicture.width - 2 * profilePicture.paddingStart) / 2f,
-                    Path.Direction.CCW
-                )
-                close()
-            }
-
-            // Clip the canvas to the circular area
-            canvas.clipPath(path)
-
-            // Apply the transformation to the uploaded image
-            val scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-
-            // Draw the transformed image on the Canvas
-            canvas.drawBitmap(scaledBitmap, 0f, 0f, paint)
-
-            // Set the final resultBitmap to the ImageView
-            profilePicture.setImageBitmap(resultBitmap)
-        }
-    }
-
-
 }

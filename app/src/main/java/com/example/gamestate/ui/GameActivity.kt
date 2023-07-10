@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GameActivity : AppCompatActivity() {
+
+    // Inicialização das variáveis do spinner de Logout e outras variáveis
     private var settings = arrayOf("Settings","Logout")
     private var images = intArrayOf(R.drawable.baseline_settings_24,R.drawable.baseline_logout_24)
     private var reviewstatus = 0
@@ -43,6 +45,10 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        // IP do servidor Nest
+        val server_ip = resources.getString(R.string.server_ip)
+
+        // Definição de variáveis (elementos XML)
         val recyclerView = findViewById<RecyclerView>(R.id.game_platforms_recyclerview)
         val reviewstitle: TextView = findViewById(R.id.reviews1_tv)
         val reviewsrating: TextView = findViewById(R.id.ratingreview)
@@ -55,29 +61,38 @@ class GameActivity : AppCompatActivity() {
         val elipse_point2: ImageView = findViewById(R.id.elipse_point2)
         val star: ImageView = findViewById(R.id.star)
         val star2: ImageView = findViewById(R.id.star2)
+        val username: TextView = findViewById(R.id.homePage_user_text)
+        val library: ImageButton = findViewById(R.id.homePage_library)
+        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
+        val homeButton: ImageButton = findViewById(R.id.home_home)
+        val addWishlistButton: Button = findViewById(R.id.wishlist_button)
+        var userPicture: ImageView = findViewById(R.id.homePage_user)
+        val spin: Spinner = findViewById(R.id.home_header_spinner)
+        val reviewButton = findViewById<Button>(R.id.review_button)
+        val forumButton = findViewById<Button>(R.id.forum_button)
+
         val linearLayoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean {
                 return false
             }
         }
 
-        val username: TextView = findViewById(R.id.homePage_user_text)
+        // Obtenção de dados sharedPreferences
         val sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
         val loginAutomatic = sharedPreferences.getString("username","")
         val userID = sharedPreferences.getString("userid","")
         val token = sharedPreferences.getString("token","")
+        val imageUriString = sharedPreferences.getString("imageUri", null)
+
+        val gameID = intent.getIntExtra("id",0)
+
         username.text = loginAutomatic
 
+        // Funcionalidade dos botões de header e footer
         username.setOnClickListener {
             val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
         }
-
-        val library: ImageButton = findViewById(R.id.homePage_library)
-        val notificationbutton: ImageButton = findViewById(R.id.homePage_notifications)
-        val homeButton: ImageButton = findViewById(R.id.home_home)
-        val addWishlistButton: Button = findViewById(R.id.wishlist_button)
-
         homeButton.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -88,15 +103,21 @@ class GameActivity : AppCompatActivity() {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 
-        var userPicture: ImageView = findViewById(R.id.homePage_user)
+        // Funcionalidades de outros botões
+        reviewButton.setOnClickListener {
+            val intent = Intent(this, AddGameActivity::class.java)
+            intent.putExtra("id", gameID)
+            startActivity(intent)
+        }
+        forumButton.setOnClickListener {
+            val intent = Intent(this, ForumActivity::class.java)
+            intent.putExtra("id", gameID)
+            startActivity(intent)
+        }
 
-        val imageUriString = sharedPreferences.getString("imageUri", null)
-
+        // Obtenção da imagem de perfil
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
-
-            Log.d("teste", imageUriString)
-
 
             // Use the retrieved image URI
             Glide.with(this)
@@ -108,11 +129,12 @@ class GameActivity : AppCompatActivity() {
                 .into(userPicture)
         }
 
-        val spin: Spinner = findViewById(R.id.home_header_spinner)
         fun removeBrTags(htmlString: String): String {
             val stringWithoutTags = htmlString.replace("<[^>]+>".toRegex(), "")
             return stringWithoutTags.replace("\n", "")
         }
+
+        // População do spinner de logout
         spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if(position == 1){
@@ -131,14 +153,9 @@ class GameActivity : AppCompatActivity() {
         val adapter = SpinnerAdapter(applicationContext, images, settings)
         spin.adapter = adapter
 
-        val reviewButton = findViewById<Button>(R.id.review_button)
-        val forumButton = findViewById<Button>(R.id.forum_button)
-
-        val gameID = intent.getIntExtra("id",0)
-        val serverIP = resources.getString(R.string.server_ip)
-
+        // Obter dados do jogo
         val retrofit = Retrofit.Builder()
-            .baseUrl(serverIP)
+            .baseUrl(server_ip)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(RetroFitService::class.java)
@@ -226,12 +243,10 @@ class GameActivity : AppCompatActivity() {
         val t = Thread(r)
         t.start()
 
+        // Adicionar jogo à wishlist
         fun addToWishlist() {
-            val gameID = intent.getIntExtra("id",0)
-            val serverIP = resources.getString(R.string.server_ip)
-
             val retrofit = Retrofit.Builder()
-                .baseUrl(serverIP)
+                .baseUrl(server_ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(RetroFitService::class.java)
@@ -266,6 +281,7 @@ class GameActivity : AppCompatActivity() {
         }
 
 
+        // Obter as reviews
         val callReviews = service.searchReviewsbyGameID(token!!,gameID)
 
         val rReviews = Runnable {
@@ -320,11 +336,6 @@ class GameActivity : AppCompatActivity() {
         val tReviews = Thread(rReviews)
         tReviews.start()
 
-        reviewButton.setOnClickListener {
-            val intent = Intent(this, AddGameActivity::class.java)
-            intent.putExtra("id", gameID)
-            startActivity(intent)
-        }
 
         allgamereviewstv.setOnClickListener {
             if ( reviewstatus == 0) {
@@ -379,12 +390,8 @@ class GameActivity : AppCompatActivity() {
             }
 
         }
-        forumButton.setOnClickListener {
-            val intent = Intent(this, ForumActivity::class.java)
-            intent.putExtra("id", gameID)
-            startActivity(intent)
-        }
 
+        // Botão para adiconar à wishlist
         addWishlistButton.setOnClickListener {
             addToWishlist()
         }
